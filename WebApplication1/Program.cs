@@ -5,15 +5,15 @@ using System.Linq;
 using System.Reflection.Metadata;
 using Microsoft.OpenApi.Models;
 
-using var db = new PlantLiefhebbersContext();
+//using var db = new PlantLiefhebbersContext();
 
 //// Note: This sample requires the database to be created before running.
 //Console.WriteLine($"Database path: {db.DbPath}.");
 
 // Create
-Console.WriteLine("Inserting a new blog");
-db.Add(new Klant { klantId = 44321, naam = "john" });
-await db.SaveChangesAsync();
+//Console.WriteLine("Inserting a new blog");
+//db.Add(new Klant { klantId = 54621, naam = "pablo" });
+//await db.SaveChangesAsync();
 
 //// Read
 //Console.WriteLine("Querying for a blog");
@@ -46,6 +46,7 @@ namespace WebApplication1
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddRouting();
+            builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
             // Add Swagger services
             builder.Services.AddEndpointsApiExplorer();
@@ -69,3 +70,5 @@ namespace WebApplication1
         }
     }
 }
+
+
