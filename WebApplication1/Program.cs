@@ -6,32 +6,30 @@ using System.Reflection.Metadata;
 using Microsoft.OpenApi.Models;
 
 //using var db = new PlantLiefhebbersContext();
-
-//// Note: This sample requires the database to be created before running.
 //Console.WriteLine($"Database path: {db.DbPath}.");
 
-// Create
-//Console.WriteLine("Inserting a new blog");
-//db.Add(new Klant { klantId = 54621, naam = "pablo" });
-//await db.SaveChangesAsync();
+////Create
+//var nogeenklant = new Klant { klantId = 02006, naam = "testtesttest" };
+//db.klant.Add(nogeenklant);
+//db.SaveChanges();
+//Console.WriteLine("Created: " + nogeenklant.naam);
 
 //// Read
-//Console.WriteLine("Querying for a blog");
-//var blog = await db.Blogs
-//    .OrderBy(b => b.BlogId)
-//    .FirstAsync();
+//var klant = db.klant.FirstOrDefault(k => k.klantId == 02006);
+//Console.WriteLine("Read: " + klant.naam);
 
 //// Update
-//Console.WriteLine("Updating the blog and adding a post");
-//blog.Url = "";
-//blog.Posts.Add(
-//    new Post { Title = "Hello World", Content = "I wrote an app using EF Core!" });
-//await db.SaveChangesAsync();
+//klant.naam = "updatedtesttesttest";
+//db.SaveChanges();
+//Console.WriteLine("Updated");
 
 //// Delete
-//Console.WriteLine("Delete the blog");
-//db.Remove(blog);
-//await db.SaveChangesAsync();
+//if (klant != null)
+//{
+//    db.klant.Remove(klant);
+//    db.SaveChanges();
+//    Console.WriteLine("Deleted: " + klant.naam);
+//}
 
 namespace WebApplication1
 {
