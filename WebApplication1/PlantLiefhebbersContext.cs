@@ -25,12 +25,45 @@ public class PlantLiefhebbersContext : DbContext
 public class Klant {
     public int klantId { get; set; }
     public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
 
 }
 
 public class Product {
     public int productId { get; set; }
     public string naam { get; set; }
-    public string beschrijving { get; set; }
-    public decimal prijs { get; set; }
+    public string soortPlant { get; set; }
+    public int steelLengte { get; set; }
+    public int potMaat { get; set; }
+}
+
+public class Veiling
+{
+    public int veilingId { get; set; }
+    public float startPrijs { get; set; }
+    public string startDatum { get; set; }
+    public string klokLocatie { get; set; }
+
+}
+
+public class Aanvoerder
+{
+    public int aanvoerderId { get; set; }
+    public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
+
+}
+
+public class Veilingmeester
+{
+    public int veilingmeesterId { get; set; }
+    public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
+
 }
