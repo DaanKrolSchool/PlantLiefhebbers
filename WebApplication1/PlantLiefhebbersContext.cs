@@ -6,7 +6,9 @@ public class PlantLiefhebbersContext : DbContext
 {
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
-
+    public DbSet<Veiling> veiling { get; set; }
+    public DbSet<Aanvoerder> aanvoerder { get; set; }
+    public DbSet<Veilingmeester> veilingmeester { get; set; }
     public string DbPath { get; }
 
     public PlantLiefhebbersContext()

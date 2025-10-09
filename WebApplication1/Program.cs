@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 //Console.WriteLine($"Database path: {db.DbPath}.");
 
 ////Create
-//var nogeenklant = new Klant { klantId = 02006, naam = "testtesttest" };
+//var nogeenklant = new Klant { klantId = 06006, naam = "tettesttest", adres = "denhaag", email = "test@email.com", wachtwoord = "0000" };
 //db.klant.Add(nogeenklant);
 //db.SaveChanges();
 //Console.WriteLine("Created: " + nogeenklant.naam);
