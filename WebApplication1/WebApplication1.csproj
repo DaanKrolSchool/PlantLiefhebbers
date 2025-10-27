@@ -7,7 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assets\index-Bv6HNRFI.js" />
+    <Content Remove="wwwroot\assets\index-COcDBgFa.css" />
+    <Content Remove="wwwroot\index.html" />
+    <Content Remove="wwwroot\vite.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\index-Bv6HNRFI.js" />
+    <None Include="wwwroot\assets\index-COcDBgFa.css" />
     <None Include="wwwroot\index.html" />
+    <None Include="wwwroot\old_test_index.html" />
+    <None Include="wwwroot\vite.svg" />
   </ItemGroup>
 
   <ItemGroup>
