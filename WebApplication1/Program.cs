@@ -46,22 +46,41 @@ namespace WebApplication1
             builder.Services.AddRouting();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
+            // Add a simple CORS policy for local development
+            //builder.Services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowLocalDev",
+            //        policy => policy.AllowAnyOrigin()
+            //                        .AllowAnyMethod()
+            //                        .AllowAnyHeader());
+            //});
+
+
             // Add Swagger services
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            //builder.Services.AddEndpointsApiExplorer();
+            //builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
 
             var app = builder.Build();
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-                });
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c =>
+            //    {
+            //        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+            //    });
+            //}
 
             app.UseRouting();
+
+            //html dingen
+            app.UseDefaultFiles();    
+            app.UseStaticFiles();    
+            app.MapControllers();
+            app.MapFallbackToFile("index.html");
+
+            
+            //app.UseCors("AllowLocalDev"); // <-- enable CORS
             app.UseHttpsRedirection();
             app.MapControllers();
             app.Run();
