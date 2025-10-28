@@ -3,11 +3,10 @@ import './App.css';
 
 function App() {
     return (
-        <div className="App" style={{ textAlign: 'center', marginTop: '50px' }}>
-            <h1>Welcome to My Front Page</h1>
-            <p>This is a simple React + HTML + CSS page.</p>
+        <div className="App-background">
+            <h1>Bied op planten</h1>
+            <p>De plek om planten te kopen en verkopen,</p>
         </div>
     );
 }
-
 export default App;
