@@ -3,8 +3,8 @@ import {Routes, Route, useNavigate, BrowserRouter} from "react-router-dom";
 
 import './App.css';
 //Inloggen en registreren
-// import Registreer Scherm from "./RegistreerScherm.jsx";
 import InlogScherm from "./InlogScherm.jsx";
+import Register from "./Register.jsx";
 // AanvoerderDashboard
 import Aanvoerder from "./Aanvoerder/Aanvoerder.jsx";
 import ProductAanmelden from "./Aanvoerder/ProductAanmelden.jsx";
@@ -21,6 +21,7 @@ function Home() {
             {/* <button className="OverzichtButton" onClick={() => navigate("/(Link naar overzicht)")}>Bekijk onze planten</button> */}
             <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/product-aanmelden")}>Aanvoerder overzicht</button>
             <button className="LoginButton" onClick={() => navigate("/inloggen")}>Inloggen</button>
+            <button className="RegistreerButton" onClick={() => navigate("/registreren")}>Registreren</button>
         </div>
     );
 }
@@ -31,6 +32,8 @@ function App() {
             <Route path="/" element={<Home />} />
             
             <Route path="/inloggen" element={<InlogScherm />} />
+
+            <Route path="/registreren" element={<Register />} />
 
             <Route path="/aanvoerder" element={<Aanvoerder  /> }>
                 <Route path="product-aanmelden" element={<ProductAanmelden />} />
