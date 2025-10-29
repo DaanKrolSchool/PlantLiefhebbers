@@ -1,0 +1,19 @@
+﻿html, body {
+    background-color: #EAD6B3;
+    margin: 0;
+    padding: 0;
+}
+
+h1, p, label, input {
+    color: black;
+    position: center
+}
+
+.content {
+    text-align:center;
+    margin-top: 20px;
+}
+
+.inputVak {
+    display: inline-block;
+}
