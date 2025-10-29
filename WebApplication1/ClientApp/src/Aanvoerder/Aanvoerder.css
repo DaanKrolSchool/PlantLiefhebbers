@@ -1,0 +1,31 @@
+div {
+    margin: auto;
+}
+
+nav a {
+    margin-right: 30px;
+}
+
+a.active {
+    color: red;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+nav a:last-child {
+    margin-right: 0;
+}
+
+.LogOutButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
