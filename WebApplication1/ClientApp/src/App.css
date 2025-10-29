@@ -12,6 +12,11 @@ html, body {
 
 }*/
 
+h1, p {
+    color: white; /* or whatever color you like */
+    margin: 5px 0; /* smaller space between h1 and p */
+}
+
 .App-background {
     background-image: url('./assets/Hoofdpagina.png');
     background-size: cover;
@@ -21,4 +26,38 @@ html, body {
     box-sizing: border-box;
     padding: 80px;
     text-align: center;
+}
+
+.OverzichtButton {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.AanvoerderButton {
+    position: fixed; /* stays on the screen even when scrolling */
+    bottom: 20px; /* distance from bottom */
+    left: 20px; /* distance from left */
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.LoginButton {
+    position: fixed; /* stays on the screen even when scrolling */
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
 }
