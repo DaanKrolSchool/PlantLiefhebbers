@@ -2,7 +2,7 @@ import React from 'react';
 
 function VerkoopOverzicht() {
     return (
-        <div className="App">
+        <div class="aanvoerder">
             <h2>10/10/2025</h2>
             <p>plaatje</p>
             <h2>11/10/2025</h2>

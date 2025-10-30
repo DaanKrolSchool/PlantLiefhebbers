@@ -2,8 +2,8 @@ import React from 'react';
 
 function ProductAanmelden() {
     return (
-        <div className="App">
-            <form>
+        <div class="aanvoerder">
+            <form class="aanvoerder">
                 <h2> Product informatie</h2>
                 <label htmlFor="naam">Naam:</label>
                 <input type="text" name="naam"/><br/>

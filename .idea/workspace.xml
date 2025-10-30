@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4346c834-6a83-40c1-8088-f0c8614c11f2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/VerkoopOverzicht.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/VerkoopOverzicht.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +77,7 @@
       <option name="presentableId" value="Default" />
       <updated>1761693614362</updated>
       <workItem from="1761693615563" duration="613000" />
-      <workItem from="1761694798112" duration="30806000" />
+      <workItem from="1761694798112" duration="31792000" />
     </task>
     <task id="LOCAL-00001" summary="router + product aanmelden">
       <option name="closed" value="true" />
@@ -100,7 +103,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761813903553</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="css">
+      <option name="closed" value="true" />
+      <created>1761814824956</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1761814824956</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,7 +124,8 @@
     <MESSAGE value="router + product aanmelden" />
     <MESSAGE value="Aanvoerder dashboard aangemaakt" />
     <MESSAGE value="aanvoerder.css" />
-    <option name="LAST_COMMIT_MESSAGE" value="aanvoerder.css" />
+    <MESSAGE value="css" />
+    <option name="LAST_COMMIT_MESSAGE" value="css" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

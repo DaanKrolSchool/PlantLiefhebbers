@@ -7,11 +7,11 @@ export default function Aanvoerder() {
     
     return (
         <div class="aanvoerder">
-            <header>
-                <h1>Aanvoerder Dashboard</h1>
+            <header class="aanvoerder">
+                <h1 class="aanvoerder">Aanvoerder Dashboard</h1>
             </header>
             <button className="LogOutButton" onClick={() => navigate("/")}>Uitloggen</button>
-            <nav>
+            <nav class="aanvoerder">
                 <NavLink to="/aanvoerder/product-aanmelden">Product Aanmelden</NavLink>
                 <NavLink to="/aanvoerder/aangemelde-producten">Aangemelde Producten</NavLink>
                 <NavLink to="/aanvoerder/verkoop-overzicht">Verkoop Overzicht</NavLink>
