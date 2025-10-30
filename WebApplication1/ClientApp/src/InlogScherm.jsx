@@ -17,32 +17,30 @@ function InlogScherm() {
 
     }
     return (
-        <div className="content">
+        <div className="Login">
             <h1>Login</h1>
             <p>Type hier je e-mailadres en wachtwoord in</p>
 
-            <form classnName="inputVak">
+            <form>
                 <input
                     id="email"
                     type="text" name="email"
                     value={Email}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
-                />
-                <br />
+                />                
                 <input
-                    id="pssword"
+                    id="password"
                     type="password" name="password"
                     value={Password}
                     placeholder="Wachtwoord"
                     onChange={(e) => setPassword(e.target.value)}
-                />
-                <br />
-            </form>
+                />                
 
             <button className="CheckInlogButton" onClick={CheckInlog}>Verder</button>
             <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
 
+            </form>
         </div>
     );
 }
