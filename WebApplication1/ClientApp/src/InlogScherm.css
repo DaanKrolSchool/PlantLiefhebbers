@@ -1,45 +1,80 @@
 ﻿html, body {
-    background-color: #EAD6B3;
     margin: 0;
     padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #e8d6b8;
+    color: #40484f;
 }
 
-h1, p, label, input {
-    color: black;
-    position: center;
-    font-size: 30px;
-}
 
-.content {
+.Login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     text-align: center;
-    margin-top: 10px;
 }
 
-    .content h1 {
-        font-size: 80px;
-    }
+.Login h1 {
+    font-size: 4rem;
+    font-weight: 500;
+    color: #40484f;
+    margin-bottom: 40px;
+}
 
-.inputVak {
-    display: inline-block;
+.Login p {
+    font-size: 1rem;
+    color: #40484f;
+    margin-top: -20px;
+    margin-bottom: 40px;
+}
+
+.Login form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+
+.Login input {
+    width: 320px;
+    height: 55px;
+    border-radius: 8px;
+    border: none;
+    padding: 0 16px;
+    font-size: 1.5rem;
+    color: #40484f;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Login input::placeholder {
+    color: #999999;
+}
+
+.Login button {
+    width: 200px;
+    height: 55px;
+    background-color: #ffffff;
+    color: #000;
+    font-size: 1.4rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
 }
 
 .Back {
     position: fixed;
     top: 20px;
     left: 20px;
-    background-color: white;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
-.CheckInlogButton {
-    background-color: white;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+.Login button:hover {
+    background-color: #f2f2f2;
 }

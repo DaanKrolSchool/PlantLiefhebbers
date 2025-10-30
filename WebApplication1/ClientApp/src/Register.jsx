@@ -10,8 +10,7 @@ function Register() {
             <p>Vul het formulier in om je account te maken:</p>
 
             <form>
-                <div>
-                    <label>Gebruikersnaam:</label><br />
+                <div>                    
                     <input
                         type="text"
                         name="username"
@@ -20,8 +19,7 @@ function Register() {
                     />
                 </div>
 
-                <div>
-                    <label>E-mail:</label><br />
+                <div>                    
                     <input
                         type="email"
                         name="email"                       
@@ -30,8 +28,7 @@ function Register() {
                     />
                 </div>
 
-                <div>
-                    <label>Wachtwoord:</label><br />
+                <div>                    
                     <input
                         type="password"
                         name="password"                        
@@ -40,9 +37,9 @@ function Register() {
                     />
                 </div>
 
-                <div className="button-group">
-                    <button type="button" onClick={() => navigate("/")}>Terug</button>                
-                    <button type="submit">Registreren</button>
+                <div>
+                    <button className="RegisterBack" type="button" onClick={() => navigate("/")}>Terug</button>                
+                    <button className="RegisterSubmit" type="submit">Registreren</button>
                 </div>
             </form>
         </div>

@@ -36,10 +36,6 @@ html, body {
     align-items: center;
 }
 
-.Register label {
-    display: none;
-}
-
 .Register input {
     width: 320px;
     height: 55px;
@@ -74,3 +70,10 @@ html, body {
 .Register button:hover {
     background-color: #f2f2f2;
 }
+
+.RegisterBack {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
