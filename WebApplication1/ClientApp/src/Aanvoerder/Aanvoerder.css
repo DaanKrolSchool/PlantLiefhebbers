@@ -1,4 +1,7 @@
-div {
+/*
+div.aanvoerder {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-height: 100vh;
 }
@@ -94,3 +97,4 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #B59A60;
 }
+*/
