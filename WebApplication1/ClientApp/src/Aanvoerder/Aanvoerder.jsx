@@ -6,8 +6,10 @@ export default function Aanvoerder() {
     const navigate = useNavigate();
     
     return (
-        <div>
-            <h1>Aanvoerder Dashboard</h1>
+        <div class="aanvoerder">
+            <header>
+                <h1>Aanvoerder Dashboard</h1>
+            </header>
             <button className="LogOutButton" onClick={() => navigate("/")}>Uitloggen</button>
             <nav>
                 <NavLink to="/aanvoerder/product-aanmelden">Product Aanmelden</NavLink>

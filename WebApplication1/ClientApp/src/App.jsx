@@ -18,8 +18,8 @@ function Home() {
         <div className="App-background">
             <h1>Bied op planten</h1>
             <p>De plek om planten te kopen en verkopen,</p>
-            {/* <button className="OverzichtButton" onClick={() => navigate("/(Link naar overzicht)")}>Bekijk onze planten</button> */}
-            <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/product-aanmelden")}>Aanvoerder overzicht</button>
+            <button className="OverzichtButton" onClick={() => navigate("/aanvoerder/product-aanmelden")}>Bekijk onze planten</button>
+            <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/aangemelde-producten")}>Aanvoerder overzicht</button>
             <button className="LoginButton" onClick={() => navigate("/inloggen")}>Inloggen</button>
             <button className="RegistreerButton" onClick={() => navigate("/registreren")}>Registreren</button>
         </div>
@@ -40,6 +40,18 @@ function App() {
                 <Route path="aangemelde-producten" element={<AangemeldeProducten />} />
                 <Route path="verkoop-overzicht" element={<VerkoopOverzicht />} />
             </Route>
+
+            {/* 
+            <Route path="/veilingmeester" element={<Veilingmeester /> }>
+                <Route path=""
+            </Route>
+            */}
+
+            {/*
+            <Route path="bieden" />
+            <Route path="producten" />
+            */}
+            
         </Routes>
     );
 }

@@ -4,6 +4,7 @@ function ProductAanmelden() {
     return (
         <div className="App">
             <form>
+                <h2> Product informatie</h2>
                 <label htmlFor="naam">Naam:</label>
                 <input type="text" name="naam"/><br/>
                 <label htmlFor="soort">Soort:</label>
@@ -15,9 +16,9 @@ function ProductAanmelden() {
                 <label htmlFor="locatie">Kloklocatie:</label>
                 <select name="locatie">
                     <option value="aalsmeer">Aalsmeer</option>
-                    <option value="rijnsburg">Rijnsburg</option>
                     <option value="eelde">Eelde</option>
                     <option value="naaldwijk">Naaldwijk</option>
+                    <option value="rijnsburg">Rijnsburg</option>
                 </select><br />
                 <label htmlFor="vdatum">Veildatum:</label>
                 <input type="date" name="vdatum"/><br/>
