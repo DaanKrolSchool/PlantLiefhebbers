@@ -2,20 +2,33 @@
 import './InlogScherm.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 
+const users = [
+    { id: 1, email: "user@mail", password: "0000", name: "Klant", type: "Klant" },
+    { id: 2, email: "klant", password: "0000", name: "klant2", type: "Klant" },
+    { id: 3, email: "pedro@mail", password: "Pedro", name: "Pedro", type: "Aanvoerder" },
+];
+
+
 function InlogScherm() {
-    const [Email, setEmail] = useState("");
-    const [Password, setPassword] = useState("");
+    const [email, setEmail] = useState(""); // email or id
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function CheckInlog(e) {
-        e.preventDefault()
-        if (Email === "Pedro@mail" && Password === "Pedro") {
-            alert("Hoerey!! Succes!")
-            navigate("/");
-        }
-        else { alert("Goed geprobeert, maar dat klopt niet.") }
+    function checkLogin(e) {
+        e.preventDefault();
+        const user = users.find(u => u.email === email && u.password === password);
 
+        if (user) {
+            if (user.type === "Aanvoerder") {
+                navigate("/aanvoerder/aangemelde-producten");
+            } else {
+                navigate("/veilingscherm");
+            }
+        } else {
+            alert("Onjuiste e-mail of wachtwoord!");
+        }
     }
+
     return (
         <div className="Login">
             <h1>Login</h1>
@@ -25,20 +38,21 @@ function InlogScherm() {
                 <input
                     id="email"
                     type="text" name="email"
-                    value={Email}
-                    placeholder="Email"
+                    placeholder="E-mail"
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                />                
+                />
                 <input
                     id="password"
                     type="password" name="password"
-                    value={Password}
                     placeholder="Wachtwoord"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                />                
 
-            <button className="CheckInlogButton" onClick={CheckInlog}>Verder</button>
-            <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
+                />
+
+                <button className="CheckInlogButton" onClick={checkLogin}>Verder</button>
+                <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
 
             </form>
         </div>
