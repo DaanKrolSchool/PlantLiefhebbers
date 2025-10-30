@@ -1,0 +1,45 @@
+﻿html, body {
+    background-color: #EAD6B3;
+    margin: 0;
+    padding: 0;
+}
+
+h1, p, label, input {
+    color: black;
+    position: center;
+    font-size: 30px;
+}
+
+.content {
+    text-align: center;
+    margin-top: 10px;
+}
+
+    .content h1 {
+        font-size: 80px;
+    }
+
+.inputVak {
+    display: inline-block;
+}
+
+.Back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.CheckInlogButton {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}

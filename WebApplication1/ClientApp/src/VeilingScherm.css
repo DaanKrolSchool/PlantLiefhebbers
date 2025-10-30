@@ -1,0 +1,58 @@
+﻿html, body {
+    background-color: #EAD6B3;
+    margin: 0;
+    padding: 0;
+}
+
+    /*h1, p, label, input {
+    color: black;
+    position: center;
+    font-size: 30px;
+}*/
+
+    .Veiling {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+}
+
+.Name {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.image {
+    position: fixed;
+    top: 300px;
+    left: 10%;
+    transform: translateX(-50%);
+    color: white;
+    -webkit-text-stroke: 1px black;
+    font-size: 40px;
+}
+
+.Kenmerken h1, p2, p3 {
+    position: fixed;
+    top: 470px;
+    left: 15%;
+    font-size: 40px;
+}
+
+.inputVak {
+    display: inline-block;
+}
+
+.Back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
