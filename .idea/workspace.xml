@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4346c834-6a83-40c1-8088-f0c8614c11f2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +39,23 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/package-lock.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantTestController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/bin/Debug/net9.0/WebApplication1.deps.json" root0="SKIP_HIGHLIGHTING" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -63,6 +79,11 @@
     "nodejs_package_manager_path": "npm",
     "ts.external.directory.path": "/Applications/Rider.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ]
   }
 }]]></component>
   <component name="TaskManager">
@@ -74,6 +95,7 @@
       <updated>1761693614362</updated>
       <workItem from="1761693615563" duration="613000" />
       <workItem from="1761694798112" duration="32443000" />
+      <workItem from="1762951041820" duration="15449000" />
     </task>
     <task id="LOCAL-00001" summary="router + product aanmelden">
       <option name="closed" value="true" />
