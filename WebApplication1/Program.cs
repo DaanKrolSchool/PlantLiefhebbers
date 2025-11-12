@@ -41,26 +41,25 @@ namespace WebApplication1
 
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddRouting();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
-            // Add a simple CORS policy for local development
-            //builder.Services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowLocalDev",
-            //        policy => policy.AllowAnyOrigin()
-            //                        .AllowAnyMethod()
-            //                        .AllowAnyHeader());
-            //});
+            //cors dingen
+            builder.Services.AddCors(options =>
+            {
+               options.AddPolicy("AllowLocalDev",
+                   policy => policy.AllowAnyOrigin()
+                                   .AllowAnyMethod()
+                                   .AllowAnyHeader());
+            });
 
+            
+           // Add Swagger services
+           //builder.Services.AddEndpointsApiExplorer();
+           //builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
 
-            // Add Swagger services
-            //builder.Services.AddEndpointsApiExplorer();
-            //builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
-
-            var app = builder.Build();
+           var app = builder.Build();
             // Configure the HTTP request pipeline.
             //if (app.Environment.IsDevelopment())
             //{
@@ -80,7 +79,7 @@ namespace WebApplication1
             app.MapFallbackToFile("index.html");
 
             
-            //app.UseCors("AllowLocalDev"); // <-- enable CORS
+            app.UseCors("AllowLocalDev");
             app.UseHttpsRedirection();
             app.MapControllers();
             app.Run();
