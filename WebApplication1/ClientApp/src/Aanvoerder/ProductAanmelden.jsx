@@ -5,25 +5,25 @@ function ProductAanmelden() {
         <div class="aanvoerder">
             <form class="aanvoerder">
                 <h2> Product informatie</h2>
-                <label htmlFor="naam">Naam:</label>
-                <input type="text" name="naam"/><br/>
-                <label htmlFor="soort">Soort:</label>
-                <input type="text" name="soort"/><br/>
-                <label htmlFor="hoeveelheid">Hoeveelheid:</label>
-                <input type="number" min="1" name="hoeveelheid"/><br/>
-                <label htmlFor="mprijs">Minimumprijs:</label>
-                <input type="number" min="0.01" step="0.01" name="mprijs"/><br/>
-                <label htmlFor="locatie">Kloklocatie:</label>
-                <select name="locatie">
+                <label for="naam">Naam:</label>
+                <input type="text" id="naam" name="naam"/><br/>
+                <label for="soort">Soort:</label>
+                <input type="text" id="soort" name="soort"/><br/>
+                <label for="hoeveelheid">Hoeveelheid:</label>
+                <input type="number" id="hoeveelheid" min="1" name="hoeveelheid"/><br/>
+                <label for="mprijs">Minimumprijs:</label>
+                <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs"/><br/>
+                <label for="locatie">Kloklocatie:</label>
+                <select id="locatie" name="locatie">
                     <option value="aalsmeer">Aalsmeer</option>
                     <option value="eelde">Eelde</option>
                     <option value="naaldwijk">Naaldwijk</option>
                     <option value="rijnsburg">Rijnsburg</option>
                 </select><br />
-                <label htmlFor="vdatum">Veildatum:</label>
-                <input type="date" name="vdatum"/><br/>
-                <label htmlFor="afbeelding">Afbeelding:</label>
-                <input type="file" name="afbeelding"/><br/><br />
+                <label for="vdatum">Veildatum:</label>
+                <input type="date" id="vdatum" name="vdatum"/><br/>
+                <label for="afbeelding">Afbeelding:</label>
+                <input type="file" id="afbeelding" name="afbeelding"/><br/><br />
                 <input type="submit" value="Product aanmelden"/>
             </form>
         </div>

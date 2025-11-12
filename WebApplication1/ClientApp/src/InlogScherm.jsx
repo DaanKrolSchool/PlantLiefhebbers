@@ -4,19 +4,20 @@ import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 
 const users = [
     { id: 1, email: "user@mail", password: "0000", name: "Klant", type: "Klant" },
-    { id: 2, email: "klant", password: "0000", name: "klant2", type: "Klant" },
+    { id: 2, email: "klant@mail", password: "0000", name: "klant2", type: "Klant" },
     { id: 3, email: "pedro@mail", password: "Pedro", name: "Pedro", type: "Aanvoerder" },
 ];
-
-
 function InlogScherm() {
     const [email, setEmail] = useState(""); // email or id
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function checkLogin(e) {
+    async function checkLogin(e) {
         e.preventDefault();
         const user = users.find(u => u.email === email && u.password === password);
+        const res = await fetch("http://localhost:7001/KlantTest/6006");
+        const usertest = await res.json();
+        alert(JSON.stringify(usertest));
 
         if (user) {
             if (user.type === "Aanvoerder") {
@@ -38,7 +39,7 @@ function InlogScherm() {
                 <input
                     id="email"
                     type="text" name="email"
-                    placeholder="E-mail"
+                    placeholder="E-mail of Gebruikersnaam"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
