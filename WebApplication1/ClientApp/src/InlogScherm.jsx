@@ -14,17 +14,15 @@ function InlogScherm() {
 
     async function checkLogin(e) {
         e.preventDefault();
-        const user = users.find(u => u.email === email && u.password === password);
-        const res = await fetch("http://localhost:7001/KlantTest/6006");
-        const usertest = await res.json();
-        alert(JSON.stringify(usertest));
+        const userinput = users.find(u => u.email === email && u.password === password);
+        const res = await fetch(`https://localhost:7225/Inlog/email/${email}`);
+        const user = await res.json();
+        const userpassword = user.wachtwoord;
+        const username = user.naam;
 
-        if (user) {
-            if (user.type === "Aanvoerder") {
-                navigate("/aanvoerder/aangemelde-producten");
-            } else {
-                navigate("/veilingscherm");
-            }
+        if (password == userpassword) {
+            alert("Welkom " + username)
+            navigate("/aanvoerder/aangemelde-producten");
         } else {
             alert("Onjuiste e-mail of wachtwoord!");
         }
