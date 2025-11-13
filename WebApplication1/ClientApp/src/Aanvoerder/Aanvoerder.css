@@ -96,3 +96,34 @@ input[type="submit"].aanvoerder {
 input[type="submit"].aanvoerder:hover {
     background-color: #B59A60;
 }
+
+.producten-overzicht {
+    margin: 20px;
+}
+
+.datum-sectie {
+    margin-bottom: 40px;
+}
+
+.producten-rij {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.product-kaart {
+    background-color: #D0B070;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-kaart h3 {
+    color: black;
+}
+
+.product-kaart p {
+    color: #40484F;
+}

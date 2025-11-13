@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4346c834-6a83-40c1-8088-f0c8614c11f2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -48,6 +48,7 @@
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/bin/Debug/net9.0/WebApplication1.deps.json" root0="SKIP_HIGHLIGHTING" />
@@ -95,7 +96,7 @@
       <updated>1761693614362</updated>
       <workItem from="1761693615563" duration="613000" />
       <workItem from="1761694798112" duration="32443000" />
-      <workItem from="1762951041820" duration="15449000" />
+      <workItem from="1762951041820" duration="27920000" />
     </task>
     <task id="LOCAL-00001" summary="router + product aanmelden">
       <option name="closed" value="true" />
@@ -137,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1761815792557</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="producten aanmelden gekoppeld aan db">
+      <option name="closed" value="true" />
+      <created>1762976257151</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1762976257151</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +161,8 @@
     <MESSAGE value="aanvoerder.css" />
     <MESSAGE value="css" />
     <MESSAGE value="aanvoerder css" />
-    <option name="LAST_COMMIT_MESSAGE" value="aanvoerder css" />
+    <MESSAGE value="producten aanmelden gekoppeld aan db" />
+    <option name="LAST_COMMIT_MESSAGE" value="producten aanmelden gekoppeld aan db" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

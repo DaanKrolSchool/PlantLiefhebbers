@@ -21,6 +21,15 @@ namespace WebApplication1.Controllers
             _context.SaveChanges();
             return Ok(newProduct);
         }
+        
+        [HttpGet("datum")]
+        public IActionResult GetAllProducts()
+        {
+            var products = _context.product
+                .OrderBy(p => p.veilDatum)
+                .ToList();
+            return Ok(products);
+        }
 
         [HttpGet("eerste")]
         public async Task<ActionResult<Product>> GetEersteProduct()
