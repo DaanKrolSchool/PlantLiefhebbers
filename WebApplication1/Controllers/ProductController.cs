@@ -13,13 +13,26 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
-        
+
         [HttpPost]
         public IActionResult AddProduct([FromBody] Product newProduct)
         {
             _context.product.Add(newProduct);
             _context.SaveChanges();
             return Ok(newProduct);
+        }
+
+        [HttpGet("eerste")]
+        public async Task<ActionResult<Product>> GetEersteProduct()
+        {
+            var product = await _context.product
+                .OrderBy(p => p.productId)
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+                return NotFound();
+
+            return product;
         }
     }
 }
