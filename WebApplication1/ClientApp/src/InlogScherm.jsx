@@ -2,11 +2,11 @@
 import './InlogScherm.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 
-const users = [
-    { id: 1, email: "user@mail", password: "0000", name: "Klant", type: "Klant" },
-    { id: 2, email: "klant@mail", password: "0000", name: "klant2", type: "Klant" },
-    { id: 3, email: "pedro@mail", password: "Pedro", name: "Pedro", type: "Aanvoerder" },
-];
+//const users = [
+    //{ id: 1, email: "user@mail", password: "0000", name: "Klant", type: "Klant" },
+   // { id: 2, email: "klant@mail", password: "0000", name: "klant2", type: "Klant" },
+   // { id: 3, email: "pedro@mail", password: "Pedro", name: "Pedro", type: "Aanvoerder" },
+//];
 function InlogScherm() {
     const [email, setEmail] = useState(""); // email or id
     const [password, setPassword] = useState("");
@@ -14,14 +14,17 @@ function InlogScherm() {
 
     async function checkLogin(e) {
         e.preventDefault();
-        const userinput = users.find(u => u.email === email && u.password === password);
-        const res = await fetch(`https://localhost:7225/Inlog/email/${email}`);
-        const user = await res.json();
-        const userpassword = user.wachtwoord;
-        const username = user.naam;
+        const res = await fetch("https://localhost:7225/Inlog/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, wachtwoord: password })
+        });
 
-        if (password == userpassword) {
-            alert("Welkom " + username)
+        
+
+        if (res.ok) {
+            const user = await res.json();
+            alert("Welkom " + user.naam)
             navigate("/aanvoerder/aangemelde-producten");
         } else {
             alert("Onjuiste e-mail of wachtwoord!");
@@ -50,8 +53,8 @@ function InlogScherm() {
 
                 />
 
-                <button className="CheckInlogButton" onClick={checkLogin}>Verder</button>
-                <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
+                <button type ="button" className="CheckInlogButton" onClick={checkLogin}>Verder</button>
+                <button type ="button" className="Back" onClick={() => navigate("/")}>Terug</button>
 
             </form>
         </div>
