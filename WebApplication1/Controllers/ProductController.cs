@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {

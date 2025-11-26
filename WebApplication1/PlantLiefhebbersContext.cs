@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-public class PlantLiefhebbersContext : DbContext
+public class PlantLiefhebbersContext : IdentityDbContext<User>
 {
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
@@ -74,5 +76,11 @@ public class Veilingmeester
     public string adres { get; set; }
     public string email { get; set; }
     public string wachtwoord { get; set; }
+
+}
+
+public class User : IdentityUser
+{
+    public string adres { get; set; }
 
 }

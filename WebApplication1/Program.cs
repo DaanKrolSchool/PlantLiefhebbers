@@ -4,6 +4,9 @@ using System;
 using System.Linq;
 using System.Reflection.Metadata;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 //using var db = new PlantLiefhebbersContext();
 //Console.WriteLine($"Database path: {db.DbPath}.");
@@ -45,6 +48,9 @@ namespace WebApplication1
             builder.Services.AddRouting();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
+            builder.Services.AddIdentityApiEndpoints<User>()
+                .AddEntityFrameworkStores<PlantLiefhebbersContext>();
+
             //cors dingen
             builder.Services.AddCors(options =>
             {
@@ -82,6 +88,11 @@ namespace WebApplication1
             app.UseCors("AllowLocalDev");
             app.UseHttpsRedirection();
             app.MapControllers();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapIdentityApi<User>();
+
             app.Run();
         }
     }
