@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Authorize]
+    [Authorize (Roles = "Klant, Aanvoerder, Admin, Veilingmeester")]
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {

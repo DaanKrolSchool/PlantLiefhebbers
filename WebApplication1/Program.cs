@@ -6,6 +6,8 @@ using System.Reflection.Metadata;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using WebApplication1.Services;
+
 
 
 //using var db = new PlantLiefhebbersContext();
@@ -38,7 +40,7 @@ namespace WebApplication1
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
 
@@ -48,11 +50,15 @@ namespace WebApplication1
             builder.Services.AddRouting();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
-            builder.Services.AddIdentityApiEndpoints<User>()
-                .AddEntityFrameworkStores<PlantLiefhebbersContext>();
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<PlantLiefhebbersContext>()
+                .AddDefaultTokenProviders();                
+            builder.Services.AddScoped<RoleManager<IdentityRole>>();
+            builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 
-            //cors dingen
-            builder.Services.AddCors(options =>
+                //cors dingen
+                builder.Services.AddCors(options =>
             {
                options.AddPolicy("AllowLocalDev",
                    policy => policy.AllowAnyOrigin()
@@ -60,38 +66,86 @@ namespace WebApplication1
                                    .AllowAnyHeader());
             });
 
-            
-           // Add Swagger services
-           //builder.Services.AddEndpointsApiExplorer();
-           //builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
 
-           var app = builder.Build();
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-            //    app.UseSwagger();
-            //    app.UseSwaggerUI(c =>
-            //    {
-            //        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-            //    });
-            //}
+    // Add Swagger services
+    builder.Services.AddEndpointsApiExplorer();
+    if (builder.Environment.IsDevelopment())
+    {
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            { 
+                Name = "Authorization",
+                Description = "Please enter a valid token",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Scheme = "Bearer",
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                    }
+                    },
+                        new List<string>()
+                    }
+                });
+            });
+        }
+
+    builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme,
+    options =>
+    {
+        options.BearerTokenExpiration = TimeSpan.FromMinutes(60.0);
+    });
+
+            var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            //html dingen
-            app.UseDefaultFiles();    
-            app.UseStaticFiles();    
-            app.MapControllers();
-            app.MapFallbackToFile("index.html");
-
-            
             app.UseCors("AllowLocalDev");
-            app.UseHttpsRedirection();
-            app.MapControllers();
-
             app.UseAuthentication();
             app.UseAuthorization();
+
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.MapControllers();
             app.MapIdentityApi<User>();
+
+            app.MapFallbackToFile("index.html");
+
+            //Role seeding
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                string[] roles = ["Klant", "Aanvoerder", "Veilingmeester", "Admin"];
+                foreach (var role in roles)
+                {
+                    if (!(await roleManager.RoleExistsAsync(role)))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+            }
 
             app.Run();
         }

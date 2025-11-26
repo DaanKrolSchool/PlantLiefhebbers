@@ -81,6 +81,6 @@ public class Veilingmeester
 
 public class User : IdentityUser
 {
-    public string adres { get; set; }
+    public string? adres { get; set; }
 
 }
