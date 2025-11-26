@@ -19,6 +19,7 @@ namespace WebApplication1.Controllers
         {
             var klant = await _context.klant.FindAsync(id);
             if (klant == null)
+
                 return NotFound();
 
 
@@ -45,7 +46,7 @@ namespace WebApplication1.Controllers
             var klant = await _context.klant
                 .FirstOrDefaultAsync(k => k.email == dto.email && k.wachtwoord == dto.wachtwoord);
             if (klant == null)
-                return Unauthorized("Ongeldige inloggegevens.");
+                return NotFound();
             // model naar dto
             var klantDto = new KlantDto
             {

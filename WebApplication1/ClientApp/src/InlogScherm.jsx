@@ -9,7 +9,7 @@ import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 //];
 function InlogScherm() {
     const [email, setEmail] = useState(""); // email or id
-    const [password, setPassword] = useState("");
+    const [wachtwoord, setWachtwoord] = useState("");
     const navigate = useNavigate();
 
     async function checkLogin(e) {
@@ -17,14 +17,14 @@ function InlogScherm() {
         const res = await fetch("https://localhost:7225/Inlog/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: email, wachtwoord: password })
+            body: JSON.stringify({ email, wachtwoord })
         });
 
         
-
         if (res.ok) {
-            const user = await res.json();
-            alert("Welkom " + user.naam)
+            const data = await res.json(); // hier zit de token in
+            alert("Welkom")
+            localStorage.setItem("token", data.token); 
             navigate("/aanvoerder/aangemelde-producten");
         } else {
             alert("Onjuiste e-mail of wachtwoord!");
@@ -48,8 +48,8 @@ function InlogScherm() {
                     id="password"
                     type="password" name="password"
                     placeholder="Wachtwoord"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={wachtwoord}
+                    onChange={(e) => setWachtwoord(e.target.value)}
 
                 />
 
