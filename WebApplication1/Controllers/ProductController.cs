@@ -17,11 +17,41 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddProduct([FromBody] Product newProduct)
+        public IActionResult AddProduct([FromBody] ProductCreateDto newProductDto)
         {
+            var newProduct = new Product
+            {
+                naam = newProductDto.naam,
+                soortPlant = newProductDto.soortPlant,
+                aantal = newProductDto.aantal,
+                potMaat = newProductDto.potMaat,
+                steelLengte = newProductDto.steelLengte,
+                minimumPrijs = newProductDto.minimumPrijs,
+                maximumPrijs = newProductDto.maximumPrijs,
+                klokLocatie = newProductDto.klokLocatie,
+                veilDatum = newProductDto.veilDatum,
+                aanvoerderId = newProductDto.aanvoerderId
+            };
+
             _context.product.Add(newProduct);
             _context.SaveChanges();
-            return Ok(newProduct);
+
+            var productDto = new ProductDto
+            {
+                productId = newProduct.productId,
+                naam = newProduct.naam,
+                soortPlant = newProduct.soortPlant,
+                aantal = newProduct.aantal,
+                potMaat = newProduct.potMaat,
+                steelLengte = newProduct.steelLengte,
+                minimumPrijs = newProduct.minimumPrijs,
+                maximumPrijs = newProduct.maximumPrijs,
+                klokLocatie = newProduct.klokLocatie,
+                veilDatum = newProduct.veilDatum,
+                aanvoerderId = newProduct.aanvoerderId
+            };
+
+            return Ok(productDto);
         }
         
         [HttpGet("datum")]
@@ -29,7 +59,22 @@ namespace WebApplication1.Controllers
         {
             var products = _context.product
                 .OrderBy(p => p.veilDatum)
+                .Select(p => new ProductDto
+                {
+                    productId = p.productId,
+                    naam = p.naam,
+                    soortPlant = p.soortPlant,
+                    aantal = p.aantal,
+                    potMaat = p.potMaat,
+                    steelLengte = p.steelLengte,
+                    minimumPrijs = p.minimumPrijs,
+                    maximumPrijs = p.maximumPrijs,
+                    klokLocatie = p.klokLocatie,
+                    veilDatum = p.veilDatum,
+                    aanvoerderId = p.aanvoerderId
+                })
                 .ToList();
+
             return Ok(products);
         }
 
@@ -43,7 +88,22 @@ namespace WebApplication1.Controllers
             if (product == null)
                 return NotFound();
 
-            return product;
+            var productDto = new ProductDto
+            {
+                productId = product.productId,
+                naam = product.naam,
+                soortPlant = product.soortPlant,
+                aantal = product.aantal,
+                potMaat = product.potMaat,
+                steelLengte = product.steelLengte,
+                minimumPrijs = product.minimumPrijs,
+                maximumPrijs = product.maximumPrijs,
+                klokLocatie = product.klokLocatie,
+                veilDatum = product.veilDatum,
+                aanvoerderId = product.aanvoerderId
+            };
+
+            return Ok(productDto);
         }
     }
 }
