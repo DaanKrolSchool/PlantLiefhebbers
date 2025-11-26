@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<Product>> GetEersteProduct()
         {
             var product = await _context.product
-                .OrderBy(p => p.productId)
+                .OrderBy(p => p.veilDatum)
                 .FirstOrDefaultAsync();
 
             if (product == null)
