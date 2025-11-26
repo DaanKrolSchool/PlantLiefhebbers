@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult AddProduct([FromBody] Product newProduct)
         {
-            _context.Producten.Add(newProduct);
+            _context.product.Add(newProduct);
             _context.SaveChanges();
             return Ok(newProduct);
         }
@@ -25,8 +25,8 @@ namespace WebApplication1.Controllers
         [HttpGet("datum")]
         public IActionResult GetAllProducts()
         {
-            var products = _context.Producten
-                .OrderBy(p => p.VeilDatum)
+            var products = _context.product
+                .OrderBy(p => p.veilDatum)
                 .ToList();
             return Ok(products);
         }
@@ -34,8 +34,8 @@ namespace WebApplication1.Controllers
         [HttpGet("eerste")]
         public async Task<ActionResult<Product>> GetEersteProduct()
         {
-            var product = await _context.Producten
-                .OrderBy(p => p.ProductId)
+            var product = await _context.product
+                .OrderBy(p => p.productId)
                 .FirstOrDefaultAsync();
 
             if (product == null)

@@ -41,14 +41,14 @@ namespace WebApplication1.Migrations
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Email",
+                name: "email",
                 table: "klant",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Wachtwoord",
+                name: "wachtwoord",
                 table: "klant",
                 type: "TEXT",
                 nullable: false,
@@ -71,11 +71,11 @@ namespace WebApplication1.Migrations
                 table: "klant");
 
             migrationBuilder.DropColumn(
-                name: "Email",
+                name: "email",
                 table: "klant");
 
             migrationBuilder.DropColumn(
-                name: "Wachtwoord",
+                name: "wachtwoord",
                 table: "klant");
 
             migrationBuilder.RenameColumn(

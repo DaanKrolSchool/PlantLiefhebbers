@@ -15,19 +15,19 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("id/{id}")]
-        public async Task<ActionResult<Klant>> GetKlantId(int id)
+        public async Task<ActionResult<Klant>> GetKlantID(int id)
         {
-            var klant = await _context.Klanten.FindAsync(id);
+            var klant = await _context.klant.FindAsync(id);
             if (klant == null)
                 return NotFound();
             return klant;
         }
 
-        [HttpGet("Email/{Email}")]
-        public async Task<ActionResult<Klant>> GetKlantEmail(string Email)
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<Klant>> GetKlantEmail(string email)
         {
-            var klant = await _context.Klanten
-                .FirstOrDefaultAsync(k => k.Email == Email);
+            var klant = await _context.klant
+                .FirstOrDefaultAsync(k => k.email == email);
 
             if (klant == null)
                 return NotFound();

@@ -20,22 +20,22 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Klant", b =>
                 {
-                    b.Property<int>("KlantId")
+                    b.Property<int>("klantId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Naam")
+                    b.Property<string>("naam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("KlantId");
+                    b.HasKey("klantId");
 
                     b.ToTable("klant");
                 });
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("productId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -43,14 +43,14 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Naam")
+                    b.Property<string>("naam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("prijs")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("productId");
 
                     b.ToTable("product");
                 });

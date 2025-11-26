@@ -9,17 +9,17 @@ using Microsoft.OpenApi.Models;
 //Console.WriteLine($"Database path: {db.DbPath}.");
 
 ////Create
-//var nogeenklant = new Klant { KlantId = 06006, Naam = "tettesttest", adres = "denhaag", Email = "test@Email.com", Wachtwoord = "0000" };
+//var nogeenklant = new Klant { klantId = 06006, naam = "tettesttest", adres = "denhaag", email = "test@email.com", wachtwoord = "0000" };
 //db.klant.Add(nogeenklant);
 //db.SaveChanges();
-//Console.WriteLine("Created: " + nogeenklant.Naam);
+//Console.WriteLine("Created: " + nogeenklant.naam);
 
 //// Read
-//var klant = db.klant.FirstOrDefault(k => k.KlantId == 02006);
-//Console.WriteLine("Read: " + klant.Naam);
+//var klant = db.klant.FirstOrDefault(k => k.klantId == 02006);
+//Console.WriteLine("Read: " + klant.naam);
 
 //// Update
-//klant.Naam = "updatedtesttesttest";
+//klant.naam = "updatedtesttesttest";
 //db.SaveChanges();
 //Console.WriteLine("Updated");
 
@@ -28,7 +28,7 @@ using Microsoft.OpenApi.Models;
 //{
 //    db.klant.Remove(klant);
 //    db.SaveChanges();
-//    Console.WriteLine("Deleted: " + klant.Naam);
+//    Console.WriteLine("Deleted: " + klant.naam);
 //}
 
 namespace WebApplication1

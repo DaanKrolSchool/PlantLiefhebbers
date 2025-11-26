@@ -14,28 +14,28 @@ namespace WebApplication1.Migrations
                 name: "klant",
                 columns: table => new
                 {
-                    KlantId = table.Column<int>(type: "INTEGER", nullable: false)
+                    klantId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Naam = table.Column<string>(type: "TEXT", nullable: false)
+                    naam = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_klant", x => x.KlantId);
+                    table.PrimaryKey("PK_klant", x => x.klantId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "product",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "INTEGER", nullable: false)
+                    productId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Naam = table.Column<string>(type: "TEXT", nullable: false),
+                    naam = table.Column<string>(type: "TEXT", nullable: false),
                     beschrijving = table.Column<string>(type: "TEXT", nullable: false),
                     prijs = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_product", x => x.ProductId);
+                    table.PrimaryKey("PK_product", x => x.productId);
                 });
         }
 

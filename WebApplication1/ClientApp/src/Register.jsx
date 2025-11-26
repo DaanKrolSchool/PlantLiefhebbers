@@ -6,7 +6,7 @@ function Register() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
-        Email: '',
+        email: '',
         password: ''
     });
 
@@ -18,9 +18,9 @@ function Register() {
         e.preventDefault();
 
         const klantData = {
-            Naam: formData.username,
-            Email: formData.Email,
-            Wachtwoord: formData.password,
+            naam: formData.username,
+            email: formData.email,
+            wachtwoord: formData.password,
             adres: "" 
         };
 
@@ -54,7 +54,7 @@ function Register() {
                     <input
                         type="text"
                         name="username"
-                        placeholder="Voer gebruikersNaam in"
+                        placeholder="Voer gebruikersnaam in"
                         value={formData.username}
                         onChange={handleChange}
                         required
@@ -63,10 +63,10 @@ function Register() {
 
                 <div>
                     <input
-                        type="Email"
-                        name="Email"
+                        type="email"
+                        name="email"
                         placeholder="Voer e-mail in"
-                        value={formData.Email}
+                        value={formData.email}
                         onChange={handleChange}
                         required
                     />
@@ -76,7 +76,7 @@ function Register() {
                     <input
                         type="password"
                         name="password"
-                        placeholder="Voer Wachtwoord in"
+                        placeholder="Voer wachtwoord in"
                         value={formData.password}
                         onChange={handleChange}
                         required

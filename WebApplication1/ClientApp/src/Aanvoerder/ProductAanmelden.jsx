@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 function ProductAanmelden() {
-    const [Naam, setNaam] = useState("");
+    const [naam, setNaam] = useState("");
     const [soort, setSoort] = useState("");
     const [hoeveelheid, setHoeveelheid] = useState("");
     const [potmaat, setPotmaat] = useState("");
@@ -19,14 +19,14 @@ function ProductAanmelden() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
-                Naam, 
+                naam, 
                 soortPlant: soort, 
                 aantal: hoeveelheid, 
                 potMaat: potmaat ? parseInt(potmaat) : null, 
                 steelLengte: steellengte ? parseInt(steellengte) : null, 
                 minimumPrijs: parseFloat(mprijs), 
                 klokLocatie: locatie, 
-                VeilDatum: vdatum 
+                veilDatum: vdatum 
             }),
         });
 
@@ -38,8 +38,8 @@ function ProductAanmelden() {
         <div class="aanvoerder">
             <form class="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
-                <label for="Naam">Naam:</label>
-                <input type="text" id="Naam" name="Naam" value={Naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
+                <label for="naam">Naam:</label>
+                <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
                 <label for="soort">Soort:</label>
                 <input type="text" id="soort" name="soort" value={soort} onChange={(e) => setSoort(e.target.value)} required/><br/>
                 <label for="hoeveelheid">Hoeveelheid:</label>
@@ -58,7 +58,7 @@ function ProductAanmelden() {
                     <option value="naaldwijk">Naaldwijk</option>
                     <option value="rijnsburg">Rijnsburg</option>
                 </select><br/>
-                <label for="vdatum">VeilDatum:</label>
+                <label for="vdatum">Veildatum:</label>
                 <input type="date" id="vdatum" name="vdatum" value={vdatum} onChange={(e) => setVdatum(e.target.value)} required/><br/>
                 <label for="afbeelding">Afbeelding:</label>
                 <input type="file" id="afbeelding" name="afbeelding"/><br/><br/>

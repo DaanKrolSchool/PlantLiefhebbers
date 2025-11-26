@@ -4,85 +4,75 @@ using System.Collections.Generic;
 
 public class PlantLiefhebbersContext : DbContext
 {
-    public DbSet<Klok> Klokken { get; set; } = null!;
-    public DbSet<Klant> Klanten { get; set; } = null!;
-    public DbSet<Veiling> Veilingen { get; set; } = null!;
-    public DbSet<Product> Producten { get; set; } = null!;
-    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<Klant> klant { get; set; }
+    public DbSet<Product> product { get; set; }
+    public DbSet<Veiling> veiling { get; set; }
+    public DbSet<Aanvoerder> aanvoerder { get; set; }
+    public DbSet<Veilingmeester> veilingmeester { get; set; }
+    public string DbPath { get; }
 
-    //public PlantLiefhebbersContext()
-    //{
-    //    //var folder = Environment.SpecialFolder.LocalApplicationData;
-    //    //var path = Environment.GetFolderPath(folder);
-    //    DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
-    //}
-    
-    // protected override void OnConfiguring(DbContextOptionsBuilder options)
-    //    => options.UseSqlite($"Data Source={DbPath}");
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    public PlantLiefhebbersContext()
     {
-        options.UseSqlServer(
-            "Server=localhost,1433;Database=PlantLiefhebbers;User Id=sa;Password=iDTyjZx7dRL4;TrustServerCertificate=True;");
+        //var folder = Environment.SpecialFolder.LocalApplicationData;
+        //var path = Environment.GetFolderPath(folder);
+        DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
     }
+
+    // The following configures EF to create a Sqlite database file in the
+    // special "local" folder for your platform.
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options.UseSqlite($"Data Source={DbPath}");
 }
 
-public class Klok
-{
-    public int KlokId { get; set; }
-    public string Locatie { get; set; } = null!;
-    public string? Adres { get; set; }
+public class Klant {
+    public int klantId { get; set; }
+    public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
+
 }
 
-public class Klant
-{
-    public int KlantId { get; set; }
-    public string Naam { get; set; } = null!;
-    public string Adres { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string Wachtwoord { get; set; } = null!;
-    public string Rol { get; set; } = null!;
-    
-    public int LocatieId { get; set; }
-    public Klok Locatie { get; set; } = null!;
+public class Product {
+    public int productId { get; set; }
+    public string naam { get; set; }
+    public string soortPlant { get; set; }
+    public int aantal { get; set; }
+    public int? potMaat { get; set; }
+    public int? steelLengte { get; set; }
+    public float minimumPrijs { get; set; }
+    public float maximumPrijs { get; set; }
+    public float prijsVerandering { get; set; }
+    public string klokLocatie { get; set; }
+    public DateTime veilDatum { get; set; }
+    public int aanvoerderId { get; set; }
 }
 
 public class Veiling
 {
-    public int VeilingId { get; set; }
-    public DateTime VeilDatum { get; set; }
+    public int veilingId { get; set; }
+    public float startPrijs { get; set; }
+    public string startDatum { get; set; }
+    public string klokLocatie { get; set; }
 
-    public int LocatieId { get; set; }
-    public Klok Locatie { get; set; } = null!;
 }
 
-public class Product
+public class Aanvoerder
 {
-    public int ProductId { get; set; }
-    public string Naam { get; set; } = null!;
-    public string Soort { get; set; } = null!;
-    public int Aantal { get; set; }
-    public int Afmeting { get; set; }
-    public string SoortAfmeting { get; set; } = null!;
-    public decimal MinimumPrijs { get; set; }
-    public decimal? PrijsVerandering { get; set; }
-    public decimal? MaximumPrijs { get; set; }
-    public DateTime? VeilDatum { get; set; }
+    public int aanvoerderId { get; set; }
+    public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
 
-    public int LocatieId { get; set; }
-    public Klok Locatie { get; set; } = null!;
-
-    public int AanvoerderId { get; set; }
-    public Klant Aanvoerder { get; set; } = null!;
 }
 
-public class Order
+public class Veilingmeester
 {
-    public int OrderId { get; set; }
+    public int veilingmeesterId { get; set; }
+    public string naam { get; set; }
+    public string adres { get; set; }
+    public string email { get; set; }
+    public string wachtwoord { get; set; }
 
-    public int KoperId { get; set; }
-    public Klant Koper { get; set; } = null!;
-
-    public int ProductId { get; set; }
-    public Product Product { get; set; } = null!;
 }
