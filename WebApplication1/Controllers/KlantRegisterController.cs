@@ -19,29 +19,28 @@ namespace WebApplication1.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Klant klant)
         {
-            // === Validation ===
-            if (string.IsNullOrWhiteSpace(klant.naam))
+            if (string.IsNullOrWhiteSpace(klant.Naam))
                 return BadRequest("Naam is verplicht.");
 
-            if (string.IsNullOrWhiteSpace(klant.email))
+            if (string.IsNullOrWhiteSpace(klant.Email))
                 return BadRequest("Email is verplicht.");
 
-            if (string.IsNullOrWhiteSpace(klant.wachtwoord) || klant.wachtwoord.Length < 6)
+            if (string.IsNullOrWhiteSpace(klant.Wachtwoord) || klant.Wachtwoord.Length < 6)
                 return BadRequest("Wachtwoord moet minstens 6 tekens lang zijn.");
                         
-            bool emailBestaat = await _context.klant.AnyAsync(k => k.email == klant.email);
-            if (emailBestaat)
+            bool EmailBestaat = await _context.Klanten.AnyAsync(k => k.Email == klant.Email);
+            if (EmailBestaat)
                 return BadRequest("Email bestaat al.");
 
-            await _context.klant.AddAsync(klant);
+            await _context.Klanten.AddAsync(klant);
             await _context.SaveChangesAsync();
 
             return Ok(new
             {
                 message = "Registratie succesvol!",
-                klantId = klant.klantId,
-                klant.naam,
-                klant.email
+                KlantId = klant.KlantId,
+                klant.Naam,
+                klant.Email
             });
         }
     }

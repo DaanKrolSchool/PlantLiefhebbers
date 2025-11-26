@@ -16,10 +16,10 @@ namespace WebApplication1.Migrations
                 {
                     aanvoerderId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    naam = table.Column<string>(type: "TEXT", nullable: false),
+                    Naam = table.Column<string>(type: "TEXT", nullable: false),
                     adres = table.Column<string>(type: "TEXT", nullable: false),
-                    email = table.Column<string>(type: "TEXT", nullable: false),
-                    wachtwoord = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Wachtwoord = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,10 +47,10 @@ namespace WebApplication1.Migrations
                 {
                     veilingmeesterId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    naam = table.Column<string>(type: "TEXT", nullable: false),
+                    Naam = table.Column<string>(type: "TEXT", nullable: false),
                     adres = table.Column<string>(type: "TEXT", nullable: false),
-                    email = table.Column<string>(type: "TEXT", nullable: false),
-                    wachtwoord = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Wachtwoord = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

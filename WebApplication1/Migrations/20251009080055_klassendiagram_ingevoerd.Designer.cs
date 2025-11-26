@@ -20,7 +20,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Klant", b =>
                 {
-                    b.Property<int>("klantId")
+                    b.Property<int>("KlantId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -28,30 +28,30 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("naam")
+                    b.Property<string>("Naam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("wachtwoord")
+                    b.Property<string>("Wachtwoord")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("klantId");
+                    b.HasKey("KlantId");
 
                     b.ToTable("klant");
                 });
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.Property<int>("productId")
+                    b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("naam")
+                    b.Property<string>("Naam")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -65,7 +65,7 @@ namespace WebApplication1.Migrations
                     b.Property<int>("steelLengte")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("productId");
+                    b.HasKey("ProductId");
 
                     b.ToTable("product");
                 });

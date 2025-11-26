@@ -4,7 +4,7 @@ function AangemeldeProducten() {
     const [products, setProducts] = useState([]);
     const today = new Date();
     const upcomingProducts = products.filter(product => {
-        const productDate = new Date(product.veilDatum);
+        const productDate = new Date(product.VeilDatumVeilDatum);
         return productDate >= today;
     });
 
@@ -18,7 +18,7 @@ function AangemeldeProducten() {
     }, []);
 
     const groupedByDate = upcomingProducts.reduce((groups, product) => {
-        const date = new Date(product.veilDatum).toLocaleDateString("nl-NL", {
+        const date = new Date(product.VeilDatumVeilDatum).toLocaleDateString("nl-NL", {
             year: "numeric",
             month: "long",
             day: "numeric"
@@ -35,8 +35,8 @@ function AangemeldeProducten() {
                     <h2>{date}</h2>
                     <div className="producten-rij">
                         {items.map((p) => (
-                            <div key={p.productId} className="product-kaart">
-                                <h3>{p.naam}</h3>
+                            <div key={p.ProductId} className="product-kaart">
+                                <h3>{p.Naam}</h3>
                                 <p>Soort: {p.soortPlant}</p>
                                 <p>Aantal: {p.aantal}</p>
                                 <p>Minimum Prijs: €{p.minimumPrijs.toFixed(2)}</p>

@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Klant>>> GetKlanten()
         {
-            return await _context.klant.ToListAsync();
+            return await _context.Klanten.ToListAsync();
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Klant>> GetKlant(int id)
         {
-            var klant = await _context.klant.FindAsync(id);
+            var klant = await _context.Klanten.FindAsync(id);
             if (klant == null)
                 return NotFound();
             return klant;
@@ -41,9 +41,9 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<ActionResult<Klant>> PostKlant([FromBody] Klant klant)
         {
-            _context.klant.Add(klant);
+            _context.Klanten.Add(klant);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetKlant), new { id = klant.klantId }, klant);
+            return CreatedAtAction(nameof(GetKlant), new { id = klant.KlantId }, klant);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace WebApplication1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKlant(int id, [FromBody] Klant klant)
         {
-            if (id != klant.klantId)
+            if (id != klant.KlantId)
                 return BadRequest();
 
             _context.Entry(klant).State = EntityState.Modified;
@@ -63,7 +63,7 @@ namespace WebApplication1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!_context.klant.Any(e => e.klantId == id))
+                if (!_context.Klanten.Any(e => e.KlantId == id))
                     return NotFound();
                 else
                     throw;
@@ -78,11 +78,11 @@ namespace WebApplication1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKlant(int id)
         {
-            var klant = await _context.klant.FindAsync(id);
+            var klant = await _context.Klanten.FindAsync(id);
             if (klant == null)
                 return NotFound();
 
-            _context.klant.Remove(klant);
+            _context.Klanten.Remove(klant);
             await _context.SaveChangesAsync();
 
             return NoContent();

@@ -19,12 +19,12 @@ function InlogScherm() {
     return (
         <div className="content">
             <h1>Login</h1>
-            <p>Type hier je e-mailadres en wachtwoord in</p>
+            <p>Type hier je e-mailadres en Wachtwoord in</p>
 
             <form classnName="inputVak">
                 <input
-                    id="email"
-                    type="text" name="email"
+                    id="Email"
+                    type="text" name="Email"
                     value={Email}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}

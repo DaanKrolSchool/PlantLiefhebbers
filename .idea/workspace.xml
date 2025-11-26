@@ -5,10 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4346c834-6a83-40c1-8088-f0c8614c11f2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingMarkt.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingMarkt.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/KlantTestController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/KlantTestController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/wwwroot/assets/index-4Tw0E0cP.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/wwwroot/assets/index-4Tw0E0cP.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/wwwroot/assets/index-B9bZZ_4D.js" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/wwwroot/assets/index-B9bZZ_4D.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,13 +60,18 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/KlantRegisterController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantTestController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
@@ -83,6 +107,7 @@
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
+      "sqlserver.localdb",
       "sqlite"
     ]
   }
@@ -96,7 +121,7 @@
       <updated>1761693614362</updated>
       <workItem from="1761693615563" duration="613000" />
       <workItem from="1761694798112" duration="32443000" />
-      <workItem from="1762951041820" duration="27920000" />
+      <workItem from="1762951041820" duration="48264000" />
     </task>
     <task id="LOCAL-00001" summary="router + product aanmelden">
       <option name="closed" value="true" />
@@ -146,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762976257151</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="aangemelde producten toont gegevens uit db">
+      <option name="closed" value="true" />
+      <created>1763030326633</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1763030326633</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +195,8 @@
     <MESSAGE value="css" />
     <MESSAGE value="aanvoerder css" />
     <MESSAGE value="producten aanmelden gekoppeld aan db" />
-    <option name="LAST_COMMIT_MESSAGE" value="producten aanmelden gekoppeld aan db" />
+    <MESSAGE value="aangemelde producten toont gegevens uit db" />
+    <option name="LAST_COMMIT_MESSAGE" value="aangemelde producten toont gegevens uit db" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

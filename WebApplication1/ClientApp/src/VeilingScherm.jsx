@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 
 function VeilingScherm() {
-    const [naam, setNaam] = useState("");
+    const [Naam, setNaam] = useState("");
     const [soort, setSoort] = useState("");
     const [hoeveelheid, setHoeveelheid] = useState("");
     const [potmaat, setPotmaat] = useState("");
@@ -23,7 +23,7 @@ function VeilingScherm() {
         async function fetchData() {
             const res = await fetch(`https://localhost:7225/Product/eerste`);
             const data = await res.json();
-            setNaam(data?.naam ?? "—");
+            setNaam(data?.Naam ?? "—");
             setSoort(data?.soortPlant ?? "—");
             setHoeveelheid(data?.aantal ?? "—");
             setPotmaat(data?.potMaat ?? "—");
@@ -54,14 +54,14 @@ function VeilingScherm() {
 
     return (
         <div>
-            <h1 className="Name"> {naam} </h1>
+            <h1 className="Name"> {Naam} </h1>
 
             <p className="MainImage"> plaatje </p>
 
             <button className="Back" type="button" onClick={() => navigate(-1)}>Terug</button>
 
             <div className="KenmerkenL">
-                <h1> Kenmerken:</h1>
+                <h2> Kenmerken:</h2>
                 <p className="TitleL">Soort plant:</p>
                 <p className="FeatureL">{soort}</p>
 
@@ -78,7 +78,7 @@ function VeilingScherm() {
             </div>
 
             <div className="NextProducts">
-                <h1> Volgende planten:</h1>
+                <h2> Volgende planten:</h2>
                 <p className="NextImage"> plaatje </p>
             </div>
 
