@@ -7,7 +7,7 @@ function ProductAanmelden() {
     const [potMaat, setPotMaat] = useState("");
     const [steelLengte, setSteelLengte] = useState("");
     const [minimumPrijs, setMinimumPrijs] = useState("");
-//    const [maximumPrijs, setMaximumPrijs] = useState("");
+///    const [maximumPrijs, setMaximumPrijs] = useState("");
     const [klokLocatie, setKlokLocatie] = useState("");
     const [veilDatum, setVeilDatum] = useState("");
     // const [afbeelding, setAfbeelding] = useState("");
