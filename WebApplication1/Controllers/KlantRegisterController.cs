@@ -17,31 +17,48 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] Klant klant)
+        public async Task<IActionResult> Register([FromBody] KlantRegisterDto dto)
         {
             // === Validation ===
-            if (string.IsNullOrWhiteSpace(klant.naam))
+            if (string.IsNullOrWhiteSpace(dto.naam))
                 return BadRequest("Naam is verplicht.");
 
-            if (string.IsNullOrWhiteSpace(klant.email))
+            if (string.IsNullOrWhiteSpace(dto.email))
                 return BadRequest("Email is verplicht.");
 
-            if (string.IsNullOrWhiteSpace(klant.wachtwoord) || klant.wachtwoord.Length < 6)
+            if (string.IsNullOrWhiteSpace(dto.wachtwoord) || dto.wachtwoord.Length < 6)
                 return BadRequest("Wachtwoord moet minstens 6 tekens lang zijn.");
                         
-            bool emailBestaat = await _context.klant.AnyAsync(k => k.email == klant.email);
+            bool emailBestaat = await _context.klant.AnyAsync(k => k.email == dto.email);
             if (emailBestaat)
                 return BadRequest("Email bestaat al.");
+
+
+            // dto naar model
+            var klant = new Klant
+            {
+                naam = dto.naam,
+                adres = dto.adres,
+                email = dto.email,
+                wachtwoord = dto.wachtwoord // later hashen
+            };
 
             await _context.klant.AddAsync(klant);
             await _context.SaveChangesAsync();
 
+
+            // model naar dto
+            var klantDto = new KlantDto
+            {
+                klantId = klant.klantId,
+                naam = klant.naam,
+                email = klant.email
+            };
+
             return Ok(new
             {
                 message = "Registratie succesvol!",
-                klantId = klant.klantId,
-                klant.naam,
-                klant.email
+                klant = klantDto
             });
         }
     }
