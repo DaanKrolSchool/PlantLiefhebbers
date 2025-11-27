@@ -4,12 +4,15 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-public class PlantLiefhebbersContext : IdentityDbContext<User>
+public class PlantLiefhebbersContext : DbContext
 {
     public PlantLiefhebbersContext(DbContextOptions<PlantLiefhebbersContext> options)
         : base(options)
     {
+        DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
+
     }
+
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
     public DbSet<Veiling> veiling { get; set; }
