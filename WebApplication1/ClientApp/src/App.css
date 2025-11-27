@@ -43,9 +43,21 @@ h1, p {
 }
 
 .AanvoerderButton {
-    position: fixed; /* stays on the screen even when scrolling */
-    bottom: 20px; /* distance from bottom */
-    left: 20px; /* distance from left */
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.VeilingmeesterButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     background-color: red;
     color: white;
     border: none;
@@ -55,7 +67,7 @@ h1, p {
 }
 
 .LoginButton {
-    position: fixed; /* stays on the screen even when scrolling */
+    position: absolute;
     top: 20px;
     right: 20px;
     background-color: white;
@@ -67,7 +79,7 @@ h1, p {
 }
 
 .RegistreerButton {
-    position: fixed; /* stays on the screen even when scrolling */
+    position: absolute;
     top: 75px;
     right: 20px;
     background-color: white;
