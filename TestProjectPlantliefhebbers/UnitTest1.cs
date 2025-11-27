@@ -1,29 +1,54 @@
-﻿using WebApplication1;
-using Xunit;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Controllers;
+using WebApplication1;
+using System.Threading.Tasks;
 
 namespace WebApiTests
 {
-    public class UnitTest1
+
+    public class InlogControllerTests
     {
-        [Fact]
-        public void rekenen()
+        private PlantLiefhebbersContext GetInMemoryContext(string dbName)
         {
-            var a = 2;
-            var b = 3;
+            var options = new DbContextOptionsBuilder<PlantLiefhebbersContext>()
+                .UseInMemoryDatabase(databaseName: dbName)
+                .Options;
 
-            Assert.Equal(5, a + b);
+            return new PlantLiefhebbersContext(options);
+        }
 
+
+
+        [Fact]
+        public void Connectie_test()
+        {
+            var dbName = "SimpeleTestDb";
+
+            using (var context = GetInMemoryContext(dbName))
+            {
+                var controller = new InlogController(context);
+
+                var result = controller.Test();
+                var okResult = Assert.IsType<OkObjectResult>(result);
+
+                Assert.Equal("Controller werkt", okResult.Value);
+            }
         }
 
         [Fact]
-        public void rekenen2()
+        public async Task Id_test()
         {
-            var a = 23;
-            var b = 3;
+            var dbName = "SimpeleTestDb";
 
-            Assert.Equal(26, a + b);
+            using (var context = GetInMemoryContext(dbName))
+            {
+                var controller = new InlogController(context);
 
+                var result = controller.GetKlantID(1);
+
+                Assert.IsType<System.Threading.Tasks.Task<ActionResult<KlantDto>>>(result);
+            }
         }
     }
 }

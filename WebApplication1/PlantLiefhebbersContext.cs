@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 public class PlantLiefhebbersContext : IdentityDbContext<User>
 {
+    public PlantLiefhebbersContext(DbContextOptions<PlantLiefhebbersContext> options)
+        : base(options)
+    {
+    }
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
     public DbSet<Veiling> veiling { get; set; }
