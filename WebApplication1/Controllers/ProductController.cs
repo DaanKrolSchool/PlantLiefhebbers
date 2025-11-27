@@ -53,7 +53,13 @@ namespace WebApplication1.Controllers
 
             return Ok(productDto);
         }
-        
+
+
+        [HttpGet("test")]
+        public IActionResult Test() => Ok("Controller werkt");
+
+
+
         [HttpGet("datum")]
         public IActionResult GetAllProducts()
         {
