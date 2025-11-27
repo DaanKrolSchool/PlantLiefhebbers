@@ -7,7 +7,7 @@ function ProductAanmelden() {
     const [potMaat, setPotMaat] = useState("");
     const [steelLengte, setSteelLengte] = useState("");
     const [minimumPrijs, setMinimumPrijs] = useState("");
-    const [maximumPrijs, setMaximumPrijs] = useState("");
+    // const [maximumPrijs, setMaximumPrijs] = useState("");
     const [klokLocatie, setKlokLocatie] = useState("");
     const [veilDatum, setVeilDatum] = useState("");
     // const [afbeelding, setAfbeelding] = useState("");
@@ -26,7 +26,7 @@ function ProductAanmelden() {
                 potMaat: potMaat ? parseInt(potMaat) : null, 
                 steelLengte: steelLengte ? parseInt(steelLengte) : null, 
                 minimumPrijs: parseFloat(minimumPrijs), 
-                maximumPrijs: maximumPrijs ? parseFloat(maximumPrijs) : parseFloat(minimumPrijs),
+                maximumPrijs: 999,
                 klokLocatie, 
                 veilDatum,
                 aanvoerderId: 1 // Hardcoded aanvoerderId (PAS LATER AAN)
@@ -53,8 +53,6 @@ function ProductAanmelden() {
                 <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)}/><br/>
                 <label for="mprijs">Minimumprijs:</label>
                 <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs" value={minimumPrijs} onChange={(e) => setMinimumPrijs(e.target.value)} required/><br/>
-                <label>Maximumprijs:</label>
-                <input type="number" min="0.01" step="0.01" value={maximumPrijs} onChange={e => setMaximumPrijs(e.target.value)} /><br />
                 <label for="locatie">Kloklocatie:</label>
                 <select id="locatie" name="locatie" value={klokLocatie} onChange={(e) => setKlokLocatie(e.target.value)} required>
                     <option value="" disabled></option>
