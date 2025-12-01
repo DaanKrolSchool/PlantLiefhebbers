@@ -15,10 +15,13 @@ function ProductAanmelden() {
     
     async function productAanmelden(e) {
         e.preventDefault();
-        
+        const token = localStorage.getItem("token");
         const res = await fetch(`https://localhost:7225/Product`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({ 
                 naam, 
                 soortPlant, 

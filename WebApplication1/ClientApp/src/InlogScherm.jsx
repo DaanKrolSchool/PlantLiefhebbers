@@ -14,20 +14,25 @@ function InlogScherm() {
 
     async function checkLogin(e) {
         e.preventDefault();
-        const res = await fetch("https://localhost:7225/Inlog/login", {
+        const res = await fetch("https://localhost:7225/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, wachtwoord })
+            body: JSON.stringify({ email, password: wachtwoord })
         });
 
         
         if (res.ok) {
             const data = await res.json(); // hier zit de token in
+            const token = data.token || data.accessToken;
+            if (!token) {
+                alert("Geen token, error");
+                return;
+            }
+            localStorage.setItem("token", token);
             alert("Welkom")
-            localStorage.setItem("token", data.token); 
             navigate("/aanvoerder/aangemelde-producten");
         } else {
-            alert("Onjuiste e-mail of wachtwoord!");
+            alert("Onjuiste gebruikersgegevens!");
         }
     }
 
