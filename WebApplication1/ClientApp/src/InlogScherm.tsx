@@ -12,7 +12,7 @@ function InlogScherm() {
     const [wachtwoord, setWachtwoord] = useState("");
     const navigate = useNavigate();
 
-    async function checkLogin(e) {
+    async function checkLogin(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         const res = await fetch("https://localhost:7225/Inlog/login", {
             method: "POST",

@@ -3,20 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function VeilingScherm() {
-    const [naam, setNaam] = useState("");
-    const [soort, setSoort] = useState("");
-    const [hoeveelheid, setHoeveelheid] = useState("");
-    const [potmaat, setPotmaat] = useState("");
-    const [steellengte, setSteellengte] = useState("");
-    const [mprijs, setMprijs] = useState("");
-    const StartPrice = 100.87;
-    //const MinPrice = 70;
-    const Speed = 1;
-    const [progresiebar, setProgresiebar] = useState(100);
+    const [naam, setNaam] = useState<string>("");
+    const [soort, setSoort] = useState<string>("");
 
+    const [hoeveelheid, setHoeveelheid] = useState<number>(0);
+    const [potmaat, setPotmaat] = useState<number>(0);
+    const [steellengte, setSteellengte] = useState<number>(0);
+    const [mprijs, setMprijs] = useState<number>(0);
+    const StartPrice = 100.87;
+    const Speed = 1;
+
+    const [progresiebar, setProgresiebar] = useState<number>(100);
 
     const navigate = useNavigate();
-    const [price, setPrice] = useState(StartPrice);
+
+    const [price, setPrice] = useState<number>(StartPrice);
 
 
     useEffect(() => {

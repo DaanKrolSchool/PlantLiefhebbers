@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<{ username: string; email: string; password: string }>({
         username: '',
         email: '',
         password: ''
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const klantData = {
@@ -39,7 +39,7 @@ function Register() {
                 const error = await response.text();
                 alert("Registratie mislukt: " + error);
             }
-        } catch (err) {
+        } catch (err: any) {
             alert("Er is een fout opgetreden: " + err.message);
         }
     };

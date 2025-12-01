@@ -21,7 +21,7 @@ function InlogScherm() {
             <h1>Login</h1>
             <p>Type hier je e-mailadres en wachtwoord in</p>
 
-            <form classnName="inputVak">
+            <form className="inputVak">
                 <input
                     id="email"
                     type="text" name="email"

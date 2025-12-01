@@ -38,22 +38,22 @@ function ProductAanmelden() {
     }
     
     return (
-        <div class="aanvoerder">
-            <form class="aanvoerder" onSubmit={productAanmelden}>
+        <div className="aanvoerder">
+            <form className="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
-                <label for="naam">Naam:</label>
+                <label htmlFor="naam">Naam:</label>
                 <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
-                <label for="soort">Soort:</label>
+                <label htmlFor="soort">Soort:</label>
                 <input type="text" id="soort" name="soort" value={soortPlant} onChange={(e) => setSoortPlant(e.target.value)} required/><br/>
-                <label for="hoeveelheid">Hoeveelheid:</label>
+                <label htmlFor="hoeveelheid">Hoeveelheid:</label>
                 <input type="number" id="hoeveelheid" min="1" name="hoeveelheid" value={aantal} onChange={(e) => setAantal(e.target.value)} required/><br/>
-                <label for="potmaat">Potmaat:</label>
+                <label htmlFor="potmaat">Potmaat:</label>
                 <input type="number" id="potmaat" min="0" step="1" name="potmaat" value={potMaat} onChange={(e) => setPotMaat(e.target.value)}/><br/>
-                <label for="steellengte">Steellengte</label>
+                <label htmlFor="steellengte">Steellengte</label>
                 <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)}/><br/>
-                <label for="mprijs">Minimumprijs:</label>
+                <label htmlFor="mprijs">Minimumprijs:</label>
                 <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs" value={minimumPrijs} onChange={(e) => setMinimumPrijs(e.target.value)} required/><br/>
-                <label for="locatie">Kloklocatie:</label>
+                <label htmlFor="locatie">Kloklocatie:</label>
                 <select id="locatie" name="locatie" value={klokLocatie} onChange={(e) => setKlokLocatie(e.target.value)} required>
                     <option value="" disabled></option>
                     <option value="aalsmeer">Aalsmeer</option>
@@ -61,9 +61,9 @@ function ProductAanmelden() {
                     <option value="naaldwijk">Naaldwijk</option>
                     <option value="rijnsburg">Rijnsburg</option>
                 </select><br/>
-                <label for="vdatum">Veildatum:</label>
+                <label htmlFor="vdatum">Veildatum:</label>
                 <input type="date" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
-                <label for="afbeelding">Afbeelding:</label>
+                <label htmlFor="afbeelding">Afbeelding:</label>
                 <input type="file" id="afbeelding" name="afbeelding"/><br/><br/>
                 <input type="submit" value="Product aanmelden"/>
             </form>
