@@ -10,7 +10,6 @@ public class PlantLiefhebbersContext : DbContext
         : base(options)
     {
         DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
-
     }
 
     public DbSet<Klant> klant { get; set; }
@@ -22,13 +21,9 @@ public class PlantLiefhebbersContext : DbContext
 
     public PlantLiefhebbersContext()
     {
-        //var folder = Environment.SpecialFolder.LocalApplicationData;
-        //var path = Environment.GetFolderPath(folder);
         DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
     }
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 }
