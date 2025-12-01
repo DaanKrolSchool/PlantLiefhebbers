@@ -111,5 +111,48 @@ namespace WebApplication1.Controllers
 
             return Ok(productDto);
         }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateDto productUpdateDto)
+        {
+            if (id != productUpdateDto.productId) return BadRequest();
+
+            var product = await _context.product.FindAsync(id);
+            if (product == null) return NotFound();
+
+            product.naam = productUpdateDto.naam;
+            product.soortPlant = productUpdateDto.soortPlant;
+            product.aantal = productUpdateDto.aantal;
+            product.minimumPrijs = productUpdateDto.minimumPrijs;
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.product.Any(e => e.productId == id)) return NotFound();
+                else throw;
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.product.FindAsync(id);
+            if (product == null) return NotFound();
+
+            _context.product.Remove(product);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
     }
 }
