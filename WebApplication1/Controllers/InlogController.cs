@@ -1,90 +1,85 @@
-﻿//using Microsoft.AspNetCore.Authorization;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Identity;
-//using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-//namespace WebApplication1.Controllers
-//{
-//    [ApiController]
-//    [AllowAnonymous]
-//    [Route("[controller]")]
-//    public class InlogController : ControllerBase
-//    {
-//        private readonly SignInManager<User> _signInManager;
-//        private readonly UserManager<User> _userManager;
+namespace WebApplication1.Controllers
+{
+    [ApiController]
+    [AllowAnonymous]
+    [Route("[controller]")]
+    public class InlogController : ControllerBase
+    {
+        private readonly PlantLiefhebbersContext _context;
 
-//        public InlogController(SignInManager<User> signInManager, UserManager<User> userManager)
-//        {
-//            _signInManager = signInManager;
-//            _userManager = userManager;
-//        }
+        public InlogController(PlantLiefhebbersContext context)
+        {
+            _context = context;
+        }
 
-//        [HttpGet("id/{id}")]
-//        public async Task<ActionResult<KlantDto>> GetKlantID(String id)
-//        {
-//            var user = await _userManager.FindByIdAsync(id);
-//            if (user == null)
+        [HttpGet("id/{id}")]
+        public async Task<ActionResult<KlantDto>> GetKlantID(int id)
+        {
+            var klant = await _context.klant.FindAsync(id);
+            if (klant == null)
 
-//                return NotFound();
+                return NotFound();
 
-//            // model naar dto
-//            var dto = new KlantDto
-//            {   
-//                klantId = user.Id,
-//                naam = user.UserName,
-//                adres = user.adres,
-//                email = user.Email  
-//            };
 
-//            return dto;
-//        }
+            // model naar dto
+            var dto = new KlantDto
+            {
+                klantId = klant.klantId,
+                naam = klant.naam,
+                adres = klant.adres,
+                email = klant.email
+            };
 
-//        [HttpGet("test")]
-//        public IActionResult Test() => Ok("Controller werkt");
+            return dto;
+        }
+
+        [HttpGet("test")]
+        public IActionResult Test() => Ok("Controller werkt");
 
 
 
-//        [HttpPost("login")]
-//        public async Task<IActionResult> Login([FromBody] LoginDto dto)
-//        {
-//            var user = await _userManager.FindByEmailAsync(dto.email)
-//                ?? await _userManager.FindByNameAsync(dto.email);
-//            if (user == null)
-//                return NotFound("Gebruiker niet gevonden.");
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var klant = await _context.klant
+                .FirstOrDefaultAsync(k => k.email == dto.email && k.wachtwoord == dto.wachtwoord);
+            if (klant == null)
+                return NotFound();
+            // model naar dto
+            var klantDto = new KlantDto
+            {
+                klantId = klant.klantId,
+                naam = klant.naam,
+                adres = klant.adres,
+                email = klant.email
+            };
+            return Ok(klantDto);
+        }
 
-//            var result = await _signInManager.CheckPasswordSignInAsync(user, dto.wachtwoord, false);
-//            if (!result.Succeeded)
-//                return Unauthorized("Ongeldig Wachtwoord.");
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<KlantDto>> GetKlantEmail(string email)
+        {
+            var klant = await _context.klant
+                .FirstOrDefaultAsync(k => k.email == email);
 
-//            // model naar dto
-//            var klantDto = new KlantDto
-//            {
-//                klantId = user.Id,
-//                naam = user.UserName,
-//                adres = user.adres,
-//                email = user.Email
-//            };
-//            return Ok(klantDto);
-//        }
+            if (klant == null)
+                return NotFound();
 
-//        [HttpGet("email/{email}")]
-//        public async Task<ActionResult<KlantDto>> GetKlantEmail(string email)
-//        {
-//            var user = await _userManager.FindByEmailAsync(email);
-//                if (user == null)
-//                    return NotFound();
+            // model naar dto
+            var dto = new KlantDto
+            {
+                klantId = klant.klantId,
+                naam = klant.naam,
+                adres = klant.adres,
+                email = klant.email
+            };
 
-//            // model naar dto
-//            var dto = new KlantDto
-//            {
-//                klantId = user.Id,
-//                naam = user.UserName,
-//                adres = user.adres,
-//                email = user.Email
-//            };
+            return dto;
+        }
 
-//            return dto;
-//        }
-
-//    }
-//}
+    }
+}

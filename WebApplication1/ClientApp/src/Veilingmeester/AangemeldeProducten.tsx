@@ -10,17 +10,7 @@ function AangemeldeProducten() {
 
     useEffect(() => {
         async function fetchProducts() {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`https://localhost:7225/Product/datum`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            if (!res.ok) {
-  console.error("Error:", res.status);
-  return;
-}
+            const res = await fetch(`https://localhost:7225/Product/datum`);
             const data = await res.json();
             setProducts(data);
         }
