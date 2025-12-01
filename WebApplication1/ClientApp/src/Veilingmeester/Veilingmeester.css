@@ -1,28 +1,28 @@
-div.aanvoerder {
+div.veilingmeester {
     display: flex;
     flex-direction: column;
     width: 100vw;
     min-height: 100vh;
 }
 
-header.aanvoerder {
+header.veilingmeester {
     padding: 20px;
     text-align: left;
     background-color: #D0B070;
 }
 
-h1.aanvoerder {
+h1.veilingmeester {
     margin: 0;
     font-size: 3rem;
     color: black;
 }
 
-nav.aanvoerder {
+nav.veilingmeester {
     display: flex;
     justify-content: space-between;
 }
 
-nav.aanvoerder a {
+nav.veilingmeester a {
     flex: 1;
     text-align: center;
     color: black;
@@ -34,24 +34,24 @@ nav.aanvoerder a {
     border-top: black solid 1px;
 }
 
-nav.aanvoerder a:hover {
+nav.veilingmeester a:hover {
     text-decoration: underline;
     font-weight: bold;
     color: black;
 }
 
-nav.aanvoerder a.active {
+nav.veilingmeester a.active {
     background-color: #D0B070;
     border: black solid 1px;
     border-top: none;
     padding-top: 11px;
 }
 
-nav.aanvoerder a.active:last-child {
+nav.veilingmeester a.active:last-child {
     border-right: none;
 }
 
-nav.aanvoerder a.active:first-child {
+nav.veilingmeester a.active:first-child {
     border-left: none;
 }
 
@@ -68,14 +68,14 @@ nav.aanvoerder a.active:first-child {
 }
 
 
-form.aanvoerder {
+form.veilingmeester {
     margin: 5% 10%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-input.aanvoerder, select.aanvoerder {
+input.veilingmeester, select.veilingmeester {
     padding: 10px;
     font-size: 1rem;
     width: 100%;
@@ -83,7 +83,7 @@ input.aanvoerder, select.aanvoerder {
     border: 1px solid #ccc;
 }
 
-input[type="submit"].aanvoerder {
+input[type="submit"].veilingmeester {
     background-color: #D0B070;
     color: black;
     border: none;
@@ -93,7 +93,7 @@ input[type="submit"].aanvoerder {
     border-radius: 8px;
 }
 
-input[type="submit"].aanvoerder:hover {
+input[type="submit"].veilingmeester:hover {
     background-color: #B59A60;
 }
 
@@ -109,6 +109,7 @@ input[type="submit"].aanvoerder:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    align-items: flex-start;
 }
 
 .product-kaart {
@@ -116,7 +117,6 @@ input[type="submit"].aanvoerder:hover {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px 15px;
-    width: 200px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -126,4 +126,17 @@ input[type="submit"].aanvoerder:hover {
 
 .product-kaart p {
     color: #40484F;
+}
+
+.product-kaart label {
+    display: flex;
+    margin-top: 5px;
+}
+
+.product-kaart label input {
+    align-self: center;
+    width: 30px;
+    height: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }

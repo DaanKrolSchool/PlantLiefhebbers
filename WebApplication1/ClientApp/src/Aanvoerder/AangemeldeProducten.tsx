@@ -123,12 +123,13 @@ function AangemeldeProducten() {
                                             value={editValues.minimumPrijs}
                                             onChange={e => setEditValues({ ...editValues, minimumPrijs: Number(e.target.value) })}
                                         />
-                                        <button onClick={() => saveChanges(p.productId)}>Save</button>
+                                        <button style={{ backgroundColor: "#D0B070", color: "black" }}
+                                                onClick={() => saveChanges(p.productId)}>Save</button>
                                     </>
                                 ) : (
                                     <div style={{ display: "flex", gap: "8px" }}>
                                         <button
-                                            style={{ backgroundColor: "#e0c080", color: "black" }}
+                                            style={{ backgroundColor: "#D0B070", color: "black" }}
                                             onClick={() => {
                                                 setEditMode(p.productId);
                                                 setEditValues({
@@ -142,7 +143,7 @@ function AangemeldeProducten() {
                                             Edit
                                         </button>
                                         <button
-                                            style={{ backgroundColor: "#e0c080", color: "black" }}
+                                            style={{ backgroundColor: "#D0B070", color: "black" }}
                                             onClick={() => deleteProduct(p.productId)}
                                         >
                                             Delete

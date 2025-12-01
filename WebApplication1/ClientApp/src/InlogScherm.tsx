@@ -1,5 +1,5 @@
 ﻿import React, { useState } from "react";
-import './InlogScherm.css';
+import './RegisterAndInlog.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 
 //const users = [
@@ -53,9 +53,10 @@ function InlogScherm() {
 
                 />
 
-                <button type ="button" className="CheckInlogButton" onClick={checkLogin}>Verder</button>
-                <button type ="button" className="Back" onClick={() => navigate("/")}>Terug</button>
-
+                <div>
+                    <button className="Submit" type="submit" onClick={checkLogin}>Verder</button>
+                    <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
+                </div>
             </form>
         </div>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Register.css';
+import './RegisterAndInlog.css';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
@@ -84,8 +84,8 @@ function Register() {
                 </div>
 
                 <div>
-                    <button className="RegisterBack" type="button" onClick={() => navigate("/")}>Terug</button>
                     <button className="RegisterSubmit" type="submit">Registreren</button>
+                    <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>
                 </div>
             </form>
         </div>

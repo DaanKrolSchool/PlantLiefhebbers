@@ -1,5 +1,6 @@
 import React from 'react';
-import {Routes, Route, useNavigate, BrowserRouter} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
+
 import './App.css';
 
 // Inloggen en registreren
@@ -12,7 +13,12 @@ import ProductAanmelden from "./Aanvoerder/ProductAanmelden";
 import AangemeldeProducten from "./Aanvoerder/AangemeldeProducten";
 import VerkoopOverzicht from "./Aanvoerder/VerkoopOverzicht";
 
-// Veiling scherm
+// VeilingmeesterDashboard
+import Veilingmeester from "./Veilingmeester/Veilingmeester";
+import VeilingBeheren from "./Veilingmeester/VeilingBeheren";
+import VAangemeldeProducten from "./Veilingmeester/AangemeldeProducten";
+import VVerkoopOverzicht from "./Veilingmeester/VerkoopOverzicht";
+//Veiling scherm
 import VeilingScherm from "./VeilingScherm";
 
 function Home() {
@@ -24,6 +30,7 @@ function Home() {
             <p>De plek om planten te kopen en verkopen,</p>
             <button className="OverzichtButton" onClick={() => navigate("/VeilingScherm")}>Bekijk onze planten</button>
             <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/aangemelde-producten")}>Aanvoerder overzicht</button>
+            <button className="VeilingmeesterButton" onClick={() => navigate("/veilingmeester/aangemelde-producten")}>Veilingmeester overzicht</button>
             <button className="LoginButton" onClick={() => navigate("/inloggen")}>Inloggen</button>
             <button className="RegistreerButton" onClick={() => navigate("/registreren")}>Registreren</button>
         </div>
@@ -46,6 +53,18 @@ function App() {
                 <Route path="aangemelde-producten" element={<AangemeldeProducten />} />
                 <Route path="verkoop-overzicht" element={<VerkoopOverzicht />} />
             </Route>
+
+            <Route path="/veilingmeester" element={<Veilingmeester  /> }>
+                <Route path="veiling-beheren" element={<VeilingBeheren />} />
+                <Route path="aangemelde-producten" element={<VAangemeldeProducten />} />
+                <Route path="verkoop-overzicht" element={<VVerkoopOverzicht />} />
+            </Route>
+
+            {/*
+            <Route path="bieden" />
+            <Route path="producten" />
+            */}
+            
         </Routes>
     );
 }
