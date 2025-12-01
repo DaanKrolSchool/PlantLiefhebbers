@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApiTests
 {
 
-    public class InlogControllerTests
+    public class Inlogtests
     {
         private PlantLiefhebbersContext GetInMemoryContext(string dbName)
         {
@@ -23,7 +23,7 @@ namespace WebApiTests
         [Fact]
         public void Connectie_test()
         {
-            var dbName = "SimpeleTestDb";
+            var dbName = "test";
 
             using (var context = GetInMemoryContext(dbName))
             {
