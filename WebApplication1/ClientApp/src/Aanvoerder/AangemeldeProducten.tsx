@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+
+import { useState, useEffect } from 'react';
 
 function AangemeldeProducten() {
     const [products, setProducts] = useState([]);

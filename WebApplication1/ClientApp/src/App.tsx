@@ -1,17 +1,19 @@
 import React from 'react';
 import {Routes, Route, useNavigate, BrowserRouter} from "react-router-dom";
-
 import './App.css';
-//Inloggen en registreren
-import InlogScherm from "./InlogScherm.jsx";
-import Register from "./Register.jsx";
+
+// Inloggen en registreren
+import InlogScherm from "./InlogScherm";
+import Register from "./Register";
+
 // AanvoerderDashboard
-import Aanvoerder from "./Aanvoerder/Aanvoerder.jsx";
-import ProductAanmelden from "./Aanvoerder/ProductAanmelden.jsx";
-import AangemeldeProducten from "./Aanvoerder/AangemeldeProducten.jsx";
-import VerkoopOverzicht from "./Aanvoerder/VerkoopOverzicht.jsx";
-//Veiling scherm
-import VeilingScherm from "./VeilingScherm.jsx";
+import Aanvoerder from "./Aanvoerder/Aanvoerder";
+import ProductAanmelden from "./Aanvoerder/ProductAanmelden";
+import AangemeldeProducten from "./Aanvoerder/AangemeldeProducten";
+import VerkoopOverzicht from "./Aanvoerder/VerkoopOverzicht";
+
+// Veiling scherm
+import VeilingScherm from "./VeilingScherm";
 
 function Home() {
     const navigate = useNavigate();
@@ -39,23 +41,11 @@ function App() {
 
             <Route path="/veilingscherm" element={<VeilingScherm />} />
 
-            <Route path="/aanvoerder" element={<Aanvoerder  /> }>
+            <Route path="/aanvoerder" element={<Aanvoerder />}>
                 <Route path="product-aanmelden" element={<ProductAanmelden />} />
                 <Route path="aangemelde-producten" element={<AangemeldeProducten />} />
                 <Route path="verkoop-overzicht" element={<VerkoopOverzicht />} />
             </Route>
-
-            {/* 
-            <Route path="/veilingmeester" element={<Veilingmeester /> }>
-                <Route path=""
-            </Route>
-            */}
-
-            {/*
-            <Route path="bieden" />
-            <Route path="producten" />
-            */}
-            
         </Routes>
     );
 }

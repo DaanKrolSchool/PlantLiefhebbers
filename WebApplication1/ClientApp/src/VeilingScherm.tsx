@@ -1,6 +1,6 @@
 ﻿import './VeilingScherm.css';
-import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function VeilingScherm() {
     const [naam, setNaam] = useState("");
