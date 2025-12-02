@@ -4,15 +4,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-public class PlantLiefhebbersContext : DbContext
+public class PlantLiefhebbersContext : IdentityDbContext<User>
 {
     public PlantLiefhebbersContext(DbContextOptions<PlantLiefhebbersContext> options)
         : base(options)
     {
         DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
-
     }
-
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
     public DbSet<Veiling> veiling { get; set; }
@@ -22,21 +20,11 @@ public class PlantLiefhebbersContext : DbContext
 
     public PlantLiefhebbersContext()
     {
-        //var folder = Environment.SpecialFolder.LocalApplicationData;
-        //var path = Environment.GetFolderPath(folder);
         DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
     }
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        // Only run UseSqlite if no options (like UseInMemoryDatabase) have been passed in.
-        if (!options.IsConfigured)
-        {
-            options.UseSqlite($"Data Source={DbPath}");
-        }
-    }
+        => options.UseSqlite($"Data Source={DbPath}");
 }
 
 public class Klant {

@@ -7,6 +7,8 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using WebApplication1.Services;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 
@@ -50,20 +52,24 @@ namespace WebApplication1
             builder.Services.AddRouting();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
-            builder.Services.AddIdentity<User, IdentityRole>()
+            builder.Services
+                .AddIdentityApiEndpoints<User>()
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<PlantLiefhebbersContext>()
-                .AddDefaultTokenProviders();                
-            builder.Services.AddScoped<RoleManager<IdentityRole>>();
+                .AddEntityFrameworkStores<PlantLiefhebbersContext>();
+
+            builder.Services.AddAuthorization();
             builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 
-                //cors dingen
-                builder.Services.AddCors(options =>
+            //cors dingen   
+            builder.Services.AddCors(options =>
             {
-               options.AddPolicy("AllowLocalDev",
-                   policy => policy.AllowAnyOrigin()
-                                   .AllowAnyMethod()
-                                   .AllowAnyHeader());
+                options.AddPolicy("AllowLocalDev", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")   // frontend origin (exact!)
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
             });
 
 
@@ -100,13 +106,6 @@ namespace WebApplication1
                 });
             });
         }
-
-    builder.Services.AddAuthentication()
-    .AddBearerToken(IdentityConstants.BearerScheme,
-    options =>
-    {
-        options.BearerTokenExpiration = TimeSpan.FromMinutes(60.0);
-    });
 
             var app = builder.Build();
 

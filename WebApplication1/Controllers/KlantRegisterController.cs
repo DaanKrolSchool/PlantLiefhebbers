@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 
@@ -11,17 +12,19 @@ namespace WebApplication1.Controllers
     [Route("[controller]")]
     public class KlantRegisterController : ControllerBase
     {
-        private readonly PlantLiefhebbersContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public KlantRegisterController(PlantLiefhebbersContext context)
+        public KlantRegisterController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] KlantRegisterDto dto)
         {
-            // === Validation ===
+            // validatie
             if (string.IsNullOrWhiteSpace(dto.naam))
                 return BadRequest("Naam is verplicht.");
 
@@ -31,37 +34,32 @@ namespace WebApplication1.Controllers
             if (string.IsNullOrWhiteSpace(dto.wachtwoord) || dto.wachtwoord.Length < 6)
                 return BadRequest("Wachtwoord moet minstens 6 tekens lang zijn.");
                         
-            bool emailBestaat = await _context.klant.AnyAsync(k => k.email == dto.email);
-            if (emailBestaat)
+            var emailBestaat = await _userManager.FindByEmailAsync(dto.email);
+            if (emailBestaat != null)
                 return BadRequest("Email bestaat al.");
 
+            var naamBestaat = await _userManager.FindByNameAsync(dto.naam);
+            if (naamBestaat != null)
+                return BadRequest("Naam bestaat al");
 
             // dto naar model
-            var klant = new Klant
+            var user = new User
             {
-                naam = dto.naam,
+                UserName = dto.naam,
                 adres = dto.adres,
-                email = dto.email,
-                wachtwoord = dto.wachtwoord // later hashen
+                Email = dto.email
             };
 
-            await _context.klant.AddAsync(klant);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, dto.wachtwoord);
 
+            if (!result.Succeeded)
+                return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
-            // model naar dto
-            var klantDto = new KlantDto
-            {
-                klantId = klant.klantId,
-                naam = klant.naam,
-                email = klant.email
-            };
+            // rol toevoegen
+            if (await _roleManager.RoleExistsAsync("Aanvoerder"))
+                await _userManager.AddToRoleAsync(user, "Aanvoerder");
 
-            return Ok(new
-            {
-                message = "Registratie succesvol!",
-                klant = klantDto
-            });
+            return Ok(new { message = "Registratie succesvol!", user.Email });
         }
     }
 }
