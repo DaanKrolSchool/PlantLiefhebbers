@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using WebApplication1.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 
 
@@ -50,12 +52,38 @@ namespace WebApplication1
 
             builder.Services.AddControllers();
             builder.Services.AddRouting();
+            builder.Services.AddScoped<JwtTokenService>();
             builder.Services.AddDbContext<PlantLiefhebbersContext>();
 
             builder.Services
                 .AddIdentityApiEndpoints<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PlantLiefhebbersContext>();
+
+            // JWT authenticatie
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
+            })
+            // bearer token
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+                    )
+                };
+            });
 
             builder.Services.AddAuthorization();
             builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();

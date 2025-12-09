@@ -50,9 +50,19 @@ function AangemeldeProducten() {
     }, []);
 
     const saveChanges = async (productId: number) => {
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Je bent niet ingelogd of token ontbreekt!");
+            return;
+        }
+
         const res = await fetch(`https://localhost:7225/Product/${productId}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify({
                 productId,
                 naam: editValues.naam,
@@ -64,7 +74,12 @@ function AangemeldeProducten() {
 
         if (res.ok) {
             setEditMode(null);
-            const res2 = await fetch("https://localhost:7225/Product/datum");
+            const res2 = await fetch("https://localhost:7225/Product/datum", {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
             const data: Product[] = await res2.json();
             setProducts(data);
         } else {
@@ -75,8 +90,19 @@ function AangemeldeProducten() {
     const deleteProduct = async (productId: number) => {
         if (!window.confirm("Weet je zeker dat je dit product wilt verwijderen?")) return;
 
+        const token = localStorage.getItem("token");
+        if (!token) {
+            alert("Je bent niet ingelogd of token ontbreekt!");
+            return;
+        }
+
+
         const res = await fetch(`https://localhost:7225/Product/${productId}`, {
             method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
         });
 
         if (res.ok) {
