@@ -7,7 +7,7 @@ function InlogScherm() {
     const [Password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    function CheckInlog(e) {
+    function CheckInlog(e: any) {
         e.preventDefault()
         if (Email === "Pedro@mail" && Password === "Pedro") {
             alert("Hoerey!! Succes!")
