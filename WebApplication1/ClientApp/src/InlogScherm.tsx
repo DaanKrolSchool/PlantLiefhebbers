@@ -17,7 +17,7 @@ function InlogScherm() {
 
         if (res.ok) {
             const data = await res.json(); // hier zit de token in
-            
+            //
             const token = data.token || data.accessToken;
             if (!token) {
                 alert("Geen token, error");
