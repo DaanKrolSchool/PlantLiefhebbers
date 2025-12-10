@@ -53,7 +53,9 @@ namespace WebApplication1
             builder.Services.AddControllers();
             builder.Services.AddRouting();
             builder.Services.AddScoped<JwtTokenService>();
-            builder.Services.AddDbContext<PlantLiefhebbersContext>();
+            builder.Services.AddDbContext<PlantLiefhebbersContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             builder.Services
                 .AddIdentityApiEndpoints<User>()

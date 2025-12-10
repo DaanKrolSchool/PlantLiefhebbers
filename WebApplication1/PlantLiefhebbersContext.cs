@@ -9,23 +9,15 @@ public class PlantLiefhebbersContext : IdentityDbContext<User>
     public PlantLiefhebbersContext(DbContextOptions<PlantLiefhebbersContext> options)
         : base(options)
     {
-        DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
     }
+
     public DbSet<Klant> klant { get; set; }
     public DbSet<Product> product { get; set; }
     public DbSet<Veiling> veiling { get; set; }
     public DbSet<Aanvoerder> aanvoerder { get; set; }
     public DbSet<Veilingmeester> veilingmeester { get; set; }
-    public string DbPath { get; }
-
-    public PlantLiefhebbersContext()
-    {
-        DbPath = System.IO.Path.Join(Environment.CurrentDirectory, "plantliefebbersontext.db");
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
 }
+
 
 public class Klant {
     public int klantId { get; set; }
