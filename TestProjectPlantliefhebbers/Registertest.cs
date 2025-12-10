@@ -1,48 +1,94 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApplication1.Controllers;
-using WebApplication1;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System.Threading.Tasks;
+using WebApplication1.Controllers;
 
-namespace WebApiTests
+public class RegisterTest
 {
-
-    public class Registertest
+    private Mock<UserManager<User>> GetMockUserManager()
     {
-        private PlantLiefhebbersContext GetInMemoryContext(string dbName)
+        var store = new Mock<IUserStore<User>>();
+        return new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+    }
+
+    private Mock<RoleManager<IdentityRole>> GetMockRoleManager()
+    {
+        var store = new Mock<IRoleStore<IdentityRole>>();
+        return new Mock<RoleManager<IdentityRole>>(store.Object, null, null, null, null);
+    }
+
+    [Fact]
+    public async Task MissingName()
+    {
+        var userManager = GetMockUserManager();
+        var roleManager = GetMockRoleManager();
+        var controller = new KlantRegisterController(userManager.Object, roleManager.Object);
+
+        var dto = new KlantRegisterDto
         {
-            var options = new DbContextOptionsBuilder<PlantLiefhebbersContext>()
-                .UseInMemoryDatabase(databaseName: dbName)
-                .Options;
+            naam = "",
+            email = "test@mail.com",
+            wachtwoord = "123456"
+        };
 
-            return new PlantLiefhebbersContext(options);
-        }
+        var result = await controller.Register(dto);
 
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
 
+    [Fact]
+    public async Task ExistingEmail()
+    {
+        var userManager = GetMockUserManager();
+        var roleManager = GetMockRoleManager();
 
-        [Fact]
-        public async Task register_test()
+        // Pretend user exists
+        userManager.Setup(x => x.FindByEmailAsync("test@mail.com"))
+                   .ReturnsAsync(new User());
+
+        var controller = new KlantRegisterController(userManager.Object, roleManager.Object);
+
+        var dto = new KlantRegisterDto
         {
-            var dbName = "test";
+            naam = "Justin",
+            email = "test@mail.com",
+            wachtwoord = "123456"
+        };
 
-            using (var context = GetInMemoryContext(dbName))
-            {
-                var controller = new KlantRegisterController(context);
-                
-                var klantDto = new KlantRegisterDto
-                {
-                    naam = null,
-                    adres = "TestAdres",
-                    email = "TestEmail",
-                    wachtwoord = "TestWachtwoord"
-                };
+        var result = await controller.Register(dto);
 
-                var result = await controller.Register(klantDto);
-                Assert.IsType<BadRequestObjectResult>(result);
-                //var badResult = Assert.IsType<BadRequestObjectResult>(result);
-                //Assert.Equal("Naam is verplicht.", badResult.Value);
+        Assert.IsType<BadRequestObjectResult>(result);
+    }
 
-            }
-        }
+    [Fact]
+    public async Task ValidData()
+    {
+        var userManager = GetMockUserManager();
+        var roleManager = GetMockRoleManager();
+
+        // Pretend no user exists
+        userManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+                   .ReturnsAsync((User)null);
+
+        userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>()))
+                   .ReturnsAsync((User)null);
+
+        // Pretend create succeeds
+        userManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
+                   .ReturnsAsync(IdentityResult.Success);
+
+        var controller = new KlantRegisterController(userManager.Object, roleManager.Object);
+
+        var dto = new KlantRegisterDto
+        {
+            naam = "Test",
+            email = "Test@gmail.com",
+            wachtwoord = "Test1!"
+        };
+
+        var result = await controller.Register(dto);
+
+        Assert.IsType<OkObjectResult>(result);
     }
 }
