@@ -8,6 +8,9 @@ function VeilingScherm() {
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
 
+    const [nextProducts, setNextProducts] = useState<string[]>([]);
+    const [currentProductId, setCurrentProductId] = useState<number | null>(null);
+
     const [hoeveelheid, setHoeveelheid] = useState<number>(0);
     const [potmaat, setPotmaat] = useState<number>(0);
     const [steellengte, setSteellengte] = useState<number>(0);
@@ -37,26 +40,94 @@ function VeilingScherm() {
             setHoeveelheid(data?.aantal ?? "—");
             setPotmaat(data?.potMaat ?? "—");
             setSteellengte(data?.steelLengte ?? "—");
+            setCurrentProductId(data?.productId ?? null);
+
+
+            const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            const nextData = await resNext.json();
+            setNextProducts(nextData);
+
         }
         fetchData();
     }, []);
 
+    async function fetchData() {
+        const token = localStorage.getItem("token");
+
+        // Eerste product ophalen
+        const res = await fetch(`https://localhost:7225/Product/eerste`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await res.json();
+
+        setNaam(data?.naam ?? "—");
+        setSoort(data?.soortPlant ?? "—");
+        setHoeveelheid(data?.aantal ?? 0);
+        setPotmaat(data?.potMaat ?? 0);
+        setSteellengte(data?.steelLengte ?? 0);
+        setCurrentProductId(data?.productId ?? null);
+
+        const resNext = await fetch(`https://localhost:7225/Product/volgende`);
+        const nextData = await resNext.json();
+        setNextProducts(nextData);
+    }
+
     useEffect(() => {
-        if (price > mprijs) {
-            const timer = setInterval(() => setPrice(prev => prev - (Speed * (0.5) / 60)), 1);
-            const percenttage = ((price - mprijs) / (StartPrice - mprijs)) * 100;
-            setProgresiebar(Math.max(0, Math.min(100, percenttage)));
-            return () => clearInterval(timer);
-        }
-        else {
-            alert("Helaasss, te lang gewacht");
-            //status van plantje op verkocht zetten
-        }
-    }, [price]);
+        if (!currentProductId) return;
 
-    function handleBuy() {
-        alert("GEFELICITEERD!!! Je hebt het plantje gekocht");
+        setPrice(StartPrice); 
+        setProgresiebar(100);
 
+        const timer = setInterval(() => {
+            setPrice(prev => {
+                const newPrice = prev - (Speed * 0.5) / 60;
+
+                if (newPrice <= mprijs) {
+                    clearInterval(timer);
+                    alert("Helaas, te lang gewacht!");
+                    return mprijs;
+                }
+
+                return newPrice;
+            });
+        }, 100);
+
+        return () => clearInterval(timer);
+    }, [currentProductId, mprijs]);
+
+    async function handleBuy() {
+        if (!currentProductId) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
+            await fetch(`https://localhost:7225/Product/${currentProductId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            alert("GEFELICITEERD!!! Je hebt het plantje gekocht");
+
+            await fetchData();
+
+            // Timer resetten
+            setPrice(StartPrice);
+            setProgresiebar(100);
+        } catch (error) {
+            console.error(error);
+            alert("Er is iets misgegaan bij het kopen van het plantje.");
+        }
     }
 
 
@@ -87,8 +158,11 @@ function VeilingScherm() {
             </div>
 
             <div className="NextProducts">
-                <h1> Volgende planten:</h1>
-                <p className="NextImage"> plaatje </p>
+                <h1>Volgende planten:</h1>
+
+                {nextProducts.map((naam, i) => (
+                    <p key={i} className="NextImage">{naam}</p>
+                ))}
             </div>
 
             <div className="Timer">

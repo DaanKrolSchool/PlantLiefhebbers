@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Authorize (Roles = "Aanvoerder")]
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
@@ -17,6 +16,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Aanvoerder")]
         public IActionResult AddProduct([FromBody] ProductCreateDto newProductDto)
         {
             var newProduct = new Product
@@ -55,6 +55,7 @@ namespace WebApplication1.Controllers
         }
         
         [HttpGet("datum")]
+        [Authorize]
         public IActionResult GetAllProducts()
         {
             var products = _context.product
@@ -79,6 +80,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("eerste")]
+        [AllowAnonymous]
         public async Task<ActionResult<Product>> GetEersteProduct()
         {
             var product = await _context.product
@@ -107,7 +109,38 @@ namespace WebApplication1.Controllers
         }
 
 
+        [HttpGet("volgende")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen()
+        {
+            // Haal het eerste product op
+            var eerste = await _context.product
+                .OrderBy(p => p.productId)
+                .FirstOrDefaultAsync();
+
+            if (eerste == null)
+                return Ok(new List<string> { "—", "—", "—" });
+
+            // Haal de 3 producten NA het eerste op
+            var volgende = await _context.product
+                .Where(p => p.productId > eerste.productId)
+                .OrderBy(p => p.productId)
+                .Take(3)
+                .Select(p => p.naam)
+                .ToListAsync();
+
+            // Vul aan met "—" tot we er 3 hebben
+            while (volgende.Count < 3)
+            {
+                volgende.Add("—");
+            }
+
+            return Ok(volgende);
+        }
+
+
         [HttpPut("{id}")]
+        [Authorize(Roles = "Aanvoerder")]
         public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateDto productUpdateDto)
         {
             if (id != productUpdateDto.productId) return BadRequest();
@@ -137,6 +170,8 @@ namespace WebApplication1.Controllers
 
 
         [HttpDelete("{id}")]
+        //[Authorize(Roles = "Aanvoerder")]
+        [Authorize] // TIJDELIJKE AANPASSING VOOR VEILING (nu worden de producten verwijderd ipv gekoppeld aan een klant die heeft gekocht)
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.product.FindAsync(id);
@@ -146,6 +181,9 @@ namespace WebApplication1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+
+
 
 
     }
