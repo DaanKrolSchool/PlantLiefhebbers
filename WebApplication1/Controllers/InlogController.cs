@@ -27,7 +27,7 @@ namespace WebApplication1.Controllers
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
-                return NotFound();
+                return BadRequest("Id niet gevonden");
 
             var dto = new KlantDto
             {
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
                 email = user.Email
             };
 
-            return dto;
+            return Ok(dto);
         }
 
 
@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
                 ?? await _userManager.FindByNameAsync(dto.email);
 
             if (user == null)
-                return NotFound("Gebruiker niet gevonden.");
+                return BadRequest("Email onbekend");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, dto.wachtwoord, false);
 

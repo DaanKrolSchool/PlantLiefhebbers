@@ -1,54 +1,135 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using WebApplication1.Controllers;
-//using WebApplication1;
-//using System.Threading.Tasks;
+﻿using Castle.Core.Configuration;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using System.Threading.Tasks;
+using WebApplication1;
+using WebApplication1.Controllers;
 
-//namespace WebApiTests
-//{
+namespace WebApiTests
+{
 
-//    public class Inlogtests
-//    {
-//        private PlantLiefhebbersContext GetInMemoryContext(string dbName)
-//        {
-//            var options = new DbContextOptionsBuilder<PlantLiefhebbersContext>()
-//                .UseInMemoryDatabase(databaseName: dbName)
-//                .Options;
+    public class Inlogtests
+    {
 
-//            return new PlantLiefhebbersContext(options);
-//        }
+        private Mock<UserManager<User>> GetMockUserManager()
+        {
+            var store = new Mock<IUserStore<User>>();
+            return new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+        }
 
+        private Mock<SignInManager<User>> GetMockSignInManager()
+        {
+            var store = new Mock<UserManager<User>>();
 
+            var userManager = GetMockUserManager().Object;
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+            var claimsFactory = new Mock<IUserClaimsPrincipalFactory<User>>();
 
-//        [Fact]
-//        public void Connectie_test()
-//        {
-//            var dbName = "test";
+            return new Mock<SignInManager<User>>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null, null);
+        }
 
-//            using (var context = GetInMemoryContext(dbName))
-//            {
-//                var controller = new InlogController(context);
+        //private Mock<JwtTokenService> GetMockTokenService()
+        //{
 
-//                var result = controller.Test();
-//                var okResult = Assert.IsType<OkObjectResult>(result);
+        //    var configMock = new Mock<IConfiguration>();
+        //    var store = new Mock<JwtTokenService>(configMock.Object);
+        //    return store;
+        //}
 
-//                Assert.Equal("Controller werkt", okResult.Value);
-//            }
-//        }
+        private readonly JwtTokenService _tokenService;
 
-//        [Fact]
-//        public async Task Id_test()
-//        {
-//            var dbName = "SimpeleTestDb";
+        [Fact]
+        public async Task NonExistingMail()
+        {
+            var userManager = GetMockUserManager();
+            var signInManager = GetMockSignInManager();
+            //var tokenService = GetMockTokenService();
 
-//            using (var context = GetInMemoryContext(dbName))
-//            {
-//                var controller = new InlogController(context);
+            var controller = new InlogController(signInManager.Object, userManager.Object, _tokenService);
+            
+            var dto = new LoginDto
+            {
+                email = "",
+                wachtwoord = ""
+            };
+            
+            var result = await controller.Login(dto);
 
-//                var result = controller.GetKlantID(1);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
 
-//                Assert.IsType<System.Threading.Tasks.Task<ActionResult<KlantDto>>>(result);
-//            }
-//        }
-//    }
-//}
+        [Fact]
+        public async Task WrongPassword()
+        {
+            var userManager = GetMockUserManager();
+            var signInManager = GetMockSignInManager();
+            //var tokenService = GetMockTokenService();
+
+            var mockUser = new User { UserName = "daan", Email = "daan@mail.com" };
+
+            userManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+                       .ReturnsAsync(mockUser);
+
+            signInManager.Setup(x => x.CheckPasswordSignInAsync(
+                It.IsAny<User>(),
+                It.IsAny<string>(), 
+                It.IsAny<bool>()
+            ))
+            .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+
+            var controller = new InlogController(signInManager.Object, userManager.Object, _tokenService);
+
+            var dto = new LoginDto
+            {
+                email = "daan@mail.com",
+                wachtwoord = "1111"
+            };
+
+            var result = await controller.Login(dto);
+
+            Assert.IsType<UnauthorizedObjectResult>(result);
+        }
+
+        //[Fact]
+        //public async Task ValidLogin()
+        //{
+        //    var userManager = GetMockUserManager();
+        //    var signInManager = GetMockSignInManager();
+        //    var tokenService = GetMockTokenService();
+
+        //    var mockUser = new User { UserName = "daan", Email = "daan@mail.com" };
+
+        //    userManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
+        //               .ReturnsAsync(mockUser);
+
+        //    signInManager.Setup(x => x.CheckPasswordSignInAsync(
+        //        It.IsAny<User>(),
+        //        It.IsAny<string>(),
+        //        It.IsAny<bool>()
+        //    ))
+        //    .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
+
+        //    userManager.Setup(x => x.GetRolesAsync(mockUser))
+        //       .ReturnsAsync(new List<string> { "Klant" });
+
+        //    tokenService.Setup(x => x.GenerateToken(mockUser, It.IsAny<IList<string>>()))
+        //            .Returns(""TEST_JWT_TOKEN_12345");
+
+        //    var controller = new InlogController(signInManager.Object, userManager.Object, _tokenService);
+
+        //    var dto = new LoginDto
+        //    {
+        //        email = "daan@mail.com",
+        //        wachtwoord = "1111"
+        //    };
+
+        //    var result = await controller.Login(dto);
+
+        //    Assert.IsType<UnauthorizedObjectResult>(result);
+        //}
+    }
+}
+
