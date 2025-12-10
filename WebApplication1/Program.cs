@@ -139,6 +139,13 @@ namespace WebApplication1
 
             var app = builder.Build();
 
+            // Dit is nodig zodat iedereen zijn eigen data bases heeft
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<PlantLiefhebbersContext>();
+                db.Database.Migrate();
+            }
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
