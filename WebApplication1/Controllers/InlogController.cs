@@ -67,7 +67,7 @@ namespace WebApplication1.Controllers
                 email = user.Email
             };
 
-            return Ok(new { token, klant = klantDto });
+            return Ok(new { token, rol = roles.FirstOrDefault(), klant = klantDto });
         }
 
         [HttpGet("email/{email}")]

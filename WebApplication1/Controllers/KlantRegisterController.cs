@@ -56,8 +56,11 @@ namespace WebApplication1.Controllers
                 return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
             // rol toevoegen
-            if (await _roleManager.RoleExistsAsync("Aanvoerder"))
-                await _userManager.AddToRoleAsync(user, "Aanvoerder");
+            if (!string.IsNullOrWhiteSpace(dto.rol) &&
+                await _roleManager.RoleExistsAsync(dto.rol))
+            {
+                await _userManager.AddToRoleAsync(user, dto.rol);
+            }
 
             return Ok(new { message = "Registratie succesvol!", user.Email });
         }

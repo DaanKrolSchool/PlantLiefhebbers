@@ -2,11 +2,6 @@
 import './RegisterAndInlog.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 
-//const users = [
-    //{ id: 1, email: "user@mail", password: "0000", name: "Klant", type: "Klant" },
-   // { id: 2, email: "klant@mail", password: "0000", name: "klant2", type: "Klant" },
-   // { id: 3, email: "pedro@mail", password: "Pedro", name: "Pedro", type: "Aanvoerder" },
-//];
 function InlogScherm() {
     const [email, setEmail] = useState(""); // email or id
     const [wachtwoord, setWachtwoord] = useState("");
@@ -22,6 +17,7 @@ function InlogScherm() {
 
         if (res.ok) {
             const data = await res.json(); // hier zit de token in
+            //
             const token = data.token || data.accessToken;
             if (!token) {
                 alert("Geen token, error");
@@ -29,7 +25,16 @@ function InlogScherm() {
             }
             localStorage.setItem("token", token);
             alert("Welkom")
-            navigate("/aanvoerder/aangemelde-producten");
+
+            const rol = (data.rol || "").toLowerCase();
+
+            if (rol === "veilingmeester") {
+                navigate("/veilingmeester/veiling-beheren");
+            } else if (rol === "aanvoerder") {
+                navigate("/aanvoerder/product-aanmelden");
+            } else if (rol === "klant") {
+                navigate("/veilingscherm");
+            }
         } else {
             alert("Onjuiste gebruikersgegevens!");
         }
