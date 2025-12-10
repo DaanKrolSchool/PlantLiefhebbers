@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState<{ username: string; email: string; password: string }>({
+    const [formData, setFormData] = useState<{ username: string; email: string; password: string; rol: string }>({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        rol: ''
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +22,7 @@ function Register() {
             naam: formData.username,
             email: formData.email,
             wachtwoord: formData.password,
+            rol: formData.rol,
             adres: "" 
         };
 
@@ -82,6 +84,21 @@ function Register() {
                         required
                     />
                 </div>
+
+                <div>
+                    <select
+                        name="rol"
+                        value={formData.rol}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Selecteer een rol</option>
+                        <option value="klant">Klant</option>
+                        <option value="aanvoerder">Aanvoerder</option>
+                        <option value="veilingmeester">Veilingmeester</option>
+                    </select>
+                </div>
+
 
                 <div>
                     <button className="RegisterSubmit" type="submit">Registreren</button>

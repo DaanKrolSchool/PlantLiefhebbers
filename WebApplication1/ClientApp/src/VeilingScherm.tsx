@@ -2,6 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+
+
 function VeilingScherm() {
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
@@ -22,7 +24,13 @@ function VeilingScherm() {
 
     useEffect(() => {
         async function fetchData() {
-            const res = await fetch(`https://localhost:7225/Product/eerste`);
+            const token = localStorage.getItem("token");
+            const res = await fetch(`https://localhost:7225/Product/eerste`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
             const data = await res.json();
             setNaam(data?.naam ?? "—");
             setSoort(data?.soortPlant ?? "—");
