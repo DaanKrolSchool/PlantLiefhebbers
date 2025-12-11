@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 function ProductAanmelden() {
+
     const [naam, setNaam] = useState("");
     const [soortPlant, setSoortPlant] = useState("");
     const [aantal, setAantal] = useState("");
@@ -15,10 +16,11 @@ function ProductAanmelden() {
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
-    
+    // product aanmelden functie
     async function productAanmelden(e) {
-        e.preventDefault();
+        e.preventDefault(); // voorkom herladen van de pagina
         const token = localStorage.getItem("token");
+        // post request naar de api 
         const res = await fetch(`https://localhost:7225/Product`, {
             method: "POST",
             headers: {
@@ -37,7 +39,7 @@ function ProductAanmelden() {
                 aanvoerderId: 1 // Hardcoded aanvoerderId (PAS LATER AAN)
             }),
         });
-
+        
         if (res.ok) {
             setNotf("Product toegevoegd!")
             setTimeout(() => setNotf!(""), 2500)
@@ -51,6 +53,7 @@ function ProductAanmelden() {
         <div className="aanvoerder">
             <form className="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
+                {/* formulier voor product aanmelden, spreek voor zich (denk ik) */}
                 <label htmlFor="naam">Naam:</label>
                 <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
                 <label htmlFor="soort">Soort:</label>

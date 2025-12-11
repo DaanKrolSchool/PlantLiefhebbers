@@ -21,6 +21,8 @@ function Register() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+
+        // klant aanmaken
         const klantData = {
             naam: formData.username,
             email: formData.email,
@@ -30,6 +32,7 @@ function Register() {
         };
 
         try {
+            //post klant in db
             const response = await fetch("https://localhost:7225/klantregister/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -37,13 +40,13 @@ function Register() {
             });
 
             if (response.ok) {
+                // naar hoofd pagina
                 const result = await response.json();
                 setNotf(result.message);
                 setTimeout(() => setNotf!(""), 2500);
-                navigate("/"); // go back to home
+                navigate("/"); 
             } else {
                 const error = await response.text();
-
                 setError("Mislukt: " + error);
                 setTimeout(() => setError!(""), 2500);
             }

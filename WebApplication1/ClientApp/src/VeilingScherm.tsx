@@ -7,10 +7,8 @@ import { useState, useEffect } from 'react';
 function VeilingScherm() {
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
-
     const [nextProducts, setNextProducts] = useState<string[]>([]);
     const [currentProductId, setCurrentProductId] = useState<number | null>(null);
-
     const [hoeveelheid, setHoeveelheid] = useState<number>(0);
     const [potmaat, setPotmaat] = useState<number>(0);
     const [steellengte, setSteellengte] = useState<number>(0);

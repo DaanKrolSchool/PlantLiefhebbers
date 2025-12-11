@@ -1,5 +1,6 @@
 import React from 'react';
 
+// hier ga ik geen eens comments bij zetten
 function VerkoopOverzicht() {
     return (
         <div className="aanvoerder">
