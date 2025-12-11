@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 
-
+//de teypes aangeven van alle variabele
 type Product = {
     productId: number;
     naam: string;
@@ -21,18 +20,21 @@ type EditValues = {
 
 
 function AangemeldeProducten() {
-
+    //de getters en setters
     const [editMode, setEditMode] = useState<number | null>(null);
     const [editValues, setEditValues] = useState<EditValues>({ prijsVerandering: 0, maximumPrijs: 0 });
     const [products, setProducts] = useState<Product[]>([]);
-
+    //constante
+    //de dag van vandaag
     const today = new Date();
+    //deze kijkt naar welke producten nog na vandaag komen.
     const upcomingProducts = products.filter(product => new Date(product.veilDatum) >= today);
 
-
+    //Deze gebruikt productController om zo alle producten te krijgen.
     useEffect(() => {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
+            //de locatie waar hij te vinden is binnen de controller
             const res = await fetch(`https://localhost:7225/Product/datum`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -50,13 +52,13 @@ function AangemeldeProducten() {
     }, []);
 
     const saveChanges = async (productId: number) => {
-
+        //hier checkt hij of je wel recht hebt om de producten te bekijken
         const token = localStorage.getItem("token");
         if (!token) {
             alert("Je bent niet ingelogd of token ontbreekt!");
             return;
         }
-
+        //dit is nodig zodat een veiling meester de prijs kan aanpassen, begin en max prijs
         const res = await fetch(`https://localhost:7225/Product/veilingMeester/${productId}`, {
             method: "PUT",
             headers: {
@@ -70,6 +72,7 @@ function AangemeldeProducten() {
             }),
         });
 
+        //hier word er gekeken naar welke datum hoort bij welk product en zet hem in een volgorde
         if (res.ok) {
             setEditMode(null);
             const res2 = await fetch("https://localhost:7225/Product/datum", {
@@ -85,16 +88,19 @@ function AangemeldeProducten() {
         }
     };
 
+    //Dit is nodig om een product te kunnen verwijderen
     const deleteProduct = async (productId: number) => {
+        //wanneer er word geklikt op dat je zeker bent het product te willen verwijderen
         if (!window.confirm("Weet je zeker dat je dit product wilt verwijderen?")) return;
 
         const token = localStorage.getItem("token");
+        //voor wanneer je het recht niet hebt om dit te doen
         if (!token) {
             alert("Je bent niet ingelogd of token ontbreekt!");
             return;
         }
 
-
+        //om een product te kunnen verwijderen, komt ook uit de product controller
         const res = await fetch(`https://localhost:7225/Product/${productId}`, {
             method: "DELETE",
             headers: {
@@ -111,13 +117,15 @@ function AangemeldeProducten() {
         }
     };
 
-
+    //je gebruikt waar de producten zijn gesorteerd op datum dan geef je de aankomende producten
     const groupedByDate = upcomingProducts.reduce((groups: Record<string, Product[]>, product) => {
         const date = new Date(product.veilDatum).toLocaleDateString("nl-NL", {
+            //het aangeven welk deel van de datum waarbij hoort
             year: "numeric",
             month: "long",
             day: "numeric",
         });
+
         if (!groups[date]) groups[date] = [];
         groups[date].push(product);
         return groups;
@@ -211,3 +219,4 @@ function AangemeldeProducten() {
 }
 
 export default AangemeldeProducten;
+
