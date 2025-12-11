@@ -109,7 +109,6 @@ input[type="submit"].veilingmeester:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    align-items: flex-start;
 }
 
 .product-kaart {
@@ -117,26 +116,50 @@ input[type="submit"].veilingmeester:hover {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px 15px;
+    width: 250px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .product-kaart h3 {
     color: black;
+    margin-top: 0;
 }
 
 .product-kaart p {
     color: #40484F;
 }
 
-.product-kaart label {
+.edit-container {
     display: flex;
-    margin-top: 5px;
+    flex-direction: column;
 }
 
-.product-kaart label input {
-    align-self: center;
-    width: 30px;
-    height: 1rem;
-    border-radius: 5px;
+.edit-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+
+.edit-row input {
+    flex: 1;
+    height: 16px;
     border: 1px solid #ccc;
+    margin: 4px 0;
+}
+
+.edit-row-naam {
+    height: 22px;
+    padding-bottom: 20px;
+}
+
+.beheer-knop {
+    background-color: #D0B070;
+    color: black;
 }

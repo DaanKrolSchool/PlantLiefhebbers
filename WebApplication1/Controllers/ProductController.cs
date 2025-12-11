@@ -69,10 +69,12 @@ namespace WebApplication1.Controllers
                     potMaat = p.potMaat,
                     steelLengte = p.steelLengte,
                     minimumPrijs = p.minimumPrijs,
+                    prijsVerandering = p.prijsVerandering,
                     maximumPrijs = p.maximumPrijs,
                     klokLocatie = p.klokLocatie,
                     veilDatum = p.veilDatum,
-                    aanvoerderId = p.aanvoerderId
+                    aanvoerderId = p.aanvoerderId,
+                    positie = p.positie
                 })
                 .ToList();
 
@@ -99,6 +101,7 @@ namespace WebApplication1.Controllers
                 potMaat = product.potMaat,
                 steelLengte = product.steelLengte,
                 minimumPrijs = product.minimumPrijs,
+                prijsVerandering = product.prijsVerandering,
                 maximumPrijs = product.maximumPrijs,
                 klokLocatie = product.klokLocatie,
                 veilDatum = product.veilDatum,
@@ -119,7 +122,7 @@ namespace WebApplication1.Controllers
                 .FirstOrDefaultAsync();
 
             if (eerste == null)
-                return Ok(new List<string> { "—", "—", "—" });
+                return Ok(new List<string> { "ï¿½", "ï¿½", "ï¿½" });
 
             // Haal de 3 producten NA het eerste op
             var volgende = await _context.product
@@ -129,17 +132,17 @@ namespace WebApplication1.Controllers
                 .Select(p => p.naam)
                 .ToListAsync();
 
-            // Vul aan met "—" tot we er 3 hebben
+            // Vul aan met "ï¿½" tot we er 3 hebben
             while (volgende.Count < 3)
             {
-                volgende.Add("—");
+                volgende.Add("ï¿½");
             }
 
             return Ok(volgende);
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("aanvoerder/{id}")]
         [Authorize(Roles = "Aanvoerder")]
         public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateDto productUpdateDto)
         {
@@ -167,6 +170,60 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
+        
+        [HttpPut("veilingMeester/{id}")]
+        [Authorize(Roles = "Veilingmeester")]
+        public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateVMDto productUpdateVMDto)
+        {
+            if (id != productUpdateVMDto.productId) return BadRequest();
+
+            var product = await _context.product.FindAsync(id);
+            if (product == null) return NotFound();
+            
+            product.prijsVerandering = productUpdateVMDto.prijsVerandering;
+            product.maximumPrijs = productUpdateVMDto.maximumPrijs;
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.product.Any(e => e.productId == id)) return NotFound();
+                else throw;
+            }
+
+            return NoContent();
+        }
+        
+        [HttpPut("positie/{id}")]
+        [Authorize(Roles = "Veilingmeester")]
+        public async Task<IActionResult> PutProduct(int id, [FromBody] ProductPositieDto productPositieDto)
+        {
+            if (id != productPositieDto.productId) return BadRequest();
+
+            var product = await _context.product.FindAsync(id);
+            if (product == null) return NotFound();
+
+            product.positie = productPositieDto.positie;
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.product.Any(e => e.productId == id)) return NotFound();
+                else throw;
+            }
+
+            return NoContent();
+        }
+        
 
 
         [HttpDelete("{id}")]

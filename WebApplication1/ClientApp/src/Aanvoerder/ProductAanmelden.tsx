@@ -28,8 +28,7 @@ function ProductAanmelden() {
                 aantal: parseInt(aantal), 
                 potMaat: potMaat ? parseInt(potMaat) : null, 
                 steelLengte: steelLengte ? parseInt(steelLengte) : null, 
-                minimumPrijs: parseFloat(minimumPrijs), 
-                maximumPrijs: 999,
+                minimumPrijs: parseFloat(minimumPrijs),
                 klokLocatie, 
                 veilDatum,
                 aanvoerderId: 1 // Hardcoded aanvoerderId (PAS LATER AAN)

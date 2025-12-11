@@ -57,7 +57,7 @@ function AangemeldeProducten() {
             return;
         }
 
-        const res = await fetch(`https://localhost:7225/Product/${productId}`, {
+        const res = await fetch(`https://localhost:7225/Product/aanvoerder/${productId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -133,59 +133,83 @@ function AangemeldeProducten() {
                     <div className="producten-rij">
                         {items.map(p => (
                             <div key={p.productId} className="product-kaart">
-                                <h3>{p.naam}</h3>
-                                <p>Soort: {p.soortPlant}</p>
-                                <p>Aantal: {p.aantal}</p>
-                                <p>Minimum Prijs: €{p.minimumPrijs.toFixed(2)}</p>
-                                <p>Locatie: {p.klokLocatie}</p>
 
                                 {editMode === p.productId ? (
-                                    <>
-                                        <input
-                                            value={editValues.naam}
-                                            onChange={e => setEditValues({ ...editValues, naam: e.target.value })}
-                                        />
-                                        <input
-                                            value={editValues.soortPlant}
-                                            onChange={e => setEditValues({ ...editValues, soortPlant: e.target.value })}
-                                        />
-                                        <input
-                                            type="number"
-                                            value={editValues.aantal}
-                                            onChange={e => setEditValues({ ...editValues, aantal: Number(e.target.value) })}
-                                        />
-                                        <input
-                                            type="number"
-                                            value={editValues.minimumPrijs}
-                                            onChange={e => setEditValues({ ...editValues, minimumPrijs: Number(e.target.value) })}
-                                        />
-                                        <button style={{ backgroundColor: "#D0B070", color: "black" }}
-                                                onClick={() => saveChanges(p.productId)}>Save</button>
-                                    </>
-                                ) : (
-                                    <div style={{ display: "flex", gap: "8px" }}>
-                                        <button
-                                            style={{ backgroundColor: "#D0B070", color: "black" }}
-                                            onClick={() => {
-                                                setEditMode(p.productId);
-                                                setEditValues({
-                                                    naam: p.naam,
-                                                    soortPlant: p.soortPlant,
-                                                    aantal: p.aantal,
-                                                    minimumPrijs: p.minimumPrijs,
-                                                });
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            style={{ backgroundColor: "#D0B070", color: "black" }}
-                                            onClick={() => deleteProduct(p.productId)}
-                                        >
-                                            Delete
-                                        </button>
+                                    <div className="edit-container">
+                                        <div className="edit-row-naam">
+                                            <input
+                                                value={editValues.naam}
+                                                onChange={e => setEditValues({ ...editValues, naam: e.target.value })}
+                                            />
+                                        </div>
+
+                                        <div className="edit-row">
+                                            <label>Soort: </label>
+                                            <input
+                                                value={editValues.soortPlant}
+                                                onChange={e => setEditValues({ ...editValues, soortPlant: e.target.value })}
+                                            />
+                                        </div>
+
+                                        <div className="edit-row">
+                                            <label>Aantal:</label>
+                                            <input
+                                                type="number"
+                                                value={editValues.aantal}
+                                                onChange={e => setEditValues({ ...editValues, aantal: Number(e.target.value) })}
+                                            />
+                                        </div>
+
+                                        <div className="edit-row">
+                                            <label>Min. Prijs:</label>
+                                            <input
+                                                type="number"
+                                                value={editValues.minimumPrijs}
+                                                onChange={e => setEditValues({ ...editValues, minimumPrijs: Number(e.target.value) })}
+                                            />
+                                        </div>
+
+                                        <p>Locatie: {p.klokLocatie}</p>
+                                        
+                                        <div className="edit-buttons">
+                                            <button className="beheer-knop" onClick={() => saveChanges(p.productId)}> Opslaan </button>
+
+                                            <button className="beheer-knop" onClick={() => setEditMode(null)}> Annuleren </button>
+                                        </div>
                                     </div>
+                                ) : (
+                                    <>
+                                        <h3>{p.naam}</h3>
+                                        <p>Soort: {p.soortPlant}</p>
+                                        <p>Aantal: {p.aantal}</p>
+                                        <p>Min. Prijs: €{p.minimumPrijs.toFixed(2)}</p>
+                                        <p>Locatie: {p.klokLocatie}</p>
+                                        <div className="edit-buttons">
+                                            <button
+                                                style={{ backgroundColor: "#D0B070", color: "black" }}
+                                                onClick={() => {
+                                                    setEditMode(p.productId);
+                                                    setEditValues({
+                                                        naam: p.naam,
+                                                        soortPlant: p.soortPlant,
+                                                        aantal: p.aantal,
+                                                        minimumPrijs: p.minimumPrijs,
+                                                    });
+                                                }}
+                                            >
+                                                Wijzigen
+                                            </button>
+
+                                            <button
+                                                style={{ backgroundColor: "#D0B070", color: "black" }}
+                                                onClick={() => deleteProduct(p.productId)}
+                                            >
+                                                Verwijderen
+                                            </button>
+                                        </div>
+                                    </>
                                 )}
+
                             </div>
                         ))}
                     </div>

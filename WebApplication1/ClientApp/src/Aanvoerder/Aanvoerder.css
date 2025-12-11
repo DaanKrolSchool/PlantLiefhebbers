@@ -116,14 +116,50 @@ input[type="submit"].aanvoerder:hover {
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px 15px;
-    width: 200px;
+    width: 250px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .product-kaart h3 {
     color: black;
+    margin-top: 0;
 }
 
 .product-kaart p {
     color: #40484F;
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+
+.edit-row input {
+    flex: 1;
+    height: 16px;
+    border: 1px solid #ccc;
+    margin: 4px 0;
+}
+
+.edit-row-naam {
+    height: 22px;
+    padding-bottom: 20px;
+}
+
+.beheer-knop {
+    background-color: #D0B070;
+    color: black;
 }

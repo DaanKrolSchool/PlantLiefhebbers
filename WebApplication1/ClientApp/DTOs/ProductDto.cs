@@ -7,8 +7,10 @@ public class ProductDto
 	public int? potMaat { get; set; }
 	public int? steelLengte { get; set; }
 	public float minimumPrijs { get; set; }
+	public float prijsVerandering { get; set; }
 	public float maximumPrijs { get; set; }
 	public string klokLocatie { get; set; }
 	public DateTime veilDatum { get; set; }
 	public int aanvoerderId { get; set; }
+	public int positie { get; set; }
 }

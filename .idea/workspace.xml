@@ -5,19 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4346c834-6a83-40c1-8088-f0c8614c11f2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/6ca747b8-f79f-4278-9067-28d84c41b1ed.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductPositieDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductUpdateVMDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/KlantDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/KlantDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/AangemeldeProducten.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/AangemeldeProducten.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/AangemeldeProducten.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/VeilingBeheren.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/VeilingBeheren.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/plantliefebbersontext.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,6 +59,9 @@
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/LoginDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductCreateDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductPositieDto.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductUpdateDto.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductUpdateVMDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" root0="SKIP_HIGHLIGHTING" />
@@ -63,10 +71,6 @@
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251008085915_InitialCreate.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009080055_klassendiagram_ingevoerd.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20251009123953_db_updated.Designer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
@@ -91,13 +95,13 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging master",
+    "git-widget-placeholder": "master",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/Applications/Rider.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "/Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/clientapp/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
