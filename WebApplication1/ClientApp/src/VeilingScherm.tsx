@@ -176,11 +176,16 @@ function VeilingScherm() {
 
             <div className="Timer">
                 €{price.toFixed(2)}
+
             </div>
 
-            <div className="ProgresBar">
-                <div className="ProgressFill" style={{ width: `${progresiebar}%` }}></div>
+            <div className="Klok">
+                <img src="/klok2.png" alt="Klok2" style={{ width: "65%" }} />
             </div>
+
+            {/*<div className="ProgresBar">*/}
+            {/*    <div className="ProgressFill" style={{ width: `${progresiebar}%` }}></div>*/}
+            {/*</div>*/}
 
 
             <button className="Buy" type="button" onClick={() => handleBuy()}>Kopen</button>

@@ -31,14 +31,6 @@ namespace WebApiTests
             return new Mock<SignInManager<User>>(userManager, contextAccessor.Object, claimsFactory.Object, null, null, null, null);
         }
 
-        //private Mock<JwtTokenService> GetMockTokenService()
-        //{
-
-        //    var configMock = new Mock<IConfiguration>();
-        //    var store = new Mock<JwtTokenService>(configMock.Object);
-        //    return store;
-        //}
-
         private readonly JwtTokenService _tokenService;
 
         [Fact]
@@ -46,7 +38,6 @@ namespace WebApiTests
         {
             var userManager = GetMockUserManager();
             var signInManager = GetMockSignInManager();
-            //var tokenService = GetMockTokenService();
 
             var controller = new InlogController(signInManager.Object, userManager.Object, _tokenService);
             
@@ -66,7 +57,6 @@ namespace WebApiTests
         {
             var userManager = GetMockUserManager();
             var signInManager = GetMockSignInManager();
-            //var tokenService = GetMockTokenService();
 
             var mockUser = new User { UserName = "daan", Email = "daan@mail.com" };
 
@@ -92,44 +82,6 @@ namespace WebApiTests
 
             Assert.IsType<UnauthorizedObjectResult>(result);
         }
-
-        //[Fact]
-        //public async Task ValidLogin()
-        //{
-        //    var userManager = GetMockUserManager();
-        //    var signInManager = GetMockSignInManager();
-        //    var tokenService = GetMockTokenService();
-
-        //    var mockUser = new User { UserName = "daan", Email = "daan@mail.com" };
-
-        //    userManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>()))
-        //               .ReturnsAsync(mockUser);
-
-        //    signInManager.Setup(x => x.CheckPasswordSignInAsync(
-        //        It.IsAny<User>(),
-        //        It.IsAny<string>(),
-        //        It.IsAny<bool>()
-        //    ))
-        //    .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success);
-
-        //    userManager.Setup(x => x.GetRolesAsync(mockUser))
-        //       .ReturnsAsync(new List<string> { "Klant" });
-
-        //    tokenService.Setup(x => x.GenerateToken(mockUser, It.IsAny<IList<string>>()))
-        //            .Returns(""TEST_JWT_TOKEN_12345");
-
-        //    var controller = new InlogController(signInManager.Object, userManager.Object, _tokenService);
-
-        //    var dto = new LoginDto
-        //    {
-        //        email = "daan@mail.com",
-        //        wachtwoord = "1111"
-        //    };
-
-        //    var result = await controller.Login(dto);
-
-        //    Assert.IsType<UnauthorizedObjectResult>(result);
-        //}
     }
 }
 

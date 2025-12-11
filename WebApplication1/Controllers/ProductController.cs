@@ -122,7 +122,7 @@ namespace WebApplication1.Controllers
                 .FirstOrDefaultAsync();
 
             if (eerste == null)
-                return Ok(new List<string> { "�", "�", "�" });
+                return Ok(new List<string> { "🪴", "🪴", "🪴" });
 
             // Haal de 3 producten NA het eerste op
             var volgende = await _context.product
@@ -132,10 +132,10 @@ namespace WebApplication1.Controllers
                 .Select(p => p.naam)
                 .ToListAsync();
 
-            // Vul aan met "�" tot we er 3 hebben
+            // Vul aan met "🪴" tot we er 3 hebben
             while (volgende.Count < 3)
             {
-                volgende.Add("�");
+                volgende.Add("🪴");
             }
 
             return Ok(volgende);
