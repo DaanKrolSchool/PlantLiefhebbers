@@ -67,6 +67,18 @@ nav.aanvoerder a.active:first-child {
     font-weight: bold;
 }
 
+.HomeButton {
+    position: absolute;
+    top: 20px;
+    right: 165px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 
 form.aanvoerder {
     margin: 5% 10%;
