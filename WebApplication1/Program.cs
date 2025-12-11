@@ -11,35 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-
-
-
-//using var db = new PlantLiefhebbersContext();
-//Console.WriteLine($"Database path: {db.DbPath}.");
-
-////Create
-//var nogeenklant = new Klant { klantId = 06006, naam = "tettesttest", adres = "denhaag", email = "test@email.com", wachtwoord = "0000" };
-//db.klant.Add(nogeenklant);
-//db.SaveChanges();
-//Console.WriteLine("Created: " + nogeenklant.naam);
-
-//// Read
-//var klant = db.klant.FirstOrDefault(k => k.klantId == 02006);
-//Console.WriteLine("Read: " + klant.naam);
-
-//// Update
-//klant.naam = "updatedtesttesttest";
-//db.SaveChanges();
-//Console.WriteLine("Updated");
-
-//// Delete
-//if (klant != null)
-//{
-//    db.klant.Remove(klant);
-//    db.SaveChanges();
-//    Console.WriteLine("Deleted: " + klant.naam);
-//}
-
 namespace WebApplication1
 {
     public class Program
@@ -50,25 +21,30 @@ namespace WebApplication1
 
             var builder = WebApplication.CreateBuilder(args);
 
+            // controller classes en api endpoints
             builder.Services.AddControllers();
             builder.Services.AddRouting();
+
+            // jwt
             builder.Services.AddScoped<JwtTokenService>();
+
+            //db connectie
             builder.Services.AddDbContext<PlantLiefhebbersContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+            // rollen services
             builder.Services
                 .AddIdentityApiEndpoints<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PlantLiefhebbersContext>();
 
             // JWT authenticatie
-
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "Bearer";
                 options.DefaultChallengeScheme = "Bearer";
             })
+
             // bearer token
             .AddJwtBearer("Bearer", options =>
             {
@@ -87,6 +63,7 @@ namespace WebApplication1
                 };
             });
 
+            // auth
             builder.Services.AddAuthorization();
             builder.Services.AddTransient<IEmailSender<User>, DummyEmailSender>();
 
