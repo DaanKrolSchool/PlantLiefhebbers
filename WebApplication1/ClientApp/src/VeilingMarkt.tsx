@@ -6,14 +6,20 @@ function InlogScherm() {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
 
     function CheckInlog(e: any) {
         e.preventDefault()
         if (Email === "Pedro@mail" && Password === "Pedro") {
-            alert("Hoerey!! Succes!")
+            setNotf("Hoerey!! Succes!")
+            setTimeout(() => setNotf!(""), 2500);
             navigate("/");
         }
-        else { alert("Goed geprobeert, maar dat klopt niet.") }
+        else {
+            setError("Goed geprobeert, maar dat klopt niet.")
+            setTimeout(() => setError!(""), 2500);
+        }
 
     }
     return (
@@ -39,6 +45,9 @@ function InlogScherm() {
                 />
                 <br />
             </form>
+
+            {error && <div className="ErrorBox">{error}</div>}
+            {notf && <div className="NotBox">{notf}</div>}
 
             <button className="CheckInlogButton" onClick={CheckInlog}>Verder</button>
             <button className="Back" type="button" onClick={() => navigate("/")}>Terug</button>

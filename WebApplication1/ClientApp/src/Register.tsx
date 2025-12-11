@@ -15,6 +15,9 @@ function Register() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -35,14 +38,18 @@ function Register() {
 
             if (response.ok) {
                 const result = await response.json();
-                alert(result.message);
+                setNotf(result.message);
+                setTimeout(() => setNotf!(""), 2500);
                 navigate("/"); // go back to home
             } else {
                 const error = await response.text();
-                alert("Registratie mislukt: " + error);
+
+                setError("Mislukt: " + error);
+                setTimeout(() => setError!(""), 2500);
             }
         } catch (err: any) {
-            alert("Er is een fout opgetreden: " + err.message);
+            setError("Er is een fout opgetreden: " + err.message);
+            setTimeout(() => setError!(""), 2500);
         }
     };
 
@@ -99,6 +106,8 @@ function Register() {
                     </select>
                 </div>
 
+                {error && <div className="ErrorBox">{error}</div>}
+                {notf && <div className="NotBox">{notf}</div>}
 
                 <div>
                     <button className="RegisterSubmit" type="submit">Registreren</button>

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\ErrorMassage.tsx" />
     <None Remove="ClientApp\src\Veilingmarkt.css" />
     <None Remove="ClientApp\src\VeilingMarkt.jsx" />
   </ItemGroup>
