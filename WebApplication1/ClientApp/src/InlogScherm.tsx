@@ -2,7 +2,7 @@
 import './RegisterAndInlog.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 function InlogScherm() {
-    const [email, setEmail] = useState(""); // email or id
+    const [email, setEmail] = useState("");
     const [wachtwoord, setWachtwoord] = useState("");
     const navigate = useNavigate();
     const [error, setError] = useState("");
@@ -18,22 +18,22 @@ function InlogScherm() {
         });
 
         if (res.ok) {
-            const data = await res.json(); // hier zit de token in
-            //
+            const data = await res.json(); // token data
             const token = data.token || data.accessToken;
             if (!token) {
-                //alert("Geen token, error");
                 setError("Geen token, error");
                 setTimeout(() => setError!(""), 2500);
                 return;
             }
+
             localStorage.setItem("token", token);
             setNotf("Welkom");
             setTimeout(() => setNotf!(""), 2500);
-            //alert("Welkom")
+            
 
             const rol = (data.rol || "").toLowerCase();
 
+            // navigatie gebaseerd op je rol
             if (rol === "veilingmeester") {
                 setTimeout(() => navigate("/veilingmeester/veiling-beheren"), 2500);
             } else if (rol === "aanvoerder") {
