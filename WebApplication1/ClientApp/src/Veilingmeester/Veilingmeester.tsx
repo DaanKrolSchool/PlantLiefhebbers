@@ -11,6 +11,7 @@ export default function Veilingmeester() {
                 <h1 class="veilingmeester">Veilingmeester Dashboard</h1>
             </header>
             <button className="LogOutButton" onClick={() => navigate("/")}>Uitloggen</button>
+            <button className="HomeButton" onClick={() => { navigate("/") }}>Home</button>
             <nav class="veilingmeester">
                 <NavLink to="/veilingmeester/veiling-beheren">Veiling Beheren</NavLink>
                 <NavLink to="/veilingmeester/aangemelde-producten">Aangemelde Producten</NavLink>
