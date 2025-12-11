@@ -29,6 +29,9 @@ function AangemeldeProducten() {
     const today = new Date();
     const upcomingProducts = products.filter(product => new Date(product.veilDatum) >= today);
 
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
+
 
     useEffect(() => {
         async function fetchProducts() {
@@ -53,7 +56,8 @@ function AangemeldeProducten() {
 
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Je bent niet ingelogd of token ontbreekt!");
+            setError("Je bent niet ingelogd of token ontbreekt!");
+            setTimeout(() => setError!(""), 2500)
             return;
         }
 
@@ -83,7 +87,8 @@ function AangemeldeProducten() {
             const data: Product[] = await res2.json();
             setProducts(data);
         } else {
-            alert("Error: " + res.status);
+            setError("Error: " + res.status);
+            setTimeout(() => setError!(""), 2500)
         }
     };
 
@@ -92,7 +97,8 @@ function AangemeldeProducten() {
 
         const token = localStorage.getItem("token");
         if (!token) {
-            alert("Je bent niet ingelogd of token ontbreekt!");
+            setError("Je bent niet ingelogd of token ontbreekt!");
+            setTimeout(() => setError!(""), 2500)
             return;
         }
 
@@ -107,9 +113,11 @@ function AangemeldeProducten() {
 
         if (res.ok) {
             setProducts(products.filter(p => p.productId !== productId));
-            alert("Product verwijderd!");
+            setNotf("Product verwijderd!");
+            setTimeout(() => setNotf!(""), 2500)
         } else {
-            alert("Error: " + res.status);
+            setError("Error: " + res.status);
+            setTimeout(() => setError!(""), 2500)
         }
     };
 
@@ -154,6 +162,10 @@ function AangemeldeProducten() {
                                             value={editValues.aantal}
                                             onChange={e => setEditValues({ ...editValues, aantal: Number(e.target.value) })}
                                         />
+
+                                        {error && <div className="ErrorBox">{error}</div>}
+                                        {notf && <div className="NotBox">{notf}</div>}
+
                                         <input
                                             type="number"
                                             value={editValues.minimumPrijs}

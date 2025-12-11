@@ -24,6 +24,9 @@ function VeilingScherm() {
 
     const [price, setPrice] = useState<number>(StartPrice);
 
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
+
 
     useEffect(() => {
         async function fetchData() {
@@ -92,7 +95,8 @@ function VeilingScherm() {
 
                 if (newPrice <= mprijs) {
                     clearInterval(timer);
-                    alert("Helaas, te lang gewacht!");
+                    setError("Helaas, te lang gewacht!")
+                    setTimeout(() => setError!(""), 2500)
                     return mprijs;
                 }
 
@@ -117,7 +121,8 @@ function VeilingScherm() {
                 }
             });
 
-            alert("GEFELICITEERD!!! Je hebt het plantje gekocht");
+            setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
+            setTimeout(() => setNotf!(""), 2500)
 
             await fetchData();
 
@@ -126,7 +131,8 @@ function VeilingScherm() {
             setProgresiebar(100);
         } catch (error) {
             console.error(error);
-            alert("Er is iets misgegaan bij het kopen van het plantje.");
+            setError("Er is iets misgegaan bij het kopen van het plantje.")
+            setTimeout(() => setError!(""), 2500)
         }
     }
 
@@ -148,6 +154,9 @@ function VeilingScherm() {
                 <p className="TitleL">Potmaat:</p>
                 <p className="FeatureL">{potmaat}</p>
             </div>
+
+            {error && <div className="ErrorBox">{error}</div>}
+            {notf && <div className="NotBox">{notf}</div>}
 
             <div className="KenmerkenR">
                 <p className="TitleR">Steel lengte:</p>

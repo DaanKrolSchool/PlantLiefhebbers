@@ -1,12 +1,14 @@
 ﻿import React, { useState } from "react";
 import './RegisterAndInlog.css';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
-
 function InlogScherm() {
     const [email, setEmail] = useState(""); // email or id
     const [wachtwoord, setWachtwoord] = useState("");
     const navigate = useNavigate();
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
 
+    
     async function checkLogin(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         const res = await fetch("https://localhost:7225/inlog/login", {
@@ -20,23 +22,29 @@ function InlogScherm() {
             //
             const token = data.token || data.accessToken;
             if (!token) {
-                alert("Geen token, error");
+                //alert("Geen token, error");
+                setError("Geen token, error");
+                setTimeout(() => setError!(""), 2500);
                 return;
             }
             localStorage.setItem("token", token);
-            alert("Welkom")
+            setNotf("Welkom");
+            setTimeout(() => setNotf!(""), 2500);
+            //alert("Welkom")
 
             const rol = (data.rol || "").toLowerCase();
 
             if (rol === "veilingmeester") {
-                navigate("/veilingmeester/veiling-beheren");
+                setTimeout(() => navigate("/veilingmeester/veiling-beheren"), 2500);
             } else if (rol === "aanvoerder") {
-                navigate("/aanvoerder/product-aanmelden");
+                setTimeout(() => navigate("/aanvoerder/product-aanmelden"), 2500);
             } else if (rol === "klant") {
-                navigate("/veilingscherm");
+                setTimeout(() => navigate("/veilingscherm"), 2500);
             }
         } else {
-            alert("Onjuiste gebruikersgegevens!");
+            setError("Onjuiste gebruikersgegevens!");
+            setTimeout(() => setError!(""), 2500);
+
         }
     }
 
@@ -61,6 +69,9 @@ function InlogScherm() {
                     onChange={(e) => setWachtwoord(e.target.value)}
 
                 />
+                
+                {error && <div className="ErrorBox">{error}</div>}
+                {notf && <div className="NotBox">{notf}</div>}
 
                 <div>
                     <button className="Submit" type="submit" onClick={checkLogin}>Verder</button>

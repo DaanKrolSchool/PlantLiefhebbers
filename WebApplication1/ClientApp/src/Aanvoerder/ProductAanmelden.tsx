@@ -12,6 +12,9 @@ function ProductAanmelden() {
     const [veilDatum, setVeilDatum] = useState("");
     // const [afbeelding, setAfbeelding] = useState("");
     // const [aanvoerderid, setAanvoerderid] = useState("");
+
+    const [error, setError] = useState("");
+    const [notf, setNotf] = useState("");
     
     async function productAanmelden(e) {
         e.preventDefault();
@@ -36,8 +39,13 @@ function ProductAanmelden() {
             }),
         });
 
-        if(res.ok) alert("Product toegevoegd!");
-        else alert("Er ging iets mis: error " + res.status);
+        if (res.ok) {
+            setNotf("Product toegevoegd!")
+            setTimeout(() => setNotf!(""), 2500)
+        } else {
+            setError("Er ging iets mis: error " + res.status)
+            setTimeout(() => setError!(""), 2500)
+        }
     }
     
     return (
@@ -63,7 +71,11 @@ function ProductAanmelden() {
                     <option value="eelde">Eelde</option>
                     <option value="naaldwijk">Naaldwijk</option>
                     <option value="rijnsburg">Rijnsburg</option>
-                </select><br/>
+                </select><br />
+
+                {error && <div className="ErrorBox">{error}</div>}
+                {notf && <div className="NotBox">{notf}</div>}
+
                 <label htmlFor="vdatum">Veildatum:</label>
                 <input type="date" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
                 <label htmlFor="afbeelding">Afbeelding:</label>
