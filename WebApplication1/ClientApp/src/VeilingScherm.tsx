@@ -180,7 +180,7 @@ function VeilingScherm() {
             </div>
 
             <div className="Klok">
-                <img src="/klok2.png" alt="Klok2" style={{ width: "65%" }} />
+                <img src="/klok2.png" alt="Klok2"/>
             </div>
 
             {/*<div className="ProgresBar">*/}
