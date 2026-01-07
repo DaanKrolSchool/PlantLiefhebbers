@@ -18,14 +18,16 @@ function VeilingScherm() {
     const [temperatuur, settemperatuur] = useState<number>(0);
     const [water, setwater] = useState<number>(0);
     const [leeftijd, setleeftijd] = useState<number>(0);
-    const StartPrice = 100.87;
-    const Speed = 1;
+
+    const [maxPrijs, setMaxPrijs] = useState<number>(0);
+    const [prijsVerandering, setPrijsVerandering] = useState<number>(0);
+
 
     const [progresiebar, setProgresiebar] = useState<number>(100);
 
     const navigate = useNavigate();
 
-    const [price, setPrice] = useState<number>(StartPrice);
+    const [price, setPrice] = useState<number>(0);
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
@@ -52,7 +54,10 @@ function VeilingScherm() {
             setwater(data?.water ?? 0);
             setleeftijd(data?.leeftijd ?? 0);
             setseizoensplant(data?.seizoensplant ?? "—");
-
+            // dit is de maxprijs & verandering die de veilingmeester invult
+            setMprijs(data?.minimumPrijs ?? 0);
+            setMaxPrijs(data?.maximumPrijs ?? 0);
+            setPrijsVerandering(data?.prijsVerandering ?? 0);
 
 
             const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
@@ -91,6 +96,10 @@ function VeilingScherm() {
         setleeftijd(data?.leeftijd ?? 0);
         setseizoensplant(data?.seizoensplant ?? "—");
         setCurrentProductId(data?.productId ?? null);
+        // dit doet de veilingmeester
+        setMprijs(data?.minimumPrijs ?? 0);
+        setMaxPrijs(data?.maximumPrijs ?? 0);
+        setPrijsVerandering(data?.prijsVerandering ?? 0);
 
         const resNext = await fetch(`https://localhost:7225/Product/volgende`);
         const nextData = await resNext.json();
@@ -100,26 +109,26 @@ function VeilingScherm() {
     useEffect(() => {
         if (!currentProductId) return;
 
-        setPrice(StartPrice); 
-        setProgresiebar(100);
+        setPrice(maxPrijs);
 
         const timer = setInterval(() => {
             setPrice(prev => {
-                const newPrice = prev - (Speed * 0.5) / 60;
+                const newPrice = prev - prijsVerandering;
 
                 if (newPrice <= mprijs) {
                     clearInterval(timer);
-                    setError("Helaas, te lang gewacht!")
-                    setTimeout(() => setError!(""), 2500)
+                    setError("Helaas, te lang gewacht!");
+                    setTimeout(() => setError(""), 2500);
                     return mprijs;
                 }
 
                 return newPrice;
             });
-        }, 100);
+        }, 1000);
 
         return () => clearInterval(timer);
-    }, [currentProductId, mprijs]);
+    }, [currentProductId, mprijs, maxPrijs, prijsVerandering]);
+
 
     async function handleBuy() {
         if (!currentProductId) return;
@@ -141,7 +150,7 @@ function VeilingScherm() {
             await fetchData();
 
             // Timer resetten
-            setPrice(StartPrice);
+            setPrice(maxPrijs);
             setProgresiebar(100);
         } catch (error) {
             console.error(error);

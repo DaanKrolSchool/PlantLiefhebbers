@@ -30,7 +30,11 @@ namespace WebApplication1
 
             //db connectie
             builder.Services.AddDbContext<PlantLiefhebbersContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            {
+                var cs = builder.Configuration.GetConnectionString("DefaultConnection");
+                Console.WriteLine(">>> CONNECTION STRING = " + cs);
+                options.UseSqlServer(cs);
+            });
 
             // rollen services
             builder.Services

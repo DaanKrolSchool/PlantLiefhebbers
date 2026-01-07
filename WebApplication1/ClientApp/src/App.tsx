@@ -14,6 +14,7 @@ import AangemeldeProducten from "./Aanvoerder/AangemeldeProducten";
 import VerkoopOverzicht from "./Aanvoerder/VerkoopOverzicht";
 
 // VeilingmeesterDashboard
+import VeilingmeesterRoute from "./Veilingmeester/VeilingmeesterRoute";
 import Veilingmeester from "./Veilingmeester/Veilingmeester";
 import VeilingBeheren from "./Veilingmeester/VeilingBeheren";
 import VAangemeldeProducten from "./Veilingmeester/AangemeldeProducten";
@@ -54,10 +55,12 @@ function App() {
                 <Route path="verkoop-overzicht" element={<VerkoopOverzicht />} />
             </Route>
 
-            <Route path="/veilingmeester" element={<Veilingmeester  /> }>
-                <Route path="veiling-beheren" element={<VeilingBeheren />} />
-                <Route path="aangemelde-producten" element={<VAangemeldeProducten />} />
-                <Route path="verkoop-overzicht" element={<VVerkoopOverzicht />} />
+            <Route element={<VeilingmeesterRoute />}>
+                <Route path="/veilingmeester" element={<Veilingmeester />}>
+                    <Route path="veiling-beheren" element={<VeilingBeheren />} />
+                    <Route path="aangemelde-producten" element={<VAangemeldeProducten />} />
+                    <Route path="verkoop-overzicht" element={<VVerkoopOverzicht />} />
+                </Route>
             </Route>
 
             {/*
