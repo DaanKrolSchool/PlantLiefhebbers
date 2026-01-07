@@ -108,7 +108,7 @@ function ProductAanmelden() {
                 {notf && <div className="NotBox">{notf}</div>}
 
                 <label htmlFor="vdatum">Veildatum:</label>
-                <input type="date" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
+                <input type="datetime-local" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
                 <label htmlFor="afbeelding">Afbeelding:</label>
                 <input type="file" id="afbeelding" name="afbeelding"/><br/><br/>
                 <input type="submit" value="Product aanmelden"/>

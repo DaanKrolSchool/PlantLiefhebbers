@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication1.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialSqlServer : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,12 +94,18 @@ namespace WebApplication1.Migrations
                     aantal = table.Column<int>(type: "int", nullable: false),
                     potMaat = table.Column<int>(type: "int", nullable: true),
                     steelLengte = table.Column<int>(type: "int", nullable: true),
+                    makkelijkheid = table.Column<int>(type: "int", nullable: true),
+                    seizoensplant = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    temperatuur = table.Column<int>(type: "int", nullable: true),
+                    water = table.Column<int>(type: "int", nullable: true),
+                    leeftijd = table.Column<int>(type: "int", nullable: true),
                     minimumPrijs = table.Column<float>(type: "real", nullable: false),
                     maximumPrijs = table.Column<float>(type: "real", nullable: false),
                     prijsVerandering = table.Column<float>(type: "real", nullable: false),
                     klokLocatie = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     veilDatum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    aanvoerderId = table.Column<int>(type: "int", nullable: false)
+                    aanvoerderId = table.Column<int>(type: "int", nullable: false),
+                    positie = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

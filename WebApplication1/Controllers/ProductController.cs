@@ -102,14 +102,18 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Product>> GetEersteProduct()
         {
+            var now = DateTime.Now;
+
             var product = await _context.product
-                .OrderBy(p => p.productId)
+                .Where(p => p.veilDatum <= now)
+                .OrderBy(p => p.veilDatum)
+                .ThenBy(p => p.productId)
                 .FirstOrDefaultAsync();
 
             if (product == null)
-                return NotFound();
+                return Ok(null);
 
-            var productDto = new ProductDto
+            return Ok(new ProductDto
             {
                 productId = product.productId,
                 naam = product.naam,
@@ -127,10 +131,9 @@ namespace WebApplication1.Controllers
                 maximumPrijs = product.maximumPrijs,
                 klokLocatie = product.klokLocatie,
                 veilDatum = product.veilDatum,
-                aanvoerderId = product.aanvoerderId
-            };
-
-            return Ok(productDto);
+                aanvoerderId = product.aanvoerderId,
+                positie = product.positie
+            });
         }
 
 

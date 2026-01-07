@@ -13,7 +13,7 @@ function VeilingScherm() {
     const [potmaat, setPotmaat] = useState<number>(0);
     const [steellengte, setSteellengte] = useState<number>(0);
     const [mprijs, setMprijs] = useState<number>(0);
-    const [makkelijkheid, setmakkelijkheid] = useState<number>(12);
+    const [makkelijkheid, setmakkelijkheid] = useState<number>(5);
     const [seizoensplant, setseizoensplant] = useState<string>("-");
     const [temperatuur, settemperatuur] = useState<number>(0);
     const [water, setwater] = useState<number>(0);
@@ -33,81 +33,100 @@ function VeilingScherm() {
     const [notf, setNotf] = useState("");
 
 
-    useEffect(() => {
-        async function fetchData() {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`https://localhost:7225/Product/eerste`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
-            const data = await res.json();
-            setNaam(data?.naam ?? "—");
-            setSoort(data?.soortPlant ?? "—");
-            setHoeveelheid(data?.aantal ?? 0);
-            setPotmaat(data?.potMaat ?? 0);
-            setSteellengte(data?.steelLengte ?? 0);
-            setCurrentProductId(data?.productId ?? null);
-            setmakkelijkheid(data?.makkelijkheid ?? 0);
-            settemperatuur(data?.temperatuur ?? 0);
-            setwater(data?.water ?? 0);
-            setleeftijd(data?.leeftijd ?? 0);
-            setseizoensplant(data?.seizoensplant ?? "—");
-            // dit is de maxprijs & verandering die de veilingmeester invult
-            setMprijs(data?.minimumPrijs ?? 0);
-            setMaxPrijs(data?.maximumPrijs ?? 0);
-            setPrijsVerandering(data?.prijsVerandering ?? 0);
-
-
-            const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
-
-            const nextData = await resNext.json();
-            setNextProducts(nextData);
-
-        }
-        fetchData();
-    }, []);
-
     async function fetchData() {
         const token = localStorage.getItem("token");
 
-        // Eerste product ophalen
+        // de huidige veiling die start
         const res = await fetch(`https://localhost:7225/Product/eerste`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         });
-        const data = await res.json();
 
-        setNaam(data?.naam ?? "—");
-        setSoort(data?.soortPlant ?? "—");
-        setHoeveelheid(data?.aantal ?? 0);
-        setPotmaat(data?.potMaat ?? 0);
-        setSteellengte(data?.steelLengte ?? 0);
-        setmakkelijkheid(data?.makkelijkheid ?? 0);
-        settemperatuur(data?.temperatuur ?? 0);
-        setwater(data?.water ?? 0);
-        setleeftijd(data?.leeftijd ?? 0);
-        setseizoensplant(data?.seizoensplant ?? "—");
-        setCurrentProductId(data?.productId ?? null);
-        // dit doet de veilingmeester
-        setMprijs(data?.minimumPrijs ?? 0);
-        setMaxPrijs(data?.maximumPrijs ?? 0);
-        setPrijsVerandering(data?.prijsVerandering ?? 0);
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : null;
 
-        const resNext = await fetch(`https://localhost:7225/Product/volgende`);
-        const nextData = await resNext.json();
-        setNextProducts(nextData);
+        // dit doet hij als er geen actieve veiling is
+        if (!data || !data.productId) {
+            setNaam("geen veiling gestart");
+            setSoort("—");
+            setHoeveelheid(0);
+            setPotmaat(0);
+            setSteellengte(0);
+            setmakkelijkheid(0);
+            settemperatuur(0);
+            setwater(0);
+            setleeftijd(0);
+            setseizoensplant("—");
+
+            setCurrentProductId(null);
+
+            setMprijs(0);
+            setMaxPrijs(0);
+            setPrijsVerandering(0);
+            setPrice(0);
+        } else {
+            setNaam(data.naam ?? "—");
+            setSoort(data.soortPlant ?? "—");
+            setHoeveelheid(data.aantal ?? 0);
+            setPotmaat(data.potMaat ?? 0);
+            setSteellengte(data.steelLengte ?? 0);
+            setCurrentProductId(data.productId ?? null);
+
+            setmakkelijkheid(data.makkelijkheid ?? 0);
+            settemperatuur(data.temperatuur ?? 0);
+            setwater(data.water ?? 0);
+            setleeftijd(data.leeftijd ?? 0);
+            setseizoensplant(data.seizoensplant ?? "—");
+
+            setMprijs(data.minimumPrijs ?? 0);
+            setMaxPrijs(data.maximumPrijs ?? 0);
+            setPrijsVerandering(data.prijsVerandering ?? 0);
+
+            setPrice(data.maximumPrijs ?? 0);
+        }
+
+        // 3 volgende producten
+        const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!resNext.ok) {
+            setNextProducts(["🪴", "🪴", "🪴"]);
+            return;
+        }
+
+        const nextText = await resNext.text();
+        const nextDataRaw = nextText ? JSON.parse(nextText) : [];
+
+        // Soms komt .NET als { $values: [...] }
+        const arr =
+            Array.isArray(nextDataRaw) ? nextDataRaw :
+                Array.isArray(nextDataRaw?.$values) ? nextDataRaw.$values :
+                    [];
+
+        setNextProducts(arr.length ? arr : ["🪴", "🪴", "🪴"]);
     }
 
+    // elke 2 secondden kijken of er een veiling gestart is
+    useEffect(() => {
+        fetchData();
+
+        const interval = setInterval(() => {
+            fetchData();
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Timer: loopt alleen als er een actief product is
     useEffect(() => {
         if (!currentProductId) return;
+        if (maxPrijs <= 0) return;
+        if (prijsVerandering <= 0) return;
 
         setPrice(maxPrijs);
 
@@ -127,15 +146,15 @@ function VeilingScherm() {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [currentProductId, mprijs, maxPrijs, prijsVerandering]);
-
+    }, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
 
     async function handleBuy() {
         if (!currentProductId) return;
 
         try {
             const token = localStorage.getItem("token");
-            // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
+
+            // TIJDELIJK: delete product (later koppelen aan klant)
             await fetch(`https://localhost:7225/Product/${currentProductId}`, {
                 method: "DELETE",
                 headers: {
@@ -144,18 +163,14 @@ function VeilingScherm() {
                 }
             });
 
-            setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
-            setTimeout(() => setNotf!(""), 2500)
+            setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht");
+            setTimeout(() => setNotf(""), 2500);
 
             await fetchData();
-
-            // Timer resetten
-            setPrice(maxPrijs);
-            setProgresiebar(100);
-        } catch (error) {
-            console.error(error);
-            setError("Er is iets misgegaan bij het kopen van het plantje.")
-            setTimeout(() => setError!(""), 2500)
+        } catch (e) {
+            console.error(e);
+            setError("Er is iets misgegaan bij het kopen van het plantje.");
+            setTimeout(() => setError(""), 2500);
         }
     }
 

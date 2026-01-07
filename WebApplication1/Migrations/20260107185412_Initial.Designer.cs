@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-    [Migration("20260106235748_AddLeeftijd")]
-    partial class AddLeeftijd
+    [Migration("20260107185412_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
