@@ -135,27 +135,27 @@ function VeilingScherm() {
 
         try {
             const token = localStorage.getItem("token");
-            // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
-            await fetch(`https://localhost:7225/Product/${currentProductId}`, {
-                method: "DELETE",
+
+            await fetch(`https://localhost:7225/Product/verkoop/${currentProductId}`, {
+                method: "PUT",
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             });
 
-            setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
-            setTimeout(() => setNotf!(""), 2500)
+            setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht 🌱");
+            setTimeout(() => setNotf(""), 2500);
 
-            await fetchData();
+            await fetchData(); // nieuw product ophalen
 
-            // Timer resetten
-            setPrice(maxPrijs);
+            setPrice(0);
             setProgresiebar(100);
+
         } catch (error) {
             console.error(error);
-            setError("Er is iets misgegaan bij het kopen van het plantje.")
-            setTimeout(() => setError!(""), 2500)
+            setError("Er is iets misgegaan bij het kopen van het plantje.");
+            setTimeout(() => setError(""), 2500);
         }
     }
 

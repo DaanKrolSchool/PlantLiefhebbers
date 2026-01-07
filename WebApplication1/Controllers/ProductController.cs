@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Claims;
 
 namespace WebApplication1.Controllers
 {
@@ -261,9 +262,48 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
+        [HttpPut("verkoop/{id}")]
+        [Authorize(Roles = "Klant")]
+        public async Task<IActionResult> VerkoopProduct(int id)
+        {
+            var product = await _context.product.FindAsync(id);
+            if (product == null) return NotFound();
+
+            if (product.isVerkocht)
+                return BadRequest("Dit product is al verkocht.");
+
+            product.isVerkocht = true;
+            product.verkoopPrijs = product.maximumPrijs ?? product.minimumPrijs;
+            product.verkoopDatum = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+
+        [HttpGet("verkocht")]
+        [Authorize(Roles = "Veilingmeester,Aanvoerder")]
+        public IActionResult GetAlleVerkochteProducten()
+        {
+            var verkocht = _context.product
+                .Where(p => p.isVerkocht)
+                .OrderByDescending(p => p.verkoopDatum)
+                .Select(p => new VerkochtProductDto
+                {
+                    productId = p.productId,
+                    naam = p.naam,
+                    verkoopPrijs = p.verkoopPrijs,
+                    verkoopDatum = p.verkoopDatum
+                })
+                .ToList();
+
+            return Ok(verkocht);
+        }
 
 
 
+
+        
 
     }
 }

@@ -11,7 +11,7 @@ public class ProductCreateDto
     public int? water { get; set; }
     public int? leeftijd { get; set; }
     public float minimumPrijs { get; set; }
-    public float maximumPrijs { get; set; }
+    public float? maximumPrijs { get; set; }
     public string klokLocatie { get; set; }
     public DateTime veilDatum { get; set; }
     public int aanvoerderId { get; set; }
