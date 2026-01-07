@@ -13,6 +13,12 @@ function ProductAanmelden() {
     const [veilDatum, setVeilDatum] = useState("");
     // const [afbeelding, setAfbeelding] = useState("");
     // const [aanvoerderid, setAanvoerderid] = useState("");
+    const [makkelijkheid, setmakkelijkheid] = useState("");
+    const [seizoensplant, setseizoensplant] = useState("");
+    const [temperatuur, settemperatuur] = useState("");
+    const [water, setwater] = useState("");
+    const [leeftijd, setleeftijd] = useState("");
+
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
@@ -32,7 +38,13 @@ function ProductAanmelden() {
                 soortPlant, 
                 aantal: parseInt(aantal), 
                 potMaat: potMaat ? parseInt(potMaat) : null, 
-                steelLengte: steelLengte ? parseInt(steelLengte) : null, 
+                steelLengte: steelLengte ? parseInt(steelLengte) : null,
+                makkelijkheid: makkelijkheid ? parseInt(makkelijkheid) : null,
+                temperatuur: temperatuur ? parseInt(temperatuur) : null,
+                water: water ? parseInt(water) : null,
+                leeftijd: leeftijd ? parseInt(leeftijd) : null,
+                seizoensplant: seizoensplant ? seizoensplant : null,
+
                 minimumPrijs: parseFloat(minimumPrijs),
                 klokLocatie, 
                 veilDatum,
@@ -63,7 +75,24 @@ function ProductAanmelden() {
                 <label htmlFor="potmaat">Potmaat:</label>
                 <input type="number" id="potmaat" min="0" step="1" name="potmaat" value={potMaat} onChange={(e) => setPotMaat(e.target.value)}/><br/>
                 <label htmlFor="steellengte">Steellengte</label>
-                <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)}/><br/>
+                <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)} /><br />
+                <label htmlFor="seizoen">Seizoen</label>
+                <select value={seizoensplant} onChange={(e) => setseizoensplant(e.target.value)} required>
+                    <option value="" disabled></option>
+                    <option value="niet van toepassing">Niet van toepassing</option>
+                    <option value="winter">Winter</option>
+                    <option value="lente">Lente</option>
+                    <option value="zomer">Zomer</option>
+                    <option value="herfst">Herfst</option>
+                </select><br />
+                <label htmlFor="temperatuur">Temperatuur</label>
+                <input type="number" value={temperatuur} onChange={(e) => settemperatuur(e.target.value)} />
+                <label htmlFor="water">Liter water per week</label>
+                <input type="number" value={water} onChange={(e) => setwater(e.target.value)} />
+                <label htmlFor="leeftijd">Leeftijd van de plant in maanden</label>
+                <input type="number" value={leeftijd} onChange={(e) => setleeftijd(e.target.value)} />
+                <label htmlFor="makkelijkheid">Makkelijkheid houdbaar houden van de plant (1/10)</label>
+                <input type="number" value={makkelijkheid} onChange={(e) => setmakkelijkheid(e.target.value)} />
                 <label htmlFor="mprijs">Minimumprijs:</label>
                 <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs" value={minimumPrijs} onChange={(e) => setMinimumPrijs(e.target.value)} required/><br/>
                 <label htmlFor="locatie">Kloklocatie:</label>

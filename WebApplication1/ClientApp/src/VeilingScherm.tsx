@@ -13,6 +13,11 @@ function VeilingScherm() {
     const [potmaat, setPotmaat] = useState<number>(0);
     const [steellengte, setSteellengte] = useState<number>(0);
     const [mprijs, setMprijs] = useState<number>(0);
+    const [makkelijkheid, setmakkelijkheid] = useState<number>(12);
+    const [seizoensplant, setseizoensplant] = useState<string>("-");
+    const [temperatuur, settemperatuur] = useState<number>(0);
+    const [water, setwater] = useState<number>(0);
+    const [leeftijd, setleeftijd] = useState<number>(0);
     const StartPrice = 100.87;
     const Speed = 1;
 
@@ -38,10 +43,16 @@ function VeilingScherm() {
             const data = await res.json();
             setNaam(data?.naam ?? "—");
             setSoort(data?.soortPlant ?? "—");
-            setHoeveelheid(data?.aantal ?? "—");
-            setPotmaat(data?.potMaat ?? "—");
-            setSteellengte(data?.steelLengte ?? "—");
+            setHoeveelheid(data?.aantal ?? 0);
+            setPotmaat(data?.potMaat ?? 0);
+            setSteellengte(data?.steelLengte ?? 0);
             setCurrentProductId(data?.productId ?? null);
+            setmakkelijkheid(data?.makkelijkheid ?? 0);
+            settemperatuur(data?.temperatuur ?? 0);
+            setwater(data?.water ?? 0);
+            setleeftijd(data?.leeftijd ?? 0);
+            setseizoensplant(data?.seizoensplant ?? "—");
+
 
 
             const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
@@ -74,6 +85,11 @@ function VeilingScherm() {
         setHoeveelheid(data?.aantal ?? 0);
         setPotmaat(data?.potMaat ?? 0);
         setSteellengte(data?.steelLengte ?? 0);
+        setmakkelijkheid(data?.makkelijkheid ?? 0);
+        settemperatuur(data?.temperatuur ?? 0);
+        setwater(data?.water ?? 0);
+        setleeftijd(data?.leeftijd ?? 0);
+        setseizoensplant(data?.seizoensplant ?? "—");
         setCurrentProductId(data?.productId ?? null);
 
         const resNext = await fetch(`https://localhost:7225/Product/volgende`);
@@ -151,6 +167,16 @@ function VeilingScherm() {
 
                 <p className="TitleL">Potmaat:</p>
                 <p className="FeatureL">{potmaat}</p>
+
+                <p className="TitleL">Seizoen:</p>
+                <p className="FeatureL">{seizoensplant}</p>
+
+
+                <p className="TitleL">Temperatuur:</p>
+                <p className="FeatureL">{temperatuur}</p>
+
+                <p className="TitleL">Makkelijkheid (1/10):</p>
+                <p className="FeatureL">{makkelijkheid}</p>
             </div>
 
             {error && <div className="ErrorBox">{error}</div>}
@@ -162,6 +188,13 @@ function VeilingScherm() {
 
                 <p className="TitleR">Hoeveelheid:</p>
                 <p className="FeatureR">{hoeveelheid}</p>
+
+                <p className="TitleR">L water per week:</p>
+                <p className="FeatureR">{water}</p>
+
+                <p className="TitleR">Leeftijd in maanden:</p>
+                <p className="FeatureR">{leeftijd}</p>
+
             </div>
 
             <div className="NextProducts">

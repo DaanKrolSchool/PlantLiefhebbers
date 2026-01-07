@@ -6,5 +6,10 @@ public class ProductUpdateDto
     public int aantal { get; set; }
     public int? potMaat { get; set; }
     public int? steelLengte { get; set; }
+    public int? makkelijkheid { get; set; }
+    public string? seizoensplant { get; set; }
+    public int? temperatuur { get; set; }
+    public int? water { get; set; }
+    public int? leeftijd { get; set; }
     public float minimumPrijs { get; set; }
 }

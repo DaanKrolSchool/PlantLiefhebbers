@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-    partial class PlantLiefhebbersContextModelSnapshot : ModelSnapshot
+    [Migration("20260106233930_Baseline_ProductSchema")]
+    partial class Baseline_ProductSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,9 +232,6 @@ namespace WebApplication1.Migrations
                     b.Property<string>("klokLocatie")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("leeftijd")
-                        .HasColumnType("int");
 
                     b.Property<int?>("makkelijkheid")
                         .HasColumnType("int");

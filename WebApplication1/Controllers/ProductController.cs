@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApplication1.Controllers
 {
@@ -19,6 +20,7 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult AddProduct([FromBody] ProductCreateDto newProductDto)
         {
+
             var newProduct = new Product
             {
                 naam = newProductDto.naam,
@@ -26,6 +28,11 @@ namespace WebApplication1.Controllers
                 aantal = newProductDto.aantal,
                 potMaat = newProductDto.potMaat,
                 steelLengte = newProductDto.steelLengte,
+                makkelijkheid = newProductDto.makkelijkheid,
+                temperatuur = newProductDto.temperatuur,
+                water = newProductDto.water,
+                leeftijd = newProductDto.leeftijd,
+                seizoensplant = newProductDto.seizoensplant,
                 minimumPrijs = newProductDto.minimumPrijs,
                 maximumPrijs = newProductDto.maximumPrijs,
                 klokLocatie = newProductDto.klokLocatie,
@@ -44,6 +51,11 @@ namespace WebApplication1.Controllers
                 aantal = newProduct.aantal,
                 potMaat = newProduct.potMaat,
                 steelLengte = newProduct.steelLengte,
+                makkelijkheid = newProduct.makkelijkheid,
+                temperatuur = newProductDto.temperatuur,
+                water = newProductDto.water,
+                leeftijd = newProductDto.leeftijd,
+                seizoensplant = newProductDto.seizoensplant,
                 minimumPrijs = newProduct.minimumPrijs,
                 maximumPrijs = newProduct.maximumPrijs,
                 klokLocatie = newProduct.klokLocatie,
@@ -68,6 +80,11 @@ namespace WebApplication1.Controllers
                     aantal = p.aantal,
                     potMaat = p.potMaat,
                     steelLengte = p.steelLengte,
+                    makkelijkheid = p.makkelijkheid,
+                    temperatuur = p.temperatuur,
+                    water = p.water,
+                    leeftijd = p.leeftijd,
+                    seizoensplant = p.seizoensplant,
                     minimumPrijs = p.minimumPrijs,
                     prijsVerandering = p.prijsVerandering,
                     maximumPrijs = p.maximumPrijs,
@@ -100,6 +117,11 @@ namespace WebApplication1.Controllers
                 aantal = product.aantal,
                 potMaat = product.potMaat,
                 steelLengte = product.steelLengte,
+                makkelijkheid = product.makkelijkheid,
+                temperatuur = product.temperatuur,
+                water = product.water,
+                leeftijd = product.leeftijd,
+                seizoensplant = product.seizoensplant,
                 minimumPrijs = product.minimumPrijs,
                 prijsVerandering = product.prijsVerandering,
                 maximumPrijs = product.maximumPrijs,
