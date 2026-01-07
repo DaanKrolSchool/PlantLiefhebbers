@@ -1,13 +1,48 @@
-import React from 'react';
+import { useEffect, useState } from "react";
 
-// hier ga ik geen eens comments bij zetten
+type VerkochtProduct = {
+    productId: number;
+    naam: string;
+    verkoopPrijs: number;
+    verkoopDatum: string;
+};
+
 function VerkoopOverzicht() {
+    const [verkopen, setVerkopen] = useState<VerkochtProduct[]>([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch("https://localhost:7225/Product/verkocht", {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+
+            const data = await res.json();
+            if (!Array.isArray(data)) return;
+            setVerkopen(data);
+        }
+
+        fetchData();
+    }, []);
+
+
     return (
-        <div className="aanvoerder">
-            <h2>10/10/2025</h2>
-            <p>plaatje</p>
-            <h2>11/10/2025</h2>
-            <p>plaatje</p>
+        <div className="producten-overzicht">
+            <h2>Mijn verkochte planten</h2>
+
+            {verkopen.length === 0 && <p>Nog geen verkochte planten.</p>}
+
+            {verkopen.map(p => (
+                <div key={p.productId} className="product-kaart">
+                    <h3>{p.naam}</h3>
+                    <p>Verkoopprijs: {p.verkoopPrijs.toFixed(2)}</p>
+                    <p>Verkoopdatum: {new Date(p.verkoopDatum).toLocaleString()}</p>
+                </div>
+            ))}
         </div>
     );
 }

@@ -181,9 +181,17 @@ function AangemeldeProducten() {
                                         <h3>{p.naam}</h3>
                                         <p>Soort: {p.soortPlant}</p>
                                         <p>Aantal: {p.aantal}</p>
-                                        <p>Min. Prijs: €{p.minimumPrijs.toFixed(2)}</p>
-                                        <p>Prijs Daling: €{p.prijsVerandering.toFixed(2)}</p>
-                                        <p>Max. Prijs: €{p.maximumPrijs.toFixed(2)}</p>
+                                            <p>Min. Prijs: €{p.minimumPrijs.toFixed(2)}</p>
+
+                                            <p>
+                                                Prijs Daling: €
+                                                {p.prijsVerandering != null ? p.prijsVerandering.toFixed(2) : "—"}
+                                            </p>
+
+                                            <p>
+                                                Max. Prijs: €
+                                                {p.maximumPrijs != null ? p.maximumPrijs.toFixed(2) : "—"}
+                                            </p>
                                         <p>Locatie: {p.klokLocatie}</p>
                                         <div className="edit-buttons">
                                             <button
