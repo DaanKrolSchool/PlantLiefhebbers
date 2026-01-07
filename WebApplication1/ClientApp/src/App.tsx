@@ -24,12 +24,25 @@ import VeilingScherm from "./VeilingScherm";
 
 function Home() {
     const navigate = useNavigate();
-
+    const token = localStorage.getItem("token");
+    const isIngelogd = !!token;
     return (
         <div className="App-background">
             <h1>Bied op planten</h1>
             <p>De plek om planten te kopen en verkopen,</p>
-            <button className="OverzichtButton" onClick={() => navigate("/VeilingScherm")}>Bekijk onze planten</button>
+            {isIngelogd ? (
+                <button
+                    className="OverzichtButton"
+                    onClick={() => navigate("/veilingscherm")}
+                >
+                    Bekijk onze planten
+                </button>
+            ) : (
+                <h2 className="LoginHint">
+                    Log eerst in om de veilingen te bekijken
+                </h2>
+            )}
+
             <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/aangemelde-producten")}>Aanvoerder overzicht</button>
             <button className="VeilingmeesterButton" onClick={() => navigate("/veilingmeester/aangemelde-producten")}>Veilingmeester overzicht</button>
             <button className="LoginButton" onClick={() => navigate("/inloggen")}>Inloggen</button>

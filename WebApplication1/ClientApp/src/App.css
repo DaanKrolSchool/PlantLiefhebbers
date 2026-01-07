@@ -20,6 +20,14 @@ h1, p {
     margin: 5px 0;
 }
 
+.LoginHint {
+    margin-top: 30px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+}
+
 .App-background {
     background-image: url('./assets/Hoofdpagina.png');
     background-size: cover;
