@@ -165,6 +165,7 @@ namespace WebApplication1.Controllers
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult AddProduct([FromBody] ProductCreateDto newProductDto)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var newProduct = new Product
             {
@@ -182,7 +183,7 @@ namespace WebApplication1.Controllers
                 maximumPrijs = newProductDto.maximumPrijs,
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
-                aanvoerderId = newProductDto.aanvoerderId,
+                aanvoerderId = userId,
                 aanvoerderNaam = newProductDto.aanvoerderNaam
             };
 
@@ -213,8 +214,43 @@ namespace WebApplication1.Controllers
             return Ok(productDto);
         }
         
-        [HttpGet("datum")]
-        [Authorize]
+        [HttpGet("aanvoerder/own")]
+        [Authorize(Roles = "Aanvoerder")]
+        public IActionResult GetOwnProducts()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var products = _context.product
+                .Where(p => p.aanvoerderId == userId)
+                .OrderBy(p => p.veilDatum)
+                .Select(p => new ProductDto
+                {
+                    productId = p.productId,
+                    naam = p.naam,
+                    soortPlant = p.soortPlant,
+                    aantal = p.aantal,
+                    potMaat = p.potMaat,
+                    steelLengte = p.steelLengte,
+                    makkelijkheid = p.makkelijkheid,
+                    temperatuur = p.temperatuur,
+                    water = p.water,
+                    leeftijd = p.leeftijd,
+                    seizoensplant = p.seizoensplant,
+                    minimumPrijs = p.minimumPrijs,
+                    prijsVerandering = p.prijsVerandering,
+                    maximumPrijs = p.maximumPrijs,
+                    klokLocatie = p.klokLocatie,
+                    veilDatum = p.veilDatum,
+                    aanvoerderId = p.aanvoerderId,
+                    positie = p.positie
+                })
+                .ToList();
+
+            return Ok(products);
+        }
+        
+        [HttpGet("veilingmeester/all")]
+        [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetAllProducts()
         {
             var products = _context.product
@@ -548,4 +584,4 @@ namespace WebApplication1.Controllers
         
 
     }
-} 
+}

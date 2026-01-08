@@ -14,7 +14,6 @@ function ProductAanmelden() {
     const [klokLocatie, setKlokLocatie] = useState("");
     const [veilDatum, setVeilDatum] = useState("");
     // const [afbeelding, setAfbeelding] = useState("");
-    // const [aanvoerderid, setAanvoerderid] = useState("");
     const [makkelijkheid, setmakkelijkheid] = useState("");
     const [seizoensplant, setseizoensplant] = useState("");
     const [temperatuur, settemperatuur] = useState("");
@@ -26,8 +25,6 @@ function ProductAanmelden() {
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
     // product aanmelden functie
-
-
     async function productAanmelden(e) {
         e.preventDefault(); // voorkom herladen van de pagina
         const token = localStorage.getItem("token");
@@ -53,7 +50,6 @@ function ProductAanmelden() {
                 minimumPrijs: parseFloat(minimumPrijs),
                 klokLocatie, 
                 veilDatum,
-                aanvoerderId: 1,
                 aanvoerderNaam: bedrijfnaam
             }),
         });

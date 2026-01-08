@@ -62,7 +62,7 @@ function AangemeldeProducten() {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
             //de locatie waar hij te vinden is binnen de controller
-            const res = await fetch(`https://localhost:7225/Product/datum`, {
+            const res = await fetch(`https://localhost:7225/Product/veilingmeester/all`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -103,7 +103,7 @@ function AangemeldeProducten() {
         //hier word er gekeken naar welke datum hoort bij welk product en zet hem in een volgorde
         if (res.ok) {
             setEditMode(null);
-            const res2 = await fetch("https://localhost:7225/Product/datum", {
+            const res2 = await fetch("https://localhost:7225/Product/veilingmeester/all", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"

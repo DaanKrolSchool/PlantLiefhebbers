@@ -21,7 +21,7 @@ function AangemeldeProducten() {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
 
-            const res = await fetch(`https://localhost:7225/Product/datum`, {
+            const res = await fetch(`https://localhost:7225/Product/veilingmeester/all`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"

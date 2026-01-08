@@ -36,7 +36,7 @@ function AangemeldeProducten() {
     useEffect(() => {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
-            const res = await fetch(`https://localhost:7225/Product/datum`, {
+            const res = await fetch(`https://localhost:7225/Product/aanvoerder/own`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -80,7 +80,7 @@ function AangemeldeProducten() {
         if (res.ok) {
             setEditMode(null); // stop de edit mode
             // vernieuw de productenlijst
-            const res2 = await fetch("https://localhost:7225/Product/datum", {
+            const res2 = await fetch("https://localhost:7225/Product/aanvoerder/own", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"

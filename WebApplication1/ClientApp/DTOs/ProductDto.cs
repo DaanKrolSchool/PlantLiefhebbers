@@ -17,7 +17,7 @@ public class ProductDto
 	public string klokLocatie { get; set; }
 	public DateTime? veilDatum { get; set; }
     public TimeSpan? veilTijd { get; set; }
-    public int aanvoerderId { get; set; }
+    public string aanvoerderId { get; set; }
 	public int positie { get; set; }
     public string aanvoerderNaam { get; set; }
 }
