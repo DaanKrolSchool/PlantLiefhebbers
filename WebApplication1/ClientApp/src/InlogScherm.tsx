@@ -32,7 +32,6 @@ function InlogScherm() {
             
 
             const rol = (data.rol || "").toLowerCase();
-            localStorage.setItem("rol", rol);
 
             // navigatie gebaseerd op je rol
             if (rol === "veilingmeester") {

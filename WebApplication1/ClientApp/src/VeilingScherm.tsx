@@ -1,6 +1,6 @@
 ﻿import './VeilingScherm.css';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tippy, { tippy } from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 //import 'tippy.js/themes/light.css';
@@ -296,7 +296,7 @@ function VeilingScherm() {
 
             <p className="MainImage"> plaatje </p>
 
-            <button className="Back" type="button" onClick={() => navigate(-1)}>Terug</button>
+            <button className="Back" type="button" onClick={() => { localStorage.removeItem("token"); navigate("/") }}>Uitloggen</button>
 
             <div className="KenmerkenL">
                 <h1> Kenmerken:</h1>
