@@ -4,4 +4,5 @@ public class VerkochtProductDto
     public string naam { get; set; }
     public float? verkoopPrijs { get; set; }
     public DateTime? verkoopDatum { get; set; }
+    public Boolean isVerkocht { get; set; }
 }

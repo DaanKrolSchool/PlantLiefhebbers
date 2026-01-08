@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import { useEffect } from "react";
+
 
 function ProductAanmelden() {
 
@@ -18,11 +20,14 @@ function ProductAanmelden() {
     const [temperatuur, settemperatuur] = useState("");
     const [water, setwater] = useState("");
     const [leeftijd, setleeftijd] = useState("");
+    const [bedrijfnaam, setBedrijfnaam] = useState("");
 
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
     // product aanmelden functie
+
+
     async function productAanmelden(e) {
         e.preventDefault(); // voorkom herladen van de pagina
         const token = localStorage.getItem("token");
@@ -48,7 +53,8 @@ function ProductAanmelden() {
                 minimumPrijs: parseFloat(minimumPrijs),
                 klokLocatie, 
                 veilDatum,
-                aanvoerderId: 1 // Hardcoded aanvoerderId (PAS LATER AAN)
+                aanvoerderId: 1,
+                aanvoerderNaam: bedrijfnaam
             }),
         });
         
@@ -65,7 +71,9 @@ function ProductAanmelden() {
         <div className="aanvoerder">
             <form className="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
-                {/* formulier voor product aanmelden, spreek voor zich (denk ik) */}
+                { }
+                <label htmlFor="bedrijfnaam">Bedrijfnaam:</label>
+                <input type="text" id="bedrijfnaam" name="bedrijfnaam" value={bedrijfnaam} onChange={(e) => setBedrijfnaam(e.target.value)} required/><br/>
                 <label htmlFor="naam">Naam:</label>
                 <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
                 <label htmlFor="soort">Soort:</label>

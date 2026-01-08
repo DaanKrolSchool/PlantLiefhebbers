@@ -1,12 +1,29 @@
 ﻿import './VeilingScherm.css';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Tippy, { tippy } from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+//import 'tippy.js/themes/light.css';
+import 'tippy.js/animations/perspective.css';
 
-
+function formatDatum(d: string) {
+    // verwacht "YYYY-MM-DD"
+    const date = new Date(d);
+    return date.toLocaleDateString("nl-NL"); // bv 16-1-2026
+}
 
 function VeilingScherm() {
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
+    const [prijsGeschiedenis, setPrijsGeschiedenis] = useState<
+        { datum: string; prijs: number; aanvoerderNaam: string }[]
+    >([]);
+
+
+    const [lastLoadedId, setLastLoadedId] = useState<number | null>(null);
+
+
+    const [hoeveelheidKopen, setHoeveelheidKopen] = useState<number>(0);
     const [nextProducts, setNextProducts] = useState<string[]>([]);
     const [currentProductId, setCurrentProductId] = useState<number | null>(null);
     const [hoeveelheid, setHoeveelheid] = useState<number>(0);
@@ -33,6 +50,39 @@ function VeilingScherm() {
     const [notf, setNotf] = useState("");
 
 
+  //  async function prijsGeschiedenisBerekenen(id: number) {
+  //      const response = await fetch(`https://localhost:7225/Product/id/${id}`);
+  //  //    alert(response.ok)
+
+  //      const dto = await response.json();
+  ////      alert(dto)
+  //      setPrijsGeschiedenis(String(id));
+
+    //  }
+
+
+
+
+
+    async function fetchVeilingInfo(id: number) {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`https://localhost:7225/Product/veilinginfo/${id}`, {
+            headers: {
+                // token is optioneel omdat endpoint AllowAnonymous is
+                ...(token ? { "Authorization": `Bearer ${token}` } : {})
+            }
+        });
+
+        if (!res.ok) return null;
+        return await res.json();
+    }
+
+    async function fetchHistoriePerSoort(soortPlant: string) {
+        const res = await fetch(`https://localhost:7225/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
+        if (!res.ok) return [];
+        return await res.json();
+    } 
     async function fetchData() {
         const token = localStorage.getItem("token");
 
@@ -44,11 +94,13 @@ function VeilingScherm() {
             }
         });
 
-        const text = await res.text();
-        const data = text ? JSON.parse(text) : null;
+        const data = res.ok ? await res.json() : null;
+
 
         // dit doet hij als er geen actieve veiling is
         if (!data || !data.productId) {
+            setPrijsGeschiedenis([]);
+            setLastLoadedId(null);
             setNaam("geen veiling gestart");
             setSoort("—");
             setHoeveelheid(0);
@@ -67,24 +119,43 @@ function VeilingScherm() {
             setPrijsVerandering(0);
             setPrice(0);
         } else {
-            setNaam(data.naam ?? "—");
-            setSoort(data.soortPlant ?? "—");
-            setHoeveelheid(data.aantal ?? 0);
-            setPotmaat(data.potMaat ?? 0);
-            setSteellengte(data.steelLengte ?? 0);
-            setCurrentProductId(data.productId ?? null);
+            const id = data.productId as number;
+            setCurrentProductId(id);
 
-            setmakkelijkheid(data.makkelijkheid ?? 0);
-            settemperatuur(data.temperatuur ?? 0);
-            setwater(data.water ?? 0);
-            setleeftijd(data.leeftijd ?? 0);
-            setseizoensplant(data.seizoensplant ?? "—");
+            // Alleen opnieuw laden als het een nieuw product is
+            if (lastLoadedId !== id) {
+                setLastLoadedId(id);
 
-            setMprijs(data.minimumPrijs ?? 0);
-            setMaxPrijs(data.maximumPrijs ?? 0);
-            setPrijsVerandering(data.prijsVerandering ?? 0);
+                // haal info
+                const info = await fetchVeilingInfo(id);
+                if (!info) return;
 
-            setPrice(data.maximumPrijs ?? 0);
+                // haal prijs geschiedenis
+                const geschiedenis = await fetchHistoriePerSoort(info.soortPlant);
+                setPrijsGeschiedenis(geschiedenis);
+
+
+
+                // zet state
+                setNaam(info.naam ?? "—");
+                setSoort(info.soortPlant ?? "—");
+
+                setHoeveelheid(info.aantal ?? 0);
+                setPotmaat(info.potMaat ?? 0);
+                setSteellengte(info.steelLengte ?? 0);
+
+                setmakkelijkheid(info.makkelijkheid ?? 0);
+                settemperatuur(info.temperatuur ?? 0);
+                setwater(info.water ?? 0);
+                setleeftijd(info.leeftijd ?? 0);
+                setseizoensplant(info.seizoensplant ?? "—");
+
+                setMprijs(info.minimumPrijs ?? 0);
+                setMaxPrijs(info.maximumPrijs ?? 0);
+                setPrijsVerandering(info.prijsVerandering ?? 0);
+
+                //setPrice(info.maximumPrijs ?? 0);
+            }
         }
 
         // 3 volgende producten
@@ -109,6 +180,9 @@ function VeilingScherm() {
                     [];
 
         setNextProducts(arr.length ? arr : ["🪴", "🪴", "🪴"]);
+
+        
+
     }
 
     // elke 2 secondden kijken of er een veiling gestart is
@@ -126,9 +200,10 @@ function VeilingScherm() {
     useEffect(() => {
         if (!currentProductId) return;
         if (maxPrijs <= 0) return;
+        
         if (prijsVerandering <= 0) return;
 
-        setPrice(maxPrijs);
+       // setPrice(maxPrijs);
 
         const timer = setInterval(() => {
             setPrice(prev => {
@@ -154,28 +229,64 @@ function VeilingScherm() {
         try {
             const token = localStorage.getItem("token");
             // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
-            await fetch(`https://localhost:7225/Product/${currentProductId}`, {
-                method: "DELETE",
+            await fetch(`https://localhost:7225/Product/${currentProductId}?hoeveelheidKopen=${hoeveelheidKopen}&price=${price}`, {
+                method: "PATCH",
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
                 }
             });
-
+            
             setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
             setTimeout(() => setNotf!(""), 2500)
 
             await fetchData();
 
             // Timer resetten
-            setPrice(maxPrijs);
-            setProgresiebar(100);
+            if (hoeveelheid < 1) {
+                setPrice(maxPrijs);
+                setProgresiebar(100);
+            }
+
         } catch (error) {
             console.error(error);
             setError("Er is iets misgegaan bij het kopen van het plantje.")
             setTimeout(() => setError!(""), 2500)
         }
     }
+    //async function fetchVeilingInfo(id: number) {
+    //    const token = localStorage.getItem("token");
+
+    //    const res = await fetch(`https://localhost:7225/Product/veilinginfo/${id}`, {
+    //        headers: {
+    //            "Authorization": token ? `Bearer ${token}` : "",
+    //            "Content-Type": "application/json"
+    //        }
+    //    });
+
+    //    if (!res.ok) return;
+
+    //    const info = await res.json();
+
+    //    setNaam(info.naam ?? "—");
+    //    setSoort(info.soortPlant ?? "—");
+    //    setHoeveelheid(info.aantal ?? 0);
+    //    setPotmaat(info.potMaat ?? 0);
+    //    setSteellengte(info.steelLengte ?? 0);
+
+    //    setmakkelijkheid(info.makkelijkheid ?? 0);
+    //    settemperatuur(info.temperatuur ?? 0);
+    //    setwater(info.water ?? 0);
+    //    setleeftijd(info.leeftijd ?? 0);
+    //    setseizoensplant(info.seizoensplant ?? "—");
+
+    //    setMprijs(info.minimumPrijs ?? 0);
+    //    setMaxPrijs(info.maximumPrijs ?? 0);
+    //    setPrijsVerandering(info.prijsVerandering ?? 0);
+
+    //    setPrice(info.maximumPrijs ?? 0);
+    //}
+
 
 
 
@@ -238,19 +349,87 @@ function VeilingScherm() {
             </div>
 
             <div className="Klok">
-                <img src="/klok2.png" alt="Klok2"/>
+                <img src="/klok2.png" alt="Klok2" />
             </div>
+
+           
 
             {/*<div className="ProgresBar">*/}
             {/*    <div className="ProgressFill" style={{ width: `${progresiebar}%` }}></div>*/}
             {/*</div>*/}
 
+            <Tippy
+                animation={"perspective"}
+                interactive={true}
+                content={
+                    <div style={{ minWidth: 320 }}>
+                        <h3 style={{ margin: "0 0 6px 0" }}>Verkoopgeschiedenis</h3>
+                        <p style={{ margin: "0 0 10px 0", opacity: 0.85 }}>
+                            <b>Bloemsoort:</b> {soort}
+                            <br />
+                            <b>Aanvoerder:</b> {prijsGeschiedenis[0]?.aanvoerderNaam ?? "—"}
+                        </p>
 
-            <button className="Buy" type="button" onClick={() => handleBuy()}>Kopen</button>
+                        {prijsGeschiedenis.length === 0 ? (
+                            <p style={{ margin: 0 }}>Nog geen verkopen</p>
+                        ) : (
+                            <>
+                                <div style={{ display: "grid", gap: 8, maxHeight: 240, overflowY: "auto" }}>
+                                    {prijsGeschiedenis
+                                        .slice()
+                                        .reverse()
+                                        .slice(0, 10) // laatste 10
+                                        .map((p, i) => (
+                                            <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                                                <span>{formatDatum(p.datum)}</span>
+                                                <span>
+                                                    <b>€{Number(p.prijs).toFixed(2)}</b> per {soort}
+                                                </span>
+                                            </div>
+                                        ))}
+                                </div>
 
-
+                                {/* Gemiddelde */}
+                                <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.2)" }}>
+                                    <b>
+                                        Gemiddelde prijs (alle verkopen):{" "}
+                                        €{(
+                                            prijsGeschiedenis.reduce((sum, p) => sum + Number(p.prijs), 0) / prijsGeschiedenis.length
+                                        ).toFixed(2)}{" "}
+                                            per {soort}
+                                    </b>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                }
+            >
+                <button className="Buy" type="button" onClick={() => handleBuy()}>
+                    Kopen
+                </button>
+            </Tippy>
+            <div className="Adder">
+                <input type="number" value={hoeveelheidKopen} onChange={(e) => setHoeveelheidKopen(e.target.value)} />
+            </div>
         </div>
     );
 }
-
 export default VeilingScherm;
+
+{/*            <Tippy animation={'perspective'} interactive={true} content={*/}
+{/*                <div>*/}
+{/*                    <h1>{prijsGeschiedenis}</h1>*/}
+{/*                </div>*/}
+{/*            }>*/}
+{/*                <button*/}
+{/*                    className="Buy"*/}
+{/*                    type="button"*/}
+{/*                    onClick={() => handleBuy()}*/}
+{/*                >*/}
+{/*                    Kopen*/}
+{/*                </button>*/}
+{/*            </Tippy>*/}
+
+{/*        </div>*/}
+{/*    );*/}
+{/*}*/}

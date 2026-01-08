@@ -15,7 +15,9 @@ public class ProductDto
 	public float? prijsVerandering { get; set; }
 	public float? maximumPrijs { get; set; }
 	public string klokLocatie { get; set; }
-	public DateTime veilDatum { get; set; }
-	public int aanvoerderId { get; set; }
+	public DateTime? veilDatum { get; set; }
+    public TimeSpan? veilTijd { get; set; }
+    public int aanvoerderId { get; set; }
 	public int positie { get; set; }
+    public string aanvoerderNaam { get; set; }
 }

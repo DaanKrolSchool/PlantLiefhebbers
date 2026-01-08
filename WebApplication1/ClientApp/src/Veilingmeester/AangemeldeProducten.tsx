@@ -11,19 +11,46 @@ type Product = {
     maximumPrijs: number;
     klokLocatie: string;
     veilDatum: string;
+    veilTijd: string | null;
 };
 
 type EditValues = {
     prijsVerandering: number;
     maximumPrijs: number;
+    veilTijd: string | null;
 };
+
+function formatVeilTijd(veilTijd: string | null | undefined): string {
+    if (!veilTijd) return "—";
+
+    // "HH:mm:ss" of "HH:mm"
+    const hhmm = veilTijd.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+    if (hhmm) {
+        const h = hhmm[1].padStart(2, "0");
+        const m = hhmm[2];
+        return `${h}:${m}`;
+    }
+
+    // "PT13H45M" (ISO duration)
+    const iso = veilTijd.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
+    if (iso) {
+        const h = (iso[1] ?? "0").padStart(2, "0");
+        const m = (iso[2] ?? "0").padStart(2, "0");
+        return `${h}:${m}`;
+    }
+
+    return veilTijd;
+}
 
 
 function AangemeldeProducten() {
     //de getters en setters
     const [editMode, setEditMode] = useState<number | null>(null);
-    const [editValues, setEditValues] = useState<EditValues>({ prijsVerandering: 0, maximumPrijs: 0 });
-    const [products, setProducts] = useState<Product[]>([]);
+    const [editValues, setEditValues] = useState<EditValues>({
+        prijsVerandering: 0,
+        maximumPrijs: 0,
+        veilTijd: null
+    });    const [products, setProducts] = useState<Product[]>([]);
     //constante
     //de dag van vandaag
     const today = new Date();
@@ -69,6 +96,7 @@ function AangemeldeProducten() {
                 productId,
                 prijsVerandering: editValues.prijsVerandering,
                 maximumPrijs: editValues.maximumPrijs,
+                veilTijd: editValues.veilTijd ? `${editValues.veilTijd}:00` : null
             }),
         });
 
@@ -167,6 +195,20 @@ function AangemeldeProducten() {
                                                 onChange={e => setEditValues({ ...editValues, maximumPrijs: Number(e.target.value) })}
                                             />
                                         </div>
+                                        <div className="edit-row">
+                                            <label>Prijs Daling:</label>
+                                            <input
+                                                type="time"
+                                                value={editValues.veilTijd ?? ""}
+                                                onChange={e =>
+                                                    setEditValues({ ...editValues, veilTijd: e.target.value || null })
+                                                }
+                                            />
+                                        </div>
+
+
+                                        <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
+                                        <p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>
 
                                         <p>Locatie: {p.klokLocatie}</p>
 
@@ -192,6 +234,9 @@ function AangemeldeProducten() {
                                                 Max. Prijs: €
                                                 {p.maximumPrijs != null ? p.maximumPrijs.toFixed(2) : "—"}
                                             </p>
+
+                                            <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
+                                            <p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>
                                         <p>Locatie: {p.klokLocatie}</p>
                                         <div className="edit-buttons">
                                             <button
@@ -201,6 +246,7 @@ function AangemeldeProducten() {
                                                     setEditValues({
                                                         prijsVerandering: p.prijsVerandering,
                                                         maximumPrijs: p.maximumPrijs,
+                                                        veilTijd: p.veilTijd ? p.veilTijd.slice(0, 5) : null
                                                     });
                                                 }}
                                             >

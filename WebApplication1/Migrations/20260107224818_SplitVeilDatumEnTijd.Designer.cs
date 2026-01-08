@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-    partial class PlantLiefhebbersContextModelSnapshot : ModelSnapshot
+    [Migration("20260107224818_SplitVeilDatumEnTijd")]
+    partial class SplitVeilDatumEnTijd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,39 +296,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("productId");
 
                     b.ToTable("product");
-                });
-
-            modelBuilder.Entity("ProductVerkoopHistorie", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("aantalVerkocht")
-                        .HasColumnType("int");
-
-                    b.Property<string>("aanvoerderNaam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("datum")
-                        .HasColumnType("date");
-
-                    b.Property<float>("prijsPerStuk")
-                        .HasColumnType("real");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("soortPlant")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("productVerkoopHistorie");
                 });
 
             modelBuilder.Entity("User", b =>

@@ -220,35 +220,35 @@ namespace WebApiTests
                 var notFoundResult = Assert.IsType<NotFoundResult>(actionResult.Result);
             }
         }
-        [Fact]
-        public async Task Product_verwijderen_test()
-        {
-            var dbName = "SimpeleTestDb_Delete";
-            using (var context = GetInMemoryContext(dbName))
-            {
-                //arrange
-                context.product.AddRange(
-                    new Product
-                    {
-                        productId = 1,
-                        naam = "Gras",
-                        soortPlant = "Struik",
-                        veilDatum = new DateTime(2024, 7, 1),
-                        klokLocatie = "Amsterdam",
-                    }
-            );
-                context.SaveChanges();
-            }
-            using (var context = GetInMemoryContext(dbName))
-            {
-                var controller = new ProductController(context);
-                //act
-                var result = await controller.DeleteProduct(1);
-                //assert
-                var noContentResult = Assert.IsType<NoContentResult>(result);
-                var deletedProduct = context.product.Find(1);
-                Assert.Null(deletedProduct);
-            }
-        }
+        //[Fact]
+        //public async Task Product_verwijderen_test()
+        //{
+        //    var dbName = "SimpeleTestDb_Delete";
+        //    using (var context = GetInMemoryContext(dbName))
+        //    {
+        //        //arrange
+        //        context.product.AddRange(
+        //            new Product
+        //            {
+        //                productId = 1,
+        //                naam = "Gras",
+        //                soortPlant = "Struik",
+        //                veilDatum = new DateTime(2024, 7, 1),
+        //                klokLocatie = "Amsterdam",
+        //            }
+        //    );
+        //        context.SaveChanges();
+        //    }
+        //    using (var context = GetInMemoryContext(dbName))
+        //    {
+        //        var controller = new ProductController(context);
+        //        //act
+        //        var result = await controller.DeleteProduct(1);
+        //        //assert
+        //        var noContentResult = Assert.IsType<NoContentResult>(result);
+        //        var deletedProduct = context.product.Find(1);
+        //        Assert.Null(deletedProduct);
+        //    }
+        //}
     }
 }

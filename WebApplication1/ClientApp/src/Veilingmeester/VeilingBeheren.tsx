@@ -125,6 +125,8 @@ function AangemeldeProducten() {
                                     <div key={p.productId} className="product-kaart">
                                         <h3>{p.naam}</h3>
 
+                                        <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
+
                                         <p>Minimum Prijs: €{p.minimumPrijs.toFixed(2)}</p>
 
                                         <p>

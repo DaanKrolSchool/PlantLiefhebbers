@@ -174,3 +174,18 @@
     width: 50%;
     height: auto;
 }
+
+.Adder {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+/*    background-color: black;*/
+    color: white;
+    border: none;
+/*    border-radius: 8px;*/
+    cursor: pointer;
+    font-weight: bold;
+/*    padding: 20px 40px;*/
+    font-size: 24px;
+}

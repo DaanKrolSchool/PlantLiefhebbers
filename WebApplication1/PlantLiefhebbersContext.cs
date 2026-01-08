@@ -16,6 +16,8 @@ public class PlantLiefhebbersContext : IdentityDbContext<User>
     public DbSet<Veiling> veiling { get; set; }
     public DbSet<Aanvoerder> aanvoerder { get; set; }
     public DbSet<Veilingmeester> veilingmeester { get; set; }
+    public DbSet<ProductVerkoopHistorie> productVerkoopHistorie { get; set; }
+
 }
 
 
@@ -46,13 +48,15 @@ public class Product {
     public float? maximumPrijs { get; set; }
     public float prijsVerandering { get; set; }
     public string klokLocatie { get; set; }
-    public DateTime veilDatum { get; set; }
+    public DateTime? veilDatum { get; set; }
+    public TimeSpan? veilTijd { get; set; }
     public int aanvoerderId { get; set; }
 	public int positie { get; set; }
 
     public bool isVerkocht { get; set; } = false;
     public float? verkoopPrijs { get; set; }
     public DateTime? verkoopDatum { get; set; }
+    public string aanvoerderNaam { get; set; }
 
 }
 
@@ -89,4 +93,18 @@ public class User : IdentityUser
 {
     public string? adres { get; set; }
 
+}
+
+public class ProductVerkoopHistorie
+{
+    public int id { get; set; }
+
+    public int productId { get; set; }
+    public string soortPlant { get; set; }
+    public string aanvoerderNaam { get; set; }
+
+    public int aantalVerkocht { get; set; }
+    public float prijsPerStuk { get; set; }
+
+    public DateOnly datum { get; set; }
 }

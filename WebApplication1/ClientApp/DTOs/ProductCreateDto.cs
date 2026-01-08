@@ -15,4 +15,5 @@ public class ProductCreateDto
     public string klokLocatie { get; set; }
     public DateTime veilDatum { get; set; }
     public int aanvoerderId { get; set; }
+    public string aanvoerderNaam { get; set; }
 }
