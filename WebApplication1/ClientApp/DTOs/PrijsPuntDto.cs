@@ -4,5 +4,6 @@
     {
         public DateOnly datum { get; set; }
         public float prijs { get; set; }
+        public string aanvoerderNaam { get; set; }
     }
 }

@@ -127,7 +127,8 @@ namespace WebApplication1.Controllers
                 .Select(x => new PrijsPuntDto
                 {
                     datum = x.datum,
-                    prijs = x.prijsPerStuk
+                    prijs = x.prijsPerStuk,
+                    aanvoerderNaam = x.aanvoerderNaam
                 })
                 .ToListAsync();
 
@@ -249,14 +250,14 @@ namespace WebApplication1.Controllers
             return Ok(products);
         }
 
-        [HttpGet("eerste")]
+        [HttpGet("eerste/{kloklocatie}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ProductDto>> GetEersteProduct()
+        public async Task<ActionResult<ProductDto>> GetEersteProduct(string kloklocatie)
         {
             var now = DateTime.Now;
 
             var product = await _context.product
-                .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht)
+                .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
                 .FirstOrDefaultAsync();
@@ -289,15 +290,15 @@ namespace WebApplication1.Controllers
         }
 
 
-        [HttpGet("volgende")]
+        [HttpGet("volgende/{kloklocatie}")]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen()
+        public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen(string kloklocatie)
         {
             var now = DateTime.Now;
 
             // Als er al een actieve is: pak eerst die, anders pak eerstvolgende toekomstige
             var eerste = await _context.product
-                .Where(p => p.veilDatum != null && !p.isVerkocht)
+                .Where(p => p.veilDatum != null && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
                 .FirstOrDefaultAsync(p => p.veilDatum <= now);
@@ -311,11 +312,11 @@ namespace WebApplication1.Controllers
             // anders -> gewoon de eerstvolgende aankomende
             if (basisTijd != null)
             {
-                query = query.Where(p => p.veilDatum > basisTijd);
+                query = query.Where(p => p.veilDatum > basisTijd && p.klokLocatie == kloklocatie);
             }
             else
             {
-                query = query.Where(p => p.veilDatum > now);
+                query = query.Where(p => p.veilDatum > now && p.klokLocatie == kloklocatie) ;
             }
 
             var volgende = await query
