@@ -1,6 +1,6 @@
 ﻿.Name {
     position: absolute;
-    top: 165px;
+    top: 20%;
     left: 50%;
     color: #40484f;
     transform: translateX(-50%);
@@ -9,16 +9,16 @@
 .MainImage {
     position: absolute;
     top: 80px;
-    left: 8%;
-    transform: translateX(-50%);
-    color: green;
-/*    -webkit-text-stroke: 1px black;*/
-    font-size: 40px
+    left: 2%;
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .KenmerkenL {
     position: absolute;
-    top: 240px;
+    top: 500px;
     left: 2%;
 }
 
@@ -60,7 +60,7 @@
 
 .KenmerkenR {
     position: absolute;
-    top: 290px;
+    top: 550px;
     left: 14.5%;
 }
 

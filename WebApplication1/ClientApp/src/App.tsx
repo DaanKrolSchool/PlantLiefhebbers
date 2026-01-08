@@ -43,8 +43,10 @@ function Home() {
                 </h2>
             )}
 
+            {/*}
             <button className="AanvoerderButton" onClick={() => navigate("/aanvoerder/aangemelde-producten")}>Aanvoerder overzicht</button>
             <button className="VeilingmeesterButton" onClick={() => navigate("/veilingmeester/aangemelde-producten")}>Veilingmeester overzicht</button>
+            */}
             <button className="LoginButton" onClick={() => navigate("/inloggen")}>Inloggen</button>
             <button className="RegistreerButton" onClick={() => navigate("/registreren")}>Registreren</button>
         </div>

@@ -12,7 +12,7 @@ export default function Aanvoerder() {
                 <h1 className="aanvoerder">Aanvoerder Dashboard</h1>
             </header>
             {/* home knop */}
-            <button className="HomeButton" onClick={() => { navigate("/") }}>Home</button>
+            {/*<button className="HomeButton" onClick={() => { navigate("/") }}>Home</button>*/}
             {/* log uit knop */}
             <button className="LogOutButton" onClick={() => { localStorage.removeItem("token"); navigate("/") }}>Uitloggen</button>
             {/* navigeren */}

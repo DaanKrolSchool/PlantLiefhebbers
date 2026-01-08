@@ -10,7 +10,7 @@ export default function Veilingmeester() {
             <header class="veilingmeester">
                 <h1 class="veilingmeester">Veilingmeester Dashboard</h1>
             </header>
-            <button className="HomeButton" onClick={() => { navigate("/") }}>Home</button>
+            {/*<button className="HomeButton" onClick={() => { navigate("/") }}>Home</button>*/}
             <button className="LogOutButton" onClick={() => { localStorage.removeItem("token"); navigate("/") }}>Uitloggen</button>
             <nav class="veilingmeester">
                 <NavLink to="/veilingmeester/veiling-beheren">Veiling Beheren</NavLink>

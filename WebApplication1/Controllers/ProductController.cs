@@ -214,6 +214,27 @@ namespace WebApplication1.Controllers
             return Ok(productDto);
         }
         
+        [HttpPost("UploadImage")]
+        [Authorize(Roles = "Aanvoerder")]
+        public async Task<IActionResult> UploadImage([FromForm] IFormFile image, [FromForm] int productId)
+        {
+            if (image == null || image.Length == 0)
+                return BadRequest("No file uploaded");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var filePath = Path.Combine(uploadsFolder, $"{productId}{Path.GetExtension(image.FileName)}");
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            return Ok(new { message = "Image uploaded successfully", path = $"/images/{productId}{Path.GetExtension(image.FileName)}" });
+        }
+        
         [HttpGet("aanvoerder/own")]
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult GetOwnProducts()
@@ -285,7 +306,7 @@ namespace WebApplication1.Controllers
             return Ok(products);
         }
 
-        [HttpGet("eerste")]
+        [HttpGet("klant/eerste")]
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetEersteProduct()
         {
@@ -325,7 +346,7 @@ namespace WebApplication1.Controllers
         }
 
 
-        [HttpGet("volgende")]
+        [HttpGet("klant/volgende")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen()
         {

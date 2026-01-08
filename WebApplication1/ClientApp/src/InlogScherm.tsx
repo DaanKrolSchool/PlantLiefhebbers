@@ -35,11 +35,11 @@ function InlogScherm() {
 
             // navigatie gebaseerd op je rol
             if (rol === "veilingmeester") {
-                setTimeout(() => navigate("/veilingmeester/veiling-beheren"), 2500);
+                setTimeout(() => navigate("/veilingmeester/veiling-beheren"), 750);
             } else if (rol === "aanvoerder") {
-                setTimeout(() => navigate("/aanvoerder/product-aanmelden"), 2500);
+                setTimeout(() => navigate("/aanvoerder/product-aanmelden"), 750);
             } else if (rol === "klant") {
-                setTimeout(() => navigate("/veilingscherm"), 2500);
+                setTimeout(() => navigate("/veilingscherm"), 750);
             }
         } else {
             setError("Onjuiste gebruikersgegevens!");

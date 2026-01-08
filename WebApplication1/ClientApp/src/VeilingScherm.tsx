@@ -87,7 +87,7 @@ function VeilingScherm() {
         const token = localStorage.getItem("token");
 
         // de huidige veiling die start
-        const res = await fetch(`https://localhost:7225/Product/eerste`, {
+        const res = await fetch(`https://localhost:7225/Product/klant/eerste`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -159,7 +159,7 @@ function VeilingScherm() {
         }
 
         // 3 volgende producten
-        const resNext = await fetch(`https://localhost:7225/Product/volgende`, {
+        const resNext = await fetch(`https://localhost:7225/Product/klant/volgende`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -294,7 +294,10 @@ function VeilingScherm() {
         <div>
             <h1 className="Name"> {naam} </h1>
 
-            <p className="MainImage"> plaatje </p>
+            
+            {(currentProductId &&
+                <img className="MainImage" src={`https://localhost:7225/images/${currentProductId}.png`} alt={`Afbeelding van ${naam}`}></img>
+            )}
 
             <button className="Back" type="button" onClick={() => { localStorage.removeItem("token"); navigate("/") }}>Uitloggen</button>
 

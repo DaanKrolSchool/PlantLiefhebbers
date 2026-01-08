@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bdd6c7c4-a9fb-4ad7-b839-38393eb03b7f" name="Changes" comment="aanvoerderid aan producten gekoppeld en aanvoerders zien alleen hun eigen prodcuten">
+    <list default="true" id="a0eff5b3-655a-4d53-8702-0ff25db03603" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/data_source_mapping.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/Aanvoerder.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Aanvoerder/ProductAanmelden.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/InlogScherm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/VeilingScherm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.css" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/ClientApp/src/Veilingmeester/Veilingmeester.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebApplication1/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/WebApplication1/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,72 +41,51 @@
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductCreateDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/DTOs/ProductCreateDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/DTOs/ProductDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductPositieDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductUpdateDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/DTOs/ProductUpdateVMDto.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/clientapp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/package-lock.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/ClientApp/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/InlogController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantRegisterController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/KlantTestController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Controllers/ProductController.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20260108075452_AanvoerderIdVanIntNaarString.Designer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/20260108075452_AanvoerderIdVanIntNaarString.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Migrations/PlantLiefhebbersContextModelSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/PlantLiefhebbersContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/Services/JwtTokenService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock:///Users/severinheidecke/Documents/GitHub/PlantLiefhebbers/WebApplication1/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/WebApplication1/bin/Debug/net9.0/WebApplication1.deps.json" root0="SKIP_HIGHLIGHTING" />
   </component>
-  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/Rider.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "master",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "ts.external.directory.path": "/Applications/Rider.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
-    <task id="LOCAL-00001" summary="aanvoerderid aan producten gekoppeld en aanvoerders zien alleen hun eigen prodcuten">
-      <option name="closed" value="true" />
-      <created>1767861133851</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1767861133851</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="aanvoerderid aan producten gekoppeld en aanvoerders zien alleen hun eigen prodcuten" />
-    <option name="LAST_COMMIT_MESSAGE" value="aanvoerderid aan producten gekoppeld en aanvoerders zien alleen hun eigen prodcuten" />
-  </component>
 </project>

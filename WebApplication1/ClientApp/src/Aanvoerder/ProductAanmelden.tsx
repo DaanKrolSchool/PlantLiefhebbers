@@ -13,19 +13,19 @@ function ProductAanmelden() {
     //const [maximumPrijs, setMaximumPrijs] = useState("");
     const [klokLocatie, setKlokLocatie] = useState("");
     const [veilDatum, setVeilDatum] = useState("");
-    // const [afbeelding, setAfbeelding] = useState("");
     const [makkelijkheid, setmakkelijkheid] = useState("");
     const [seizoensplant, setseizoensplant] = useState("");
     const [temperatuur, settemperatuur] = useState("");
     const [water, setwater] = useState("");
     const [leeftijd, setleeftijd] = useState("");
     const [bedrijfnaam, setBedrijfnaam] = useState("");
+    const [afbeelding, setAfbeelding] = useState<File | null>(null);
 
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");
     // product aanmelden functie
-    async function productAanmelden(e) {
+    async function productAanmelden(e: React.FormEvent) {
         e.preventDefault(); // voorkom herladen van de pagina
         const token = localStorage.getItem("token");
         // post request naar de api 
@@ -61,6 +61,30 @@ function ProductAanmelden() {
             setError("Er ging iets mis: error " + res.status)
             setTimeout(() => setError!(""), 2500)
         }
+
+        const product = await res.json();
+
+        if (afbeelding) {
+            const formData = new FormData();
+            formData.append("image", afbeelding);
+            formData.append("productId", product.productId);
+
+            const imgRes = await fetch(`https://localhost:7225/Product/UploadImage`, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (!imgRes.ok) {
+                setError("Image upload failed: " + imgRes.status);
+                setTimeout(() => setError(""), 2500);
+            }
+        }
+
+        setNotf("Product toegevoegd!");
+        setTimeout(() => setNotf(""), 2500);
     }
     
     return (
@@ -114,7 +138,7 @@ function ProductAanmelden() {
                 <label htmlFor="vdatum">Veildatum:</label>
                 <input type="datetime-local" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
                 <label htmlFor="afbeelding">Afbeelding:</label>
-                <input type="file" id="afbeelding" name="afbeelding"/><br/><br/>
+                <input type="file" accept="image/png" id="afbeelding" name="afbeelding" onChange={(e) => setAfbeelding(e.target.files ? e.target.files[0] : null)}/><br/><br/>
                 <input type="submit" value="Product aanmelden"/>
             </form>
         </div>
