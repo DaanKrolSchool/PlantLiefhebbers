@@ -146,8 +146,36 @@
     font-size: 24px;
 }
 
+.Historie1 {
+    position: absolute;
+    bottom: 25px;
+    left: 85%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 20px 40px;
+    font-size: 24px;
+}
 
-.ProgresBar {
+.Historie2 {
+    position: absolute;
+    bottom: 175px;
+    left: 85%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 20px 40px;
+    font-size: 24px;
+}
+    .ProgresBar {
     position: absolute;
     bottom: 250px;
     left: 50%;
@@ -187,5 +215,20 @@
     cursor: pointer;
     font-weight: bold;
 /*    padding: 20px 40px;*/
+    font-size: 24px;
+}
+
+.kloklocatie {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    /*    background-color: black;*/
+/*    color: white;*/
+    border: none;
+    /*    border-radius: 8px;*/
+    cursor: pointer;
+    font-weight: bold;
+    /*    padding: 20px 40px;*/
     font-size: 24px;
 }

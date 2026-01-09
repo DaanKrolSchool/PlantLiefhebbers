@@ -1,6 +1,6 @@
 ﻿import './VeilingScherm.css';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Tippy, { tippy } from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 //import 'tippy.js/themes/light.css';
@@ -16,7 +16,7 @@ function VeilingScherm() {
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
     const [prijsGeschiedenis, setPrijsGeschiedenis] = useState<
-        { datum: string; prijs: number; aanvoerderNaam: string }[]
+        { datum: string; prijs: number; aanvoerder: string }[]
     >([]);
 
 
@@ -35,9 +35,12 @@ function VeilingScherm() {
     const [temperatuur, settemperatuur] = useState<number>(0);
     const [water, setwater] = useState<number>(0);
     const [leeftijd, setleeftijd] = useState<number>(0);
-
+    const [klokLocatie, setKlokLocatie] = useState<string>("rijnsburg");
     const [maxPrijs, setMaxPrijs] = useState<number>(0);
     const [prijsVerandering, setPrijsVerandering] = useState<number>(0);
+
+    const [aanvoerder, setAanvoerder] = useState<string>("—");
+
 
 
     const [progresiebar, setProgresiebar] = useState<number>(100);
@@ -50,13 +53,13 @@ function VeilingScherm() {
     const [notf, setNotf] = useState("");
 
 
-  //  async function prijsGeschiedenisBerekenen(id: number) {
-  //      const response = await fetch(`https://localhost:7225/Product/id/${id}`);
-  //  //    alert(response.ok)
+    //  async function prijsGeschiedenisBerekenen(id: number) {
+    //      const response = await fetch(`https://localhost:7225/Product/id/${id}`);
+    //  //    alert(response.ok)
 
-  //      const dto = await response.json();
-  ////      alert(dto)
-  //      setPrijsGeschiedenis(String(id));
+    //      const dto = await response.json();
+    ////      alert(dto)
+    //      setPrijsGeschiedenis(String(id));
 
     //  }
 
@@ -82,12 +85,12 @@ function VeilingScherm() {
         const res = await fetch(`https://localhost:7225/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
         if (!res.ok) return [];
         return await res.json();
-    } 
+    }
     async function fetchData() {
         const token = localStorage.getItem("token");
 
         // de huidige veiling die start
-        const res = await fetch(`https://localhost:7225/Product/klant/eerste`, {
+        const res = await fetch(`https://localhost:7225/Product/klant/eerste/${klokLocatie}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -111,8 +114,10 @@ function VeilingScherm() {
             setwater(0);
             setleeftijd(0);
             setseizoensplant("—");
+            setAanvoerder("—");
 
             setCurrentProductId(null);
+            setKlokLocatie(klokLocatie);
 
             setMprijs(0);
             setMaxPrijs(0);
@@ -129,6 +134,8 @@ function VeilingScherm() {
                 // haal info
                 const info = await fetchVeilingInfo(id);
                 if (!info) return;
+
+                setAanvoerder(info.aanvoerderNaam ?? info.aanvoerder ?? info.firmaNaam ?? "—");
 
                 // haal prijs geschiedenis
                 const geschiedenis = await fetchHistoriePerSoort(info.soortPlant);
@@ -153,13 +160,14 @@ function VeilingScherm() {
                 setMprijs(info.minimumPrijs ?? 0);
                 setMaxPrijs(info.maximumPrijs ?? 0);
                 setPrijsVerandering(info.prijsVerandering ?? 0);
+                //setKlokLocatie(info.klokLocation ?? "-");
 
                 //setPrice(info.maximumPrijs ?? 0);
             }
         }
 
         // 3 volgende producten
-        const resNext = await fetch(`https://localhost:7225/Product/klant/volgende`, {
+        const resNext = await fetch(`https://localhost:7225/Product/klant/volgende/${klokLocatie}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -180,30 +188,29 @@ function VeilingScherm() {
                     [];
 
         setNextProducts(arr.length ? arr : ["🪴", "🪴", "🪴"]);
-
         
 
     }
 
     // elke 2 secondden kijken of er een veiling gestart is
     useEffect(() => {
+        if (!klokLocatie) return;
+
         fetchData();
 
-        const interval = setInterval(() => {
-            fetchData();
-        }, 2000);
-
+        const interval = setInterval(fetchData, 2000);
         return () => clearInterval(interval);
-    }, []);
+    }, [klokLocatie]);
+
 
     // Timer: loopt alleen als er een actief product is
     useEffect(() => {
         if (!currentProductId) return;
         if (maxPrijs <= 0) return;
-        
+
         if (prijsVerandering <= 0) return;
 
-       // setPrice(maxPrijs);
+        setPrice(maxPrijs);
 
         const timer = setInterval(() => {
             setPrice(prev => {
@@ -223,6 +230,15 @@ function VeilingScherm() {
         return () => clearInterval(timer);
     }, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
 
+    async function veranderLocatie(locatie: string) {
+        //alert(locatie)
+        setKlokLocatie(locatie)
+        setPrice(maxPrijs);
+        //alert(Progresiebar)
+        setProgresiebar(100);
+        //await fetchData();
+    }
+
     async function handleBuy() {
         if (!currentProductId) return;
 
@@ -236,7 +252,7 @@ function VeilingScherm() {
                     "Content-Type": "application/json"
                 }
             });
-            
+
             setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
             setTimeout(() => setNotf!(""), 2500)
 
@@ -254,6 +270,7 @@ function VeilingScherm() {
             setTimeout(() => setError!(""), 2500)
         }
     }
+
     //async function fetchVeilingInfo(id: number) {
     //    const token = localStorage.getItem("token");
 
@@ -289,6 +306,23 @@ function VeilingScherm() {
 
 
 
+    // ===== Historie lijsten (zelfde soort / zelfde aanvoerder) =====
+    //const historieSoort = prijsGeschiedenis
+    //    .slice()
+    //    .sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime()); // nieuwste eerst
+
+    //const last10Soort = historieSoort.slice(0, 10);
+
+    //const historieAanvoerder = historieSoort.filter(p => p.aanvoerderNaam === aanvoerder);
+    //const last10Aanvoerder = historieAanvoerder.slice(0, 10);
+
+    //function avg(list: { prijs: number }[]) {
+    //    if (!list.length) return 0;
+    //    return list.reduce((s, x) => s + Number(x.prijs), 0) / list.length;
+    //}
+
+    //const avgSoort = avg(historieSoort);
+    //const avgAanvoerder = avg(historieAanvoerder);
 
     return (
         <div>
@@ -354,23 +388,88 @@ function VeilingScherm() {
             <div className="Klok">
                 <img src="/klok2.png" alt="Klok2" />
             </div>
-
-           
+            
 
             {/*<div className="ProgresBar">*/}
             {/*    <div className="ProgressFill" style={{ width: `${progresiebar}%` }}></div>*/}
             {/*</div>*/}
+
+
+            <button className="Buy" type="button" onClick={() => handleBuy()}>
+                Kopen
+            </button>
+            {/*<Tippy*/}
+            {/*    animation={"perspective"}*/}
+            {/*    interactive={true}*/}
+            {/*    content={*/}
+            {/*        <div style={{ minWidth: 420 }}>*/}
+            {/*            <h3 style={{ margin: "0 0 6px 0" }}>Verkoopgeschiedenis van {soort}</h3>*/}
+
+            {/*            {last10Soort.length === 0 ? (*/}
+            {/*                <p style={{ margin: 0 }}>Nog geen verkopen</p>*/}
+            {/*            ) : (*/}
+            {/*                <>*/}
+            {/*                    */}{/* Header */}
+            {/*                    <div*/}
+            {/*                        style={{*/}
+            {/*                            display: "grid",*/}
+            {/*                            gridTemplateColumns: "1.2fr 1fr 1fr",*/}
+            {/*                            gap: 12,*/}
+            {/*                            fontWeight: 700,*/}
+            {/*                            borderBottom: "1px solid rgba(255,255,255,0.3)",*/}
+            {/*                            paddingBottom: 4,*/}
+            {/*                            marginBottom: 6*/}
+            {/*                        }}*/}
+            {/*                    >*/}
+            {/*                        <span>Aanvoerder</span>*/}
+            {/*                        <span>Datum</span>*/}
+            {/*                        <span>Prijs</span>*/}
+            {/*                    </div>*/}
+
+            {/*                    */}{/* Rows */}
+            {/*                    <div style={{ display: "grid", gap: 6, maxHeight: 240, overflowY: "auto" }}>*/}
+            {/*                        {last10Soort.map((p, i) => (*/}
+            {/*                            <div*/}
+            {/*                                key={i}*/}
+            {/*                                style={{*/}
+            {/*                                    display: "grid",*/}
+            {/*                                    gridTemplateColumns: "1.2fr 1fr 1fr",*/}
+            {/*                                    gap: 12*/}
+            {/*                                }}*/}
+            {/*                            >*/}
+            {/*                                <span>{p.aanvoerder}</span>*/}
+            {/*                                <span>{formatDatum(p.datum)}</span>*/}
+            {/*                                <span><b>€{Number(p.prijs).toFixed(2)}</b></span>*/}
+            {/*                            </div>*/}
+            {/*                        ))}*/}
+            {/*                    </div>*/}
+
+            {/*                    */}{/* Gemiddelde */}
+            {/*                    <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.2)" }}>*/}
+            {/*                        <b>*/}
+            {/*                            Gemiddelde prijs (alle aanbieders): €{avgSoort.toFixed(2)} per {soort}*/}
+            {/*                        </b>*/}
+            {/*                    </div>*/}
+            {/*                </>*/}
+            {/*            )}*/}
+            {/*        </div>*/}
+            {/*    }*/}
+            {/*>*/}
+            {/*    <button className="Historie1" type="button">*/}
+            {/*        Historische prijzen van soort*/}
+            {/*    </button>*/}
+            {/*</Tippy>*/}
 
             <Tippy
                 animation={"perspective"}
                 interactive={true}
                 content={
                     <div style={{ minWidth: 320 }}>
-                        <h3 style={{ margin: "0 0 6px 0" }}>Verkoopgeschiedenis</h3>
+                        <h3 style={{ margin: "0 0 6px 0" }}>Verkoopgeschiedenis van deze aanvoerder</h3>
                         <p style={{ margin: "0 0 10px 0", opacity: 0.85 }}>
                             <b>Bloemsoort:</b> {soort}
                             <br />
-                            <b>Aanvoerder:</b> {prijsGeschiedenis[0]?.aanvoerderNaam ?? "—"}
+                            <b>Aanvoerder:</b> {aanvoerder}
                         </p>
 
                         {prijsGeschiedenis.length === 0 ? (
@@ -399,7 +498,7 @@ function VeilingScherm() {
                                         €{(
                                             prijsGeschiedenis.reduce((sum, p) => sum + Number(p.prijs), 0) / prijsGeschiedenis.length
                                         ).toFixed(2)}{" "}
-                                            per {soort}
+                                        per {soort}
                                     </b>
                                 </div>
                             </>
@@ -407,32 +506,44 @@ function VeilingScherm() {
                     </div>
                 }
             >
-                <button className="Buy" type="button" onClick={() => handleBuy()}>
-                    Kopen
+                <button className="Historie2" type="button" > Historische prijzen van aanvoeder
                 </button>
             </Tippy>
             <div className="Adder">
-                <input type="number" value={hoeveelheidKopen} onChange={(e) => setHoeveelheidKopen(e.target.value)} />
+                <input
+                    type="number"
+                    value={hoeveelheidKopen}
+                    onChange={(e) => setHoeveelheidKopen(Number(e.target.value))}
+                />
+            </div>
+            <div >
+                <select className="kloklocatie" id="locatie" name="locatie" value={klokLocatie} onChange={(e) => veranderLocatie(e.target.value)} required>
+                    <option value="" disabled></option>
+                    <option value="aalsmeer">Aalsmeer</option>
+                    <option value="eelde">Eelde</option>
+                    <option value="naaldwijk">Naaldwijk</option>
+                    <option value="rijnsburg">Rijnsburg</option>
+                </select><br />
             </div>
         </div>
     );
 }
 export default VeilingScherm;
 
-{/*            <Tippy animation={'perspective'} interactive={true} content={*/}
-{/*                <div>*/}
-{/*                    <h1>{prijsGeschiedenis}</h1>*/}
-{/*                </div>*/}
-{/*            }>*/}
-{/*                <button*/}
-{/*                    className="Buy"*/}
-{/*                    type="button"*/}
-{/*                    onClick={() => handleBuy()}*/}
-{/*                >*/}
-{/*                    Kopen*/}
-{/*                </button>*/}
-{/*            </Tippy>*/}
+{/*            <Tippy animation={'perspective'} interactive={true} content={*/ }
+{/*                <div>*/ }
+{/*                    <h1>{prijsGeschiedenis}</h1>*/ }
+{/*                </div>*/ }
+{/*            }>*/ }
+{/*                <button*/ }
+{/*                    className="Buy"*/ }
+{/*                    type="button"*/ }
+{/*                    onClick={() => handleBuy()}*/ }
+{/*                >*/ }
+{/*                    Kopen*/ }
+{/*                </button>*/ }
+{/*            </Tippy>*/ }
 
-{/*        </div>*/}
-{/*    );*/}
-{/*}*/}
+{/*        </div>*/ }
+{/*    );*/ }
+{/*}*/ }
