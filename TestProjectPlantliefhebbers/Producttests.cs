@@ -95,7 +95,7 @@ namespace WebApiTests
                     maximumPrijs = 50.0f,
                     klokLocatie = "Amsterdam",
                     veilDatum = new DateTime(2024, 8, 1),
-                    aanvoerderId = 1
+                    aanvoerderId = "1"
                 };
 
                 //act
@@ -113,7 +113,7 @@ namespace WebApiTests
                 Assert.Equal(50.0f, productDto.maximumPrijs);
                 Assert.Equal("Amsterdam", productDto.klokLocatie);
                 Assert.Equal(new DateTime(2024, 8, 1), productDto.veilDatum);
-                Assert.Equal(1, productDto.aanvoerderId);
+                Assert.Equal("1", productDto.aanvoerderId);
             }
         }
         [Fact]
@@ -135,7 +135,7 @@ namespace WebApiTests
                     maximumPrijs = 100.0f,
                     klokLocatie = "Rotterdam",
                     veilDatum = new DateTime(2024, 9, 1),
-                    aanvoerderId = 2
+                    aanvoerderId = "2"
                 };
                 //act
                 var result = controller.AddProduct(newProductDto);
@@ -151,7 +151,7 @@ namespace WebApiTests
                 Assert.Equal(100.0f, productDto.maximumPrijs);
                 Assert.Equal("Rotterdam", productDto.klokLocatie);
                 Assert.Equal(new DateTime(2024, 9, 1), productDto.veilDatum);
-                Assert.Equal(2, productDto.aanvoerderId);
+                Assert.Equal("2", productDto.aanvoerderId);
             }
         }
 

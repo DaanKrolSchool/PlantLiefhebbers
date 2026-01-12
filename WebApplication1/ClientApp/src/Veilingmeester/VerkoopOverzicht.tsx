@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 type VerkochtProduct = {
     productId: number;
     naam: string;
-    verkoopPrijs: number;
-    verkoopDatum: string;
+    verkoopPrijs: number | null;
+    verkoopDatum: string | null;
 };
 
 function VerkoopOverzichtVeilingmeester() {
@@ -14,11 +14,7 @@ function VerkoopOverzichtVeilingmeester() {
         async function fetchData() {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("https://localhost:7225/Product/verkocht", {
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            });
+            const res = await fetch("https://localhost:7225/Product/alleverkocht", { headers: { "Authorization": `Bearer ${token}` } });
 
             if (!res.ok) {
                 console.error("Error:", res.status);
@@ -26,6 +22,7 @@ function VerkoopOverzichtVeilingmeester() {
             }
 
             const data = await res.json();
+            if (!Array.isArray(data)) return;
             setVerkopen(data);
         }
 
@@ -41,8 +38,8 @@ function VerkoopOverzichtVeilingmeester() {
             {verkopen.map(p => (
                 <div key={p.productId} className="product-kaart">
                     <h3>{p.naam}</h3>
-                    <p>Verkoopprijs: {p.verkoopPrijs.toFixed(2)}</p>
-                    <p>Verkoopdatum: {new Date(p.verkoopDatum).toLocaleString()}</p>
+                    <p>Verkoopprijs: {p.verkoopPrijs !== null ? p.verkoopPrijs.toFixed(2) : "-"}</p>
+                    <p>Verkoopdatum: {p.verkoopDatum ? new Date(p.verkoopDatum).toLocaleString() : "-"}</p>
                 </div>
             ))}
         </div>

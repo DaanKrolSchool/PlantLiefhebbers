@@ -579,9 +579,29 @@ namespace WebApplication1.Controllers
 
         //}
 
+        [HttpGet("eigenverkocht")]
+        [Authorize(Roles = "Aanvoerder")]
+        public IActionResult GetEigenVerkochteProducten()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        [HttpGet("verkocht")]
-        [Authorize(Roles = "Veilingmeester,Aanvoerder")]
+            var verkocht = _context.product
+                .Where(p => p.isVerkocht && p.aanvoerderId == userId)
+                .OrderByDescending(p => p.verkoopDatum)
+                .Select(p => new VerkochtProductDto
+                {
+                    productId = p.productId,
+                    naam = p.naam,
+                    verkoopPrijs = p.verkoopPrijs,
+                    verkoopDatum = p.verkoopDatum
+                })
+                .ToList();
+
+            return Ok(verkocht);
+        }
+
+        [HttpGet("alleverkocht")]
+        [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetAlleVerkochteProducten()
         {
             var verkocht = _context.product
@@ -602,7 +622,7 @@ namespace WebApplication1.Controllers
 
 
 
-        
+
 
     }
 }
