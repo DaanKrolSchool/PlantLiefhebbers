@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-type VerkochtProduct = {
+type VerkoopRegel = {
     productId: number;
-    naam: string;
-    verkoopPrijs: number | null;
-    verkoopDatum: string | null;
+    soortPlant: string;
+    aanvoerderNaam: string;
+    aantalVerkocht: number;
+    prijsPerStuk: number;
+    datum: string;
 };
 
+
 function VerkoopOverzicht() {
-    const [verkopen, setVerkopen] = useState<VerkochtProduct[]>([]);
+    const [verkopen, setVerkopen] = useState<VerkoopRegel[]>([]);
+
 
     useEffect(() => {
         async function fetchData() {
@@ -60,11 +64,12 @@ function VerkoopOverzicht() {
 
             {verkopen.length === 0 && <p>Nog geen verkochte planten.</p>}
 
-            {verkopen.map(p => (
-                <div key={p.productId} className="product-kaart">
-                    <h3>{p.naam}</h3>
-                    <p>Verkoopprijs: {p.verkoopPrijs !== null ? p.verkoopPrijs.toFixed(2) : "-"}</p>
-                    <p>Verkoopdatum: {p.verkoopDatum ? new Date(p.verkoopDatum).toLocaleString() : "-"}</p>
+            {verkopen.map((p, i) => (
+                <div key={i} className="product-kaart">
+                    <h3>{p.soortPlant}</h3>
+                    <p>Aantal verkocht: {p.aantalVerkocht}</p>
+                    <p>Prijs per stuk: {p.prijsPerStuk.toFixed(2)}</p>
+                    <p>Datum: {new Date(p.datum).toLocaleDateString("nl-NL")}</p>
                 </div>
             ))}
         </div>

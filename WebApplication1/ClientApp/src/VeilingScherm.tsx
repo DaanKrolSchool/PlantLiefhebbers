@@ -94,7 +94,12 @@ function VeilingScherm() {
             }
         });
 
-        const data = res.ok ? await res.json() : null;
+        let data = null;
+
+        if (res.ok) {
+            const text = await res.text();
+            data = text ? JSON.parse(text) : null;
+        }
 
 
         // dit doet hij als er geen actieve veiling is
