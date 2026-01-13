@@ -579,12 +579,7 @@ namespace WebApplication1.Controllers
 
         //}
 
-        [HttpGet("eigenverkocht")]
-        [Authorize(Roles = "Aanvoerder")]
-        public IActionResult GetEigenVerkochteProducten()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+        
         [HttpGet("eigenverkocht")]
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult GetEigenVerkochteProducten()

@@ -158,6 +158,7 @@ function VeilingScherm() {
                 setMprijs(info.minimumPrijs ?? 0);
                 setMaxPrijs(info.maximumPrijs ?? 0);
                 setPrijsVerandering(info.prijsVerandering ?? 0);
+                setPrice(info.maximumPrijs ?? 0);
 
                 //setPrice(info.maximumPrijs ?? 0);
             }
@@ -218,6 +219,8 @@ function VeilingScherm() {
                     clearInterval(timer);
                     setError("Helaas, te lang gewacht!");
                     setTimeout(() => setError(""), 2500);
+                    fetchData();
+
                     return mprijs;
                 }
 
