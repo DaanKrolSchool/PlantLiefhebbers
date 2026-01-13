@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                     veilDatum = x.veilDatum,
                     veilTijd = x.veilTijd,
 
-                    aanvoerderNaam = x.aanvoerderNaam.UserName,
+                    aanvoerderNaam = "x.aanvoerderNaamId.UserName",
                     positie = x.positie
                 })
                 .FirstOrDefaultAsync();
@@ -185,6 +185,8 @@ namespace WebApplication1.Controllers
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
                 aanvoerderId = userId
+                
+
             };
 
             _context.product.Add(newProduct);
@@ -312,6 +314,7 @@ namespace WebApplication1.Controllers
             var now = DateOnly.FromDateTime(DateTime.Now);
 
             var product = await _context.product
+                .Include(p => p.aanvoerderNaamId)
                 .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
@@ -340,7 +343,7 @@ namespace WebApplication1.Controllers
                 veilDatum = product.veilDatum,
                 aanvoerderId = product.aanvoerderId,
                 positie = product.positie,
-                aanvoerderNaam = product.aanvoerderNaam.UserName
+                aanvoerderNaam = "product.aanvoerderNaamId?.UserName" // make this the name not id
             });
         }
 
@@ -602,7 +605,7 @@ namespace WebApplication1.Controllers
                 .Select(v => new VerkochtProductDto
                 {
                     productId = v.productId,
-                    aanvoerderNaam = v.Product.aanvoerderNaam.UserName,
+                    aanvoerderNaam = "v.Product.aanvoerderNaamId.UserName",
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
                     datum = v.Product.veilDatum.Value

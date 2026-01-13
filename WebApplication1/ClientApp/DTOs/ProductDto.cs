@@ -19,5 +19,5 @@ public class ProductDto
     public TimeSpan? veilTijd { get; set; }
     public string aanvoerderId { get; set; }
     public int positie { get; set; }
-    public string aanvoerderNaam { get; set; }
+    public string? aanvoerderNaam { get; set; }
 }

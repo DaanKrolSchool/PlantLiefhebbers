@@ -13,6 +13,7 @@ function formatDatum(d: string) {
 }
 
 function VeilingScherm() {
+    let pvMultiplier = 1.0
     const [naam, setNaam] = useState<string>("");
     const [soort, setSoort] = useState<string>("");
     const [prijsGeschiedenis, setPrijsGeschiedenis] = useState<
@@ -78,6 +79,7 @@ function VeilingScherm() {
         });
 
         if (!res.ok) return null;
+        
         return await res.json();
     }
 
@@ -98,11 +100,13 @@ function VeilingScherm() {
         });
 
         const data = res.ok ? await res.json() : null;
-
+        
 
         // dit doet hij als er geen actieve veiling is
         if (!data || !data.productId) {
+            
             setPrijsGeschiedenis([]);
+            
             setLastLoadedId(null);
             setNaam("geen veiling gestart");
             setSoort("—");
@@ -125,28 +129,29 @@ function VeilingScherm() {
             setPrice(0);
         } else {
             const id = data.productId as number;
+           
             setCurrentProductId(id);
-
+            
             // Alleen opnieuw laden als het een nieuw product is
             if (lastLoadedId !== id) {
                 setLastLoadedId(id);
-
+                
                 // haal info
                 const info = await fetchVeilingInfo(id);
                 if (!info) return;
-
+               
                 setAanvoerder(info.aanvoerderNaam ?? info.aanvoerder ?? info.firmaNaam ?? "—");
 
                 // haal prijs geschiedenis
-                const geschiedenis = await fetchHistoriePerSoort(info.soortPlant);
-                setPrijsGeschiedenis(geschiedenis);
+                //const geschiedenis = await fetchHistoriePerSoort(info.soortPlant);
+                //setPrijsGeschiedenis(geschiedenis);
 
 
-
+                //alert(info.naam)
                 // zet state
                 setNaam(info.naam ?? "—");
                 setSoort(info.soortPlant ?? "—");
-
+                
                 setHoeveelheid(info.aantal ?? 0);
                 setPotmaat(info.potMaat ?? 0);
                 setSteellengte(info.steelLengte ?? 0);
@@ -194,6 +199,7 @@ function VeilingScherm() {
 
     // elke 2 secondden kijken of er een veiling gestart is
     useEffect(() => {
+        
         if (!klokLocatie) return;
 
         fetchData();
@@ -214,13 +220,20 @@ function VeilingScherm() {
 
         const timer = setInterval(() => {
             setPrice(prev => {
-                const newPrice = prev - prijsVerandering;
+                
+                const newPrice = prev - (prijsVerandering * pvMultiplier);
 
                 if (newPrice <= mprijs) {
-                    clearInterval(timer);
-                    setError("Helaas, te lang gewacht!");
-                    setTimeout(() => setError(""), 2500);
-                    return mprijs;
+                    setPrice(maxPrijs)
+                    pvMultiplier = (pvMultiplier * 1.15)
+
+                    //const newPrijsVerandering = prijsVerandering * 1.5
+                    //setPrijsVerandering(newPrijsVerandering)
+                    //clearInterval(timer);
+                    
+                    setError("Prijs word gereset");
+                    setTimeout(() => setError(""), 3000);
+                    //return mprijs;
                 }
 
                 return newPrice;
@@ -231,7 +244,7 @@ function VeilingScherm() {
     }, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
 
     async function veranderLocatie(locatie: string) {
-        //alert(locatie)
+        
         setKlokLocatie(locatie)
         setPrice(maxPrijs);
         //alert(Progresiebar)

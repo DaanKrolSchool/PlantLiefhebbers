@@ -21,7 +21,7 @@ public class User : IdentityUser { }
 public class Product {
     public int productId { get; set; }
     public string aanvoerderId { get; set; }
-    public User aanvoerderNaam { get; set; }
+    public User aanvoerderNaamId { get; set; }
     public string naam { get; set; }
     public string soortPlant { get; set; }
     public int aantal { get; set; }

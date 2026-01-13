@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-    [Migration("20260113105016_voegPrijsToe")]
-    partial class voegPrijsToe
+    [Migration("20260113184720_AddAanvoerderNaam")]
+    partial class AddAanvoerderNaam
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,9 +172,8 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("aanvoerderNaam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("aanvoerderNaamIdId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isVerkocht")
                         .HasColumnType("bit");
@@ -224,8 +223,8 @@ namespace WebApplication1.Migrations
                     b.Property<int?>("temperatuur")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("veilDatum")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("veilDatum")
+                        .HasColumnType("date");
 
                     b.Property<TimeSpan?>("veilTijd")
                         .HasColumnType("time");
@@ -241,6 +240,8 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("productId");
 
+                    b.HasIndex("aanvoerderNaamIdId");
+
                     b.ToTable("product");
                 });
 
@@ -255,12 +256,8 @@ namespace WebApplication1.Migrations
                     b.Property<int>("aantalVerkocht")
                         .HasColumnType("int");
 
-                    b.Property<string>("aanvoerderNaam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly>("datum")
-                        .HasColumnType("date");
+                    b.Property<string>("klantId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("prijsPerStuk")
                         .HasColumnType("real");
@@ -268,11 +265,11 @@ namespace WebApplication1.Migrations
                     b.Property<int>("productId")
                         .HasColumnType("int");
 
-                    b.Property<string>("soortPlant")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("id");
+
+                    b.HasIndex("klantId");
+
+                    b.HasIndex("productId");
 
                     b.ToTable("productVerkoopHistorie");
                 });
@@ -328,9 +325,6 @@ namespace WebApplication1.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("adres")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -418,6 +412,32 @@ namespace WebApplication1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Product", b =>
+                {
+                    b.HasOne("User", "aanvoerderNaamId")
+                        .WithMany()
+                        .HasForeignKey("aanvoerderNaamIdId");
+
+                    b.Navigation("aanvoerderNaamId");
+                });
+
+            modelBuilder.Entity("ProductVerkoopHistorie", b =>
+                {
+                    b.HasOne("User", "Klant")
+                        .WithMany()
+                        .HasForeignKey("klantId");
+
+                    b.HasOne("Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("productId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Klant");
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

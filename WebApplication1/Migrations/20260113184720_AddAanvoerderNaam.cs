@@ -6,27 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication1.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddAanvoerderNaam : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "aanvoerder",
-                columns: table => new
-                {
-                    aanvoerderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    adres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    wachtwoord = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_aanvoerder", x => x.aanvoerderId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -46,7 +30,6 @@ namespace WebApplication1.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    adres = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -68,51 +51,6 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "klant",
-                columns: table => new
-                {
-                    klantId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    adres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    wachtwoord = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_klant", x => x.klantId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "product",
-                columns: table => new
-                {
-                    productId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    soortPlant = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    aantal = table.Column<int>(type: "int", nullable: false),
-                    potMaat = table.Column<int>(type: "int", nullable: true),
-                    steelLengte = table.Column<int>(type: "int", nullable: true),
-                    makkelijkheid = table.Column<int>(type: "int", nullable: true),
-                    seizoensplant = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    temperatuur = table.Column<int>(type: "int", nullable: true),
-                    water = table.Column<int>(type: "int", nullable: true),
-                    leeftijd = table.Column<int>(type: "int", nullable: true),
-                    minimumPrijs = table.Column<float>(type: "real", nullable: false),
-                    maximumPrijs = table.Column<float>(type: "real", nullable: false),
-                    prijsVerandering = table.Column<float>(type: "real", nullable: false),
-                    klokLocatie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    veilDatum = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    aanvoerderId = table.Column<int>(type: "int", nullable: false),
-                    positie = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_product", x => x.productId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "veiling",
                 columns: table => new
                 {
@@ -125,22 +63,6 @@ namespace WebApplication1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_veiling", x => x.veilingId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "veilingmeester",
-                columns: table => new
-                {
-                    veilingmeesterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    adres = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    wachtwoord = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_veilingmeester", x => x.veilingmeesterId);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,6 +171,73 @@ namespace WebApplication1.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "product",
+                columns: table => new
+                {
+                    productId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    aanvoerderId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    aanvoerderNaamIdId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    soortPlant = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    aantal = table.Column<int>(type: "int", nullable: false),
+                    potMaat = table.Column<int>(type: "int", nullable: true),
+                    steelLengte = table.Column<int>(type: "int", nullable: true),
+                    makkelijkheid = table.Column<int>(type: "int", nullable: true),
+                    seizoensplant = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    temperatuur = table.Column<int>(type: "int", nullable: true),
+                    water = table.Column<int>(type: "int", nullable: true),
+                    leeftijd = table.Column<int>(type: "int", nullable: true),
+                    minimumPrijs = table.Column<float>(type: "real", nullable: false),
+                    maximumPrijs = table.Column<float>(type: "real", nullable: true),
+                    prijsVerandering = table.Column<float>(type: "real", nullable: false),
+                    klokLocatie = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    veilDatum = table.Column<DateOnly>(type: "date", nullable: true),
+                    veilTijd = table.Column<TimeSpan>(type: "time", nullable: true),
+                    positie = table.Column<int>(type: "int", nullable: false),
+                    prijs = table.Column<float>(type: "real", nullable: false),
+                    isVerkocht = table.Column<bool>(type: "bit", nullable: false),
+                    verkoopPrijs = table.Column<float>(type: "real", nullable: true),
+                    verkoopDatum = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_product", x => x.productId);
+                    table.ForeignKey(
+                        name: "FK_product_AspNetUsers_aanvoerderNaamIdId",
+                        column: x => x.aanvoerderNaamIdId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "productVerkoopHistorie",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    productId = table.Column<int>(type: "int", nullable: false),
+                    klantId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    aantalVerkocht = table.Column<int>(type: "int", nullable: false),
+                    prijsPerStuk = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_productVerkoopHistorie", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_productVerkoopHistorie_AspNetUsers_klantId",
+                        column: x => x.klantId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_productVerkoopHistorie_product_productId",
+                        column: x => x.productId,
+                        principalTable: "product",
+                        principalColumn: "productId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -287,14 +276,26 @@ namespace WebApplication1.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_product_aanvoerderNaamIdId",
+                table: "product",
+                column: "aanvoerderNaamIdId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productVerkoopHistorie_klantId",
+                table: "productVerkoopHistorie",
+                column: "klantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_productVerkoopHistorie_productId",
+                table: "productVerkoopHistorie",
+                column: "productId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "aanvoerder");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -311,19 +312,16 @@ namespace WebApplication1.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "klant");
-
-            migrationBuilder.DropTable(
-                name: "product");
+                name: "productVerkoopHistorie");
 
             migrationBuilder.DropTable(
                 name: "veiling");
 
             migrationBuilder.DropTable(
-                name: "veilingmeester");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "product");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
