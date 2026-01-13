@@ -18,6 +18,6 @@ public class ProductDto
 	public DateOnly? veilDatum { get; set; }
     public TimeSpan? veilTijd { get; set; }
     public string aanvoerderId { get; set; }
-	public int positie { get; set; }
+    public int positie { get; set; }
     public string aanvoerderNaam { get; set; }
 }

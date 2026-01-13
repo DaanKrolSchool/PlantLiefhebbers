@@ -57,19 +57,34 @@ function VerkoopOverzicht() {
         fetchData();
     }, []);
 
+    const groupedByDate = verkopen
+        .sort((a, b) => new Date(a.datum).getTime() - new Date(b.datum).getTime())
+        .reduce((groups: Record<string, VerkoopRegel[]>, p) => {
+            const date = new Date(p.datum).toLocaleDateString("nl-NL", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            });
+            if (!groups[date]) groups[date] = [];
+            groups[date].push(p);
+            return groups;
+        }, {});
 
     return (
         <div className="producten-overzicht">
-            <h2>Mijn verkochte planten</h2>
-
-            {verkopen.length === 0 && <p>Nog geen verkochte planten.</p>}
-
-            {verkopen.map((p, i) => (
-                <div key={i} className="product-kaart">
-                    <h3>{p.soortPlant}</h3>
-                    <p>Aantal verkocht: {p.aantalVerkocht}</p>
-                    <p>Prijs per stuk: {p.prijsPerStuk.toFixed(2)}</p>
-                    <p>Datum: {new Date(p.datum).toLocaleDateString("nl-NL")}</p>
+            {Object.entries(groupedByDate).map(([date, items]) => (
+                <div key={date} className="datum-sectie">
+                    <h2>{date}</h2>
+                    <div className="producten-rij">
+                        {items.map(p => (
+                            <div key={p.productId} className="product-kaart">
+                                <h3>{p.soortPlant}</h3>
+                                <p>Aantal verkocht: {p.aantalVerkocht}</p>
+                                <p>Prijs per stuk: {p.prijsPerStuk.toFixed(2)}</p>
+                                <p style={{ opacity: 0.7 }}>Naam klant: {p.aanvoerderNaam}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>
