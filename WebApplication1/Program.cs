@@ -118,6 +118,11 @@ namespace WebApplication1
             });
         }
 
+            //prijs var in de backend
+            builder.Services.AddSingleton<Prijs>();
+            builder.Services.AddHostedService(sp => sp.GetRequiredService<Prijs>());
+
+
             var app = builder.Build();
 
             // Dit is nodig zodat iedereen zijn eigen data bases heeft
@@ -149,6 +154,8 @@ namespace WebApplication1
             app.MapIdentityApi<User>();
 
             app.MapFallbackToFile("index.html");
+
+
 
             //Role seeding
             using (var scope = app.Services.CreateScope())

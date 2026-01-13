@@ -323,6 +323,12 @@ namespace WebApplication1.Controllers
             if (product == null)
                 return Ok(null);
 
+            var prijsService = HttpContext.RequestServices.GetService<Prijs>();
+            if (prijsService != null)
+            {
+                prijsService.SetProduct(product);
+            }
+
             return Ok(new ProductDto
             {
                 productId = product.productId,

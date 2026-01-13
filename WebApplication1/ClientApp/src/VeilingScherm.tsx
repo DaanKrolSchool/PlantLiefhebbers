@@ -88,6 +88,7 @@ function VeilingScherm() {
         if (!res.ok) return [];
         return await res.json();
     }
+
     async function fetchData() {
         const token = localStorage.getItem("token");
 
@@ -197,51 +198,86 @@ function VeilingScherm() {
 
     }
 
-    // elke 2 secondden kijken of er een veiling gestart is
+    // KAN WEG??
+    // elke 2 secondden kijken of er een veiling gestart is 
+    //useEffect(() => {
+
+    //    if (!klokLocatie) return;
+
+    //    fetchData();
+
+    //    const interval = setInterval(fetchData, 2000);
+    //    return () => clearInterval(interval);
+    //}, [klokLocatie]);
+
+    //laad data als je refreshed of pagina opend
     useEffect(() => {
-        
-        if (!klokLocatie) return;
-
         fetchData();
-
-        const interval = setInterval(fetchData, 2000);
-        return () => clearInterval(interval);
-    }, [klokLocatie]);
-
+    }, []);
 
     // Timer: loopt alleen als er een actief product is
+    //useEffect(() => {
+    //    if (!currentProductId) return;
+    //    if (maxPrijs <= 0) return;
+
+    //    if (prijsVerandering <= 0) return;
+
+    //    setPrice(maxPrijs);
+
+    //    const timer = setInterval(() => {
+    //        setPrice(prev => {
+
+    //            const newPrice = prev - (prijsVerandering * pvMultiplier);
+
+    //            if (newPrice <= mprijs) {
+    //                setPrice(maxPrijs)
+    //                if (pvMultiplier < (maxPrijs / 10)) {
+    //                    pvMultiplier = (pvMultiplier * 1.15)
+    //                } else {
+    //                    pvMultiplier = (maxPrijs / 10)
+    //                }
+    //                //const newPrijsVerandering = prijsVerandering * 1.5
+    //                //setPrijsVerandering(newPrijsVerandering)
+    //                //clearInterval(timer);
+
+    //                setError("Prijs word gereset");
+    //                setTimeout(() => setError(""), 3000);
+    //                //return mprijs;
+    //            }
+
+    //            return newPrice;
+    //        });
+    //    }, 1000);
+
+    //    return () => clearInterval(timer);
+    //}, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
+
     useEffect(() => {
         if (!currentProductId) return;
-        if (maxPrijs <= 0) return;
 
-        if (prijsVerandering <= 0) return;
+        const fetchPrice = async () => {
+            try {
+                const res = await fetch("https://localhost:7225/api/prijs/price")
+                const data = await res.json();
 
-        setPrice(maxPrijs);
+                //prijs
+                setPrice(data);
+                //alert("test")
 
-        const timer = setInterval(() => {
-            setPrice(prev => {
-                
-                const newPrice = prev - (prijsVerandering * pvMultiplier);
+            } catch (err) {
+                console.error("Failed to fetch price", err);
+            }
+        };
 
-                if (newPrice <= mprijs) {
-                    setPrice(maxPrijs)
-                    pvMultiplier = (pvMultiplier * 1.15)
+        // fetch immediately
+        fetchPrice();
 
-                    //const newPrijsVerandering = prijsVerandering * 1.5
-                    //setPrijsVerandering(newPrijsVerandering)
-                    //clearInterval(timer);
-                    
-                    setError("Prijs word gereset");
-                    setTimeout(() => setError(""), 3000);
-                    //return mprijs;
-                }
+        // then fetch every second
+        const interval = setInterval(fetchPrice, 1000);
 
-                return newPrice;
-            });
-        }, 1000);
+        return () => clearInterval(interval);
+    }, [currentProductId]);
 
-        return () => clearInterval(timer);
-    }, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
 
     async function veranderLocatie(locatie: string) {
         
