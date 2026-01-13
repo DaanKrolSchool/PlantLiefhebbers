@@ -582,18 +582,51 @@ namespace WebApplication1.Controllers
 
 
         [HttpGet("verkocht")]
-        [Authorize(Roles = "Veilingmeester,Aanvoerder")]
+        [Authorize(Roles = "Aanvoerder")]
+        public IActionResult GetEigenVerkochteProducten()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // haal de naam op zoals hij in Product staat
+            var aanvoerderNaam = _context.product
+                .Where(p => p.aanvoerderId == userId)
+                .Select(p => p.aanvoerderNaam)
+                .FirstOrDefault();
+
+            if (aanvoerderNaam == null)
+                return Ok(new List<VerkochtProductDto>());
+
+            var verkocht = _context.productVerkoopHistorie
+                .Where(v => v.aanvoerderNaam == aanvoerderNaam)
+                .OrderByDescending(v => v.id)
+                .Select(v => new VerkochtProductDto
+                {
+                    productId = v.productId,
+                    soortPlant = v.soortPlant,
+                    aanvoerderNaam = v.aanvoerderNaam,
+                    aantalVerkocht = v.aantalVerkocht,
+                    prijsPerStuk = v.prijsPerStuk,
+                    datum = v.datum
+                })
+                .ToList();
+
+            return Ok(verkocht);
+        }
+
+        [HttpGet("alleverkocht")]
+        [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetAlleVerkochteProducten()
         {
-            var verkocht = _context.product
-                .Where(p => p.isVerkocht)
-                .OrderByDescending(p => p.verkoopDatum)
-                .Select(p => new VerkochtProductDto
+            var verkocht = _context.productVerkoopHistorie
+                .OrderByDescending(v => v.id)
+                .Select(v => new VerkochtProductDto
                 {
-                    productId = p.productId,
-                    naam = p.naam,
-                    verkoopPrijs = p.verkoopPrijs,
-                    verkoopDatum = p.verkoopDatum
+                    productId = v.productId,
+                    soortPlant = v.soortPlant,
+                    aanvoerderNaam = v.aanvoerderNaam,
+                    aantalVerkocht = v.aantalVerkocht,
+                    prijsPerStuk = v.prijsPerStuk,
+                    datum = v.datum
                 })
                 .ToList();
 
@@ -603,7 +636,7 @@ namespace WebApplication1.Controllers
 
 
 
-        
+
 
     }
 }
