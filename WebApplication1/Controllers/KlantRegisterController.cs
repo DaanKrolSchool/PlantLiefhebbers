@@ -46,7 +46,6 @@ namespace WebApplication1.Controllers
             var user = new User
             {
                 UserName = dto.naam,
-                adres = dto.adres,
                 Email = dto.email
             };
 

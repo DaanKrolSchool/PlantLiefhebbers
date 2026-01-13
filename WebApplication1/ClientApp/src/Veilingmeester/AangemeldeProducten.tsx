@@ -53,9 +53,9 @@ function AangemeldeProducten() {
     });    const [products, setProducts] = useState<Product[]>([]);
     //constante
     //de dag van vandaag
-    const today = new Date();
+    const today = new Date().toISOString().split('T')[0];
     //deze kijkt naar welke producten nog na vandaag komen.
-    const upcomingProducts = products.filter(product => new Date(product.veilDatum) >= today);
+    const upcomingProducts = products.filter(product => product.veilDatum >= today);
 
     //Deze gebruikt productController om zo alle producten te krijgen.
     useEffect(() => {

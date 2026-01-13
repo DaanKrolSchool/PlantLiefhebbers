@@ -15,7 +15,7 @@ function AangemeldeProducten() {
     const [products, setProducts] = useState<Product[]>([]);
     const [formValuesByLocatie, setFormValuesByLocatie] = useState<Record<string, Record<number, number>>>({});
 
-    const today = new Date();
+    const today = new Date().toISOString().split('T')[0];
 
     useEffect(() => {
         async function fetchProducts() {
@@ -43,10 +43,7 @@ function AangemeldeProducten() {
         fetchProducts();
     }, []);
 
-    const upcomingProducts = products.filter(product => {
-        const productDate = new Date(product.veilDatum);
-        return productDate >= today;
-    });
+    const upcomingProducts = products.filter(product => product.veilDatum >= today);
 
     const sorted = [...upcomingProducts].sort((a, b) => {
         const da = new Date(a.veilDatum);

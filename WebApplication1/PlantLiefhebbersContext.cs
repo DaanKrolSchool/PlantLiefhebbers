@@ -16,9 +16,12 @@ public class PlantLiefhebbersContext : IdentityDbContext<User>
 
 }
 
-public class Product {
+public class User : IdentityUser { }
 
+public class Product {
     public int productId { get; set; }
+    public string aanvoerderId { get; set; }
+    public User aanvoerderNaam { get; set; }
     public string naam { get; set; }
     public string soortPlant { get; set; }
     public int aantal { get; set; }
@@ -29,21 +32,17 @@ public class Product {
     public int? temperatuur { get; set; }
     public int? water { get; set; }
     public int? leeftijd { get; set; }
-
     public float minimumPrijs { get; set; }
     public float? maximumPrijs { get; set; }
     public float prijsVerandering { get; set; }
     public string klokLocatie { get; set; }
-    public DateTime? veilDatum { get; set; }
+    public DateOnly? veilDatum { get; set; }
     public TimeSpan? veilTijd { get; set; }
-    public string aanvoerderId { get; set; }
 	public int positie { get; set; }
     public float prijs { get; set; }
     public bool isVerkocht { get; set; } = false;
     public float? verkoopPrijs { get; set; }
     public DateTime? verkoopDatum { get; set; }
-    public string aanvoerderNaam { get; set; }
-
 }
 
 public class Veiling
@@ -52,25 +51,15 @@ public class Veiling
     public float startPrijs { get; set; }
     public string startDatum { get; set; }
     public string klokLocatie { get; set; }
-
-}
-
-public class User : IdentityUser
-{
-    public string? adres { get; set; }
-
 }
 
 public class ProductVerkoopHistorie
 {
     public int id { get; set; }
-
     public int productId { get; set; }
-    public string soortPlant { get; set; }
-    public string aanvoerderNaam { get; set; }
-
+    public Product Product { get; set; }
+    public string? klantId { get; set; }
+    public User Klant { get; set; }
     public int aantalVerkocht { get; set; }
     public float prijsPerStuk { get; set; }
-
-    public DateOnly datum { get; set; }
 }

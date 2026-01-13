@@ -26,8 +26,8 @@ function AangemeldeProducten() {
     const [editValues, setEditValues] = useState<EditValues>({ naam: "", soortPlant: "", aantal: 0, minimumPrijs: 0 });
     const [products, setProducts] = useState<Product[]>([]);
 
-    const today = new Date();
-    const upcomingProducts = products.filter(product => new Date(product.veilDatum) >= today);
+    const today = new Date().toISOString().split('T')[0];
+    const upcomingProducts = products.filter(product => product.veilDatum >= today);
 
     const [error, setError] = useState("");
     const [notf, setNotf] = useState("");

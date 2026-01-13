@@ -49,8 +49,7 @@ function ProductAanmelden() {
 
                 minimumPrijs: parseFloat(minimumPrijs),
                 klokLocatie, 
-                veilDatum,
-                aanvoerderNaam: bedrijfnaam
+                veilDatum
             }),
         });
         
@@ -92,8 +91,6 @@ function ProductAanmelden() {
             <form className="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
                 { }
-                <label htmlFor="bedrijfnaam">Bedrijfnaam:</label>
-                <input type="text" id="bedrijfnaam" name="bedrijfnaam" value={bedrijfnaam} onChange={(e) => setBedrijfnaam(e.target.value)} required/><br/>
                 <label htmlFor="naam">Naam:</label>
                 <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
                 <label htmlFor="soort">Soort:</label>
@@ -136,7 +133,7 @@ function ProductAanmelden() {
                 {notf && <div className="NotBox">{notf}</div>}
 
                 <label htmlFor="vdatum">Veildatum:</label>
-                <input type="datetime-local" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
+                <input type="date" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
                 <label htmlFor="afbeelding">Afbeelding:</label>
                 <input type="file" accept="image/png" id="afbeelding" name="afbeelding" onChange={(e) => setAfbeelding(e.target.files ? e.target.files[0] : null)}/><br/><br/>
                 <input type="submit" value="Product aanmelden"/>

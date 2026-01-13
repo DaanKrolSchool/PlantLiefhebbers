@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                     veilDatum = x.veilDatum,
                     veilTijd = x.veilTijd,
 
-                    aanvoerderNaam = x.aanvoerderNaam,
+                    aanvoerderNaam = x.aanvoerderNaam.UserName,
                     positie = x.positie
                 })
                 .FirstOrDefaultAsync();
@@ -115,7 +115,7 @@ namespace WebApplication1.Controllers
             return Ok(lijst);
         }
 
-        [HttpGet("historie/soort/{soortPlant}")]
+        /*[HttpGet("historie/soort/{soortPlant}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PrijsPuntDto>>> GetHistoriePerSoort(string soortPlant)
         {
@@ -128,12 +128,12 @@ namespace WebApplication1.Controllers
                 {
                     datum = x.datum,
                     prijs = x.prijsPerStuk,
-                    aanvoerderNaam = x.aanvoerderNaam
+                    aanvoerderNaam = x.aanvoerderNaam.UserName
                 })
                 .ToListAsync();
 
             return Ok(lijst);
-        }
+        }*/
 
 
 
@@ -184,8 +184,7 @@ namespace WebApplication1.Controllers
                 maximumPrijs = newProductDto.maximumPrijs,
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
-                aanvoerderId = userId,
-                aanvoerderNaam = newProductDto.aanvoerderNaam
+                aanvoerderId = userId
             };
 
             _context.product.Add(newProduct);
@@ -208,8 +207,7 @@ namespace WebApplication1.Controllers
                 maximumPrijs = newProduct.maximumPrijs,
                 klokLocatie = newProduct.klokLocatie,
                 veilDatum = newProduct.veilDatum,
-                aanvoerderId = newProduct.aanvoerderId,
-                aanvoerderNaam = newProductDto.aanvoerderNaam
+                aanvoerderId = newProduct.aanvoerderId
             };
 
             return Ok(productDto);
@@ -311,7 +309,7 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetEersteProduct(string kloklocatie)
         {
-            var now = DateTime.Now;
+            var now = DateOnly.FromDateTime(DateTime.Now);
 
             var product = await _context.product
                 .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht && p.klokLocatie == kloklocatie)
@@ -342,7 +340,7 @@ namespace WebApplication1.Controllers
                 veilDatum = product.veilDatum,
                 aanvoerderId = product.aanvoerderId,
                 positie = product.positie,
-                aanvoerderNaam = product.aanvoerderNaam
+                aanvoerderNaam = product.aanvoerderNaam.UserName
             });
         }
 
@@ -351,7 +349,7 @@ namespace WebApplication1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen(string kloklocatie)
         {
-            var now = DateTime.Now;
+            var now = DateOnly.FromDateTime(DateTime.Now);
 
             // Als er al een actieve is: pak eerst die, anders pak eerstvolgende toekomstige
             var eerste = await _context.product
@@ -360,7 +358,7 @@ namespace WebApplication1.Controllers
                 .ThenBy(p => p.productId)
                 .FirstOrDefaultAsync(p => p.veilDatum <= now);
 
-            DateTime? basisTijd = eerste?.veilDatum;
+            DateOnly? basisTijd = eerste?.veilDatum;
 
             var query = _context.product
                 .Where(p => p.veilDatum != null);
@@ -496,11 +494,8 @@ namespace WebApplication1.Controllers
                 _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                 {
                     productId = product.productId,
-                    soortPlant = product.soortPlant,
-                    aanvoerderNaam = product.aanvoerderNaam,
                     aantalVerkocht = hoeveelheidKopen,
-                    prijsPerStuk = price,
-                    datum = DateOnly.FromDateTime(DateTime.Now)
+                    prijsPerStuk = price
                 });
             }
             else
@@ -511,11 +506,8 @@ namespace WebApplication1.Controllers
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
                         productId = product.productId,
-                        soortPlant = product.soortPlant,
-                        aanvoerderNaam = product.aanvoerderNaam,
                         aantalVerkocht = hoeveelheidKopen,
-                        prijsPerStuk = price,
-                        datum = DateOnly.FromDateTime(DateTime.Now)
+                        prijsPerStuk = price
                     });
                 }
                 else
@@ -524,11 +516,8 @@ namespace WebApplication1.Controllers
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
                         productId = product.productId,
-                        soortPlant = product.soortPlant,
-                        aanvoerderNaam = product.aanvoerderNaam,
                         aantalVerkocht = product.aantal,
-                        prijsPerStuk = price,
-                        datum = DateOnly.FromDateTime(DateTime.Now)
+                        prijsPerStuk = price
                     } );
                 }
 
@@ -587,26 +576,17 @@ namespace WebApplication1.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            // haal de naam op zoals hij in Product staat
-            var aanvoerderNaam = _context.product
-                .Where(p => p.aanvoerderId == userId)
-                .Select(p => p.aanvoerderNaam)
-                .FirstOrDefault();
-
-            if (aanvoerderNaam == null)
-                return Ok(new List<VerkochtProductDto>());
-
             var verkocht = _context.productVerkoopHistorie
-                .Where(v => v.aanvoerderNaam == aanvoerderNaam)
+                .Include(v => v.Product)
+                .Where(v => v.Product.aanvoerderId == userId)
                 .OrderByDescending(v => v.id)
                 .Select(v => new VerkochtProductDto
                 {
                     productId = v.productId,
-                    soortPlant = v.soortPlant,
-                    aanvoerderNaam = v.aanvoerderNaam,
+                    klantNaam = v.Klant.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
-                    datum = v.datum
+                    datum = v.Product.veilDatum.Value
                 })
                 .ToList();
 
@@ -622,11 +602,10 @@ namespace WebApplication1.Controllers
                 .Select(v => new VerkochtProductDto
                 {
                     productId = v.productId,
-                    soortPlant = v.soortPlant,
-                    aanvoerderNaam = v.aanvoerderNaam,
+                    aanvoerderNaam = v.Product.aanvoerderNaam.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
-                    datum = v.datum
+                    datum = v.Product.veilDatum.Value
                 })
                 .ToList();
 

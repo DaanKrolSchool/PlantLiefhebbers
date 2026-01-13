@@ -13,6 +13,5 @@ public class ProductCreateDto
     public float minimumPrijs { get; set; }
     public float? maximumPrijs { get; set; }
     public string klokLocatie { get; set; }
-    public DateTime veilDatum { get; set; }
-    public string aanvoerderNaam { get; set; }
+    public DateOnly veilDatum { get; set; }
 }

@@ -33,7 +33,6 @@ namespace WebApplication1.Controllers
             {
                 klantId = user.Id,
                 naam = user.UserName,
-                adres = user.adres,
                 email = user.Email
             };
 
@@ -63,7 +62,6 @@ namespace WebApplication1.Controllers
             {
                 klantId = user.Id,
                 naam = user.UserName,
-                adres = user.adres,
                 email = user.Email
             };
 
@@ -82,7 +80,6 @@ namespace WebApplication1.Controllers
             {
                 klantId = user.Id,
                 naam = user.UserName,
-                adres = user.adres,
                 email = user.Email
             };
 
