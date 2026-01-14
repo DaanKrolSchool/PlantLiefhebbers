@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                     veilDatum = x.veilDatum,
                     veilTijd = x.veilTijd,
 
-                    aanvoerderNaam = "x.aanvoerderNaamId.UserName",
+                    aanvoerderNaam = x.aanvoerderNaamId != null ? x.aanvoerderNaamId.UserName : "—",
                     positie = x.positie
                 })
                 .FirstOrDefaultAsync();
@@ -350,7 +350,7 @@ namespace WebApplication1.Controllers
                 veilDatum = product.veilDatum,
                 aanvoerderId = product.aanvoerderId,
                 positie = product.positie,
-                aanvoerderNaam = "product.aanvoerderNaamId?.UserName" // make this the name not id
+                aanvoerderNaam = product.aanvoerderNaamId != null ? product.aanvoerderNaamId.UserName : "—"
             });
         }
 
@@ -623,6 +623,149 @@ namespace WebApplication1.Controllers
 
             return Ok(verkocht);
         }
+
+        [HttpGet("historie/product/{productId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<PrijsHistorieResponseDto>> GetPrijsHistorieVoorPopup(int productId)
+        {
+            await using var connectt = new SqlConnection(_context.Database.GetConnectionString());
+            await connectt.OpenAsync();
+
+            // als eerste moet de informatie opgehaald worden soortPlant + aanvoerderId + aanvoerderNaam
+            string soortPlant;
+            string aanvoerderId;
+            string aanvoerderNaam;
+
+            await using (var cmd = new SqlCommand(@"
+        SELECT p.soortPlant,
+               p.aanvoerderId,
+               u.UserName AS aanvoerderNaam
+        FROM product p
+        LEFT JOIN AspNetUsers u ON u.Id = p.aanvoerderId
+        WHERE p.productId = @productId
+    ", connectt))
+            {
+                cmd.Parameters.AddWithValue("@productId", productId);
+
+                await using var r = await cmd.ExecuteReaderAsync();
+                if (!await r.ReadAsync())
+                    return NotFound();
+
+                soortPlant = r.GetString(0);
+                aanvoerderId = r.GetString(1);
+                aanvoerderNaam = r.IsDBNull(2) ? "—" : r.GetString(2);
+            }
+
+            // De laatste 10 uit de lijst moet worden opgehaald
+            async Task<List<PrijsPuntDto>> ReadLast10Async(SqlCommand cmd2)
+            {
+                var list = new List<PrijsPuntDto>();
+                await using var r2 = await cmd2.ExecuteReaderAsync();
+                while (await r2.ReadAsync())
+                {
+                    // gebruik p.veilDatum (DateOnly) van Product
+                    var d = r2.GetDateTime(0);
+                    var prijs = r2.GetFloat(1);
+                    var user = r2.IsDBNull(2) ? "—" : r2.GetString(2);
+
+                    list.Add(new PrijsPuntDto
+                    {
+                        datum = DateOnly.FromDateTime(d),
+                        prijs = prijs,
+                        aanvoerderNaam = user
+                    });
+                }
+                return list;
+            }
+
+            // dan nu de Laatste 10 van deze aanvoerder (voor dezelfde plantten soorten )
+            List<PrijsPuntDto> last10Aanvoerder;
+            await using (var cmd = new SqlCommand(@"
+        SELECT TOP 10 
+               CAST(p.veilDatum AS datetime2) AS datum,
+               h.prijsPerStuk,
+               u.UserName
+        FROM productVerkoopHistorie h
+        JOIN product p ON p.productId = h.productId
+        LEFT JOIN AspNetUsers u ON u.Id = p.aanvoerderId
+        WHERE h.aantalVerkocht > 0
+          AND p.soortPlant = @soortPlant
+          AND p.aanvoerderId = @aanvoerderId
+        ORDER BY h.id DESC
+    ", connectt))
+            {
+                cmd.Parameters.AddWithValue("@soortPlant", soortPlant);
+                cmd.Parameters.AddWithValue("@aanvoerderId", aanvoerderId);
+                last10Aanvoerder = await ReadLast10Async(cmd);
+            }
+
+            // het gemiddlede uitrekenen van deze aanvoerder van dezelfde plantensoorten
+            float avgAanvoerder = 0;
+            await using (var cmd = new SqlCommand(@"
+        SELECT AVG(CAST(h.prijsPerStuk AS float))
+        FROM productVerkoopHistorie h
+        JOIN product p ON p.productId = h.productId
+        WHERE h.aantalVerkocht > 
+          AND p.soortPlant = @soortPlant
+          AND p.aanvoerderId = @aanvoerderId
+    ", connectt))
+            {
+                cmd.Parameters.AddWithValue("@soortPlant", soortPlant);
+                cmd.Parameters.AddWithValue("@aanvoerderId", aanvoerderId);
+
+                var obj = await cmd.ExecuteScalarAsync();
+                avgAanvoerder = (obj == null || obj == DBNull.Value) ? 0 : Convert.ToSingle(obj);
+            }
+
+            // de laatste 10 verkopen laten zien van alle aanvoerders 
+            List<PrijsPuntDto> last10Alle;
+            await using (var cmd = new SqlCommand(@"
+        SELECT TOP 10
+               CAST(p.veilDatum AS datetime2) AS datum,
+               h.prijsPerStuk,
+               u.UserName
+        FROM productVerkoopHistorie h
+        JOIN product p ON p.productId = h.productId
+        LEFT JOIN AspNetUsers u ON u.Id = p.aanvoerderId
+        WHERE h.aantalVerkocht > 0
+          AND p.soortPlant = @soortPlant
+        ORDER BY h.id DESC
+    ", connectt))
+            {
+                cmd.Parameters.AddWithValue("@soortPlant", soortPlant);
+                last10Alle = await ReadLast10Async(cmd);
+            }
+
+            // het gemiddlede berekenen van alle aanvoerders (laatste 10)
+            float avgAlle = 0;
+            await using (var cmd = new SqlCommand(@"
+        SELECT AVG(CAST(h.prijsPerStuk AS float))
+        FROM productVerkoopHistorie h
+        INNER JOIN product p ON p.productId = h.productId
+        WHERE h.aantalVerkocht > 0
+          AND p.soortPlant = @soortPlant
+    ", connectt))
+            {
+                cmd.Parameters.AddWithValue("@soortPlant", soortPlant);
+
+                var obj = await cmd.ExecuteScalarAsync();
+                avgAlle = (obj == null || obj == DBNull.Value) ? 0 : Convert.ToSingle(obj);
+            }
+
+            var response = new PrijsHistorieResponseDto
+            {
+                soortPlant = soortPlant,
+                aanvoerderNaam = aanvoerderNaam,
+                avgAanvoerder = avgAanvoerder,
+                last10Aanvoerder = last10Aanvoerder,
+                avgAlleAanvoerders = avgAlle,
+                last10AlleAanvoerders = last10Alle
+            };
+
+            return Ok(response);
+        }
+
+
 
 
 

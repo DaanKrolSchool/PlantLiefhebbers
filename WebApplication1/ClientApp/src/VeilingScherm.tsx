@@ -6,6 +6,21 @@ import 'tippy.js/dist/tippy.css';
 //import 'tippy.js/themes/light.css';
 import 'tippy.js/animations/perspective.css';
 
+type PrijsPuntDto = {
+    datum: string;
+    prijs: number;
+    aanvoerderNaam: string;
+};
+
+type PrijsHistorieResponseDto = {
+    soortPlant: string;
+    aanvoerderNaam: string;
+    avgAanvoerder: number;
+    last10Aanvoerder: PrijsPuntDto[];
+    avgAlleAanvoerders: number;
+    last10AlleAanvoerders: PrijsPuntDto[];
+};
+
 function formatDatum(d: string) {
     // verwacht "YYYY-MM-DD"
     const date = new Date(d);
@@ -18,7 +33,8 @@ function VeilingScherm() {
     const [soort, setSoort] = useState<string>("");
     const [prijsGeschiedenis, setPrijsGeschiedenis] = useState<
         { datum: string; prijs: number; aanvoerder: string }[]
-    >([]);
+        >([]);
+    const [historie, setHistorie] = useState<PrijsHistorieResponseDto | null>(null);
 
 
     const [lastLoadedId, setLastLoadedId] = useState<number | null>(null);
@@ -89,6 +105,21 @@ function VeilingScherm() {
         return await res.json();
     }
 
+    async function fetchHistoriePopup(productId: number) {
+        try {
+            const res = await fetch(`https://localhost:7225/Product/historie/product/${productId}`);
+            if (!res.ok) {
+                setHistorie(null);
+                return;
+            }
+
+            const data: PrijsHistorieResponseDto = await res.json();
+            setHistorie(data);
+        } catch {
+            setHistorie(null);
+        }
+    }
+
     async function fetchData() {
         const token = localStorage.getItem("token");
 
@@ -107,6 +138,7 @@ function VeilingScherm() {
         if (!data || !data.productId) {
             
             setPrijsGeschiedenis([]);
+            setHistorie(null);
             
             setLastLoadedId(null);
             setNaam("geen veiling gestart");
@@ -169,6 +201,8 @@ function VeilingScherm() {
                 //setKlokLocatie(info.klokLocation ?? "-");
 
                 //setPrice(info.maximumPrijs ?? 0);
+
+                await fetchHistoriePopup(id);
             }
         }
 
@@ -519,49 +553,135 @@ function VeilingScherm() {
                 animation={"perspective"}
                 interactive={true}
                 content={
-                    <div style={{ minWidth: 320 }}>
-                        <h3 style={{ margin: "0 0 6px 0" }}>Verkoopgeschiedenis van deze aanvoerder</h3>
+                    <div style={{ minWidth: 420 }}>
+                        <h3 style={{ margin: "0 0 6px 0" }}>Historische prijzen</h3>
+
                         <p style={{ margin: "0 0 10px 0", opacity: 0.85 }}>
                             <b>Bloemsoort:</b> {soort}
                             <br />
-                            <b>Aanvoerder:</b> {aanvoerder}
+                            <b>Aanvoerder:</b> {historie?.aanvoerderNaam ?? "—"}
                         </p>
 
-                        {prijsGeschiedenis.length === 0 ? (
-                            <p style={{ margin: 0 }}>Nog geen verkopen</p>
-                        ) : (
+
+                        {historie && (
                             <>
-                                <div style={{ display: "grid", gap: 8, maxHeight: 240, overflowY: "auto" }}>
-                                    {prijsGeschiedenis
-                                        .slice()
-                                        .reverse()
-                                        .slice(0, 10) // laatste 10
-                                        .map((p, i) => (
-                                            <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                                                <span>{formatDatum(p.datum)}</span>
-                                                <span>
-                                                    <b>€{Number(p.prijs).toFixed(2)}</b> per {soort}
-                                                </span>
+                                {/* === Bovenste === */}
+                                <div style={{ marginTop: 8 }}>
+                                    <b>Deze aanvoerder (laatste 10)</b>
+
+                                    {historie.last10Aanvoerder.length === 0 ? (
+                                        <p style={{ margin: "6px 0 0 0" }}>Nog geen verkopen</p>
+                                    ) : (
+                                        <>
+                                            <div
+                                                style={{
+                                                    display: "grid",
+                                                    gridTemplateColumns: "1fr 1fr 1fr",
+                                                    gap: 10,
+                                                    fontWeight: 700,
+                                                    borderBottom: "1px solid rgba(255,255,255,0.2)",
+                                                    paddingBottom: 4,
+                                                    marginTop: 6
+                                                }}
+                                            >
+                                                <span>Aanvoerder</span>
+                                                <span>Datum</span>
+                                                <span>Prijs</span>
                                             </div>
-                                        ))}
+
+                                            <div style={{ display: "grid", gap: 6, marginTop: 6, maxHeight: 160, overflowY: "auto" }}>
+                                                {historie.last10Aanvoerder.map((p: any, i: number) => {
+                                                    const prijs = (p.prijs ?? p.prijsPerStuk ?? 0) as number;
+
+                                                    return (
+                                                        <div
+                                                            key={i}
+                                                            style={{
+                                                                display: "grid",
+                                                                gridTemplateColumns: "1fr 1fr 1fr",
+                                                                gap: 10
+                                                            }}
+                                                        >
+                                                            <span>{p.aanvoerderNaam ?? aanvoerder ?? "—"}</span>
+                                                            <span>{formatDatum(p.datum)}</span>
+                                                            <span><b>€{Number(prijs).toFixed(2)}</b></span>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.2)" }}>
+                                        <b>Gemiddelde (aanvoerder): €{Number(historie.avgAanvoerder).toFixed(2)}</b>
+                                    </div>
                                 </div>
 
-                                {/* Gemiddelde */}
-                                <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.2)" }}>
-                                    <b>
-                                        Gemiddelde prijs (alle verkopen):{" "}
-                                        €{(
-                                            prijsGeschiedenis.reduce((sum, p) => sum + Number(p.prijs), 0) / prijsGeschiedenis.length
-                                        ).toFixed(2)}{" "}
-                                        per {soort}
-                                    </b>
+
+                                {/* === Onderste === */}
+                                <div style={{ marginTop: 14 }}>
+                                    <b>Alle aanbieders (laatste 10)</b>
+
+                                    {historie.last10AlleAanvoerders.length === 0 ? (
+                                        <p>Nog geen verkopen</p>
+                                    ) : (
+                                        <>
+                                            <div
+                                                style={{
+                                                    display: "grid",
+                                                    gridTemplateColumns: "1.2fr 1fr 1fr",
+                                                    gap: 10,
+                                                    fontWeight: 700,
+                                                    borderBottom: "1px solid rgba(255,255,255,0.2)",
+                                                    paddingBottom: 4,
+                                                    marginTop: 6
+                                                }}
+                                            >
+                                                <span>Aanvoerder</span>
+                                                <span>Datum</span>
+                                                <span>Prijs</span>
+                                            </div>
+
+                                            <div
+                                                style={{
+                                                    display: "grid",
+                                                    gap: 6,
+                                                    marginTop: 6,
+                                                    maxHeight: 180,
+                                                    overflowY: "auto"
+                                                }}
+                                            >
+                                                {historie.last10AlleAanvoerders.map((p, i) => (
+                                                    <div
+                                                        key={i}
+                                                        style={{
+                                                            display: "grid",
+                                                            gridTemplateColumns: "1.2fr 1fr 1fr",
+                                                            gap: 10
+                                                        }}
+                                                    >
+                                                        <span>{p.aanvoerderNaam}</span>
+                                                        <span>{formatDatum(p.datum)}</span>
+                                                        <span>
+                                                            <b>€{Number(p.prijs).toFixed(2)}</b>
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.2)" }}>
+                                        <b>Gemiddelde (alle aanbieders): €{Number(historie.avgAlleAanvoerders).toFixed(2)}</b>
+                                    </div>
                                 </div>
                             </>
                         )}
                     </div>
                 }
             >
-                <button className="Historie2" type="button" > Historische prijzen van aanvoeder
+                <button className="Historie2" type="button">
+                    Historische prijzen
                 </button>
             </Tippy>
             <div className="Adder">
