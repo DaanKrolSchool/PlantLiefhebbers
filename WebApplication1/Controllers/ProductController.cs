@@ -374,7 +374,7 @@ namespace WebApplication1.Controllers
             DateOnly? basisTijd = eerste?.veilDatum;
 
             var query = _context.product
-                .Where(p => p.veilDatum != null);
+                .Where(p => p.veilDatum != null && !p.isVerkocht && p.klokLocatie == kloklocatie);
 
             // als er actieve is -> alles NA die
             // anders -> gewoon de eerstvolgende aankomende

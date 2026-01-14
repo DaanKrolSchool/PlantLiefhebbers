@@ -9,7 +9,9 @@ export default defineConfig({
             '/inlog': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
             '/klantregister': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
             '/Product': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
-            '/api': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net'
+            '/api': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
+            '/images': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net'
         }
     }
 })
+    
