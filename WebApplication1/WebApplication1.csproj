@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\LoginController.cs" />
+    <Compile Remove="Migrations\20260114112707_InitialCreate.cs" />
+    <Compile Remove="Migrations\20260114112707_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\PlantLiefhebbersContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>

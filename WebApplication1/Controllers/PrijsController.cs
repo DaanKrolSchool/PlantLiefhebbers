@@ -11,9 +11,28 @@ public class PrijsController : ControllerBase
         _priceService = priceService;
     }
 
-    [HttpGet("price")]
-    public IActionResult GetPrice()
+    [HttpGet("priceRijnsburg")]
+    public IActionResult GetPriceRijnsburg()
     {
-        return Ok(_priceService.GetPrice());
+        return Ok(_priceService.GetPriceRijnsburg());
     }
+
+    [HttpGet("priceNaaldwijk")]
+    public IActionResult GetPriceNaaldwijk()
+    {
+        return Ok(_priceService.GetPriceNaaldwijk());
+    }
+
+    [HttpGet("priceEelde")]
+    public IActionResult GetPriceEelde()
+    {
+        return Ok(_priceService.GetPriceEelde());
+    }
+
+    [HttpGet("priceAalsmeer")]
+    public IActionResult GetPriceAalsmeer()
+    {
+        return Ok(_priceService.GetPriceAalsmeer());
+    }
+
 }

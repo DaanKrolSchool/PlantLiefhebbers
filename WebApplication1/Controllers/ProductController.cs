@@ -330,6 +330,7 @@ namespace WebApplication1.Controllers
                 prijsService.SetProduct(product);
             }
 
+            //Console.WriteLine(product.klokLocatie);
             return Ok(new ProductDto
             {
                 productId = product.productId,
@@ -347,6 +348,7 @@ namespace WebApplication1.Controllers
                 prijsVerandering = product.prijsVerandering,
                 maximumPrijs = product.maximumPrijs,
                 klokLocatie = product.klokLocatie,
+                
                 veilDatum = product.veilDatum,
                 aanvoerderId = product.aanvoerderId,
                 positie = product.positie,
@@ -705,7 +707,7 @@ namespace WebApplication1.Controllers
         SELECT AVG(CAST(h.prijsPerStuk AS float))
         FROM productVerkoopHistorie h
         JOIN product p ON p.productId = h.productId
-        WHERE h.aantalVerkocht > 
+        WHERE h.aantalVerkocht > 0
           AND p.soortPlant = @soortPlant
           AND p.aanvoerderId = @aanvoerderId
     ", connectt))

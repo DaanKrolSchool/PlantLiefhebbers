@@ -32,7 +32,7 @@ namespace WebApplication1
             builder.Services.AddDbContext<PlantLiefhebbersContext>(options =>
             {
                 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
-                Console.WriteLine(">>> CONNECTION STRING = " + cs);
+                //Console.WriteLine(">>> CONNECTION STRING = " + cs);
                 options.UseSqlServer(cs);
             });
 

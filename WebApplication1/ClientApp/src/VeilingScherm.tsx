@@ -124,16 +124,20 @@ function VeilingScherm() {
         const token = localStorage.getItem("token");
 
         // de huidige veiling die start
+        //alert("data.productId");
         const res = await fetch(`https://localhost:7225/Product/klant/eerste/${klokLocatie}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         });
+        let data = null;
 
-        const data = res.ok ? await res.json() : null;
-        
-
+        if (res.ok) {
+            const text = await res.text();
+            data = text ? JSON.parse(text) : null;
+        }
+        //alert(data == null);
         // dit doet hij als er geen actieve veiling is
         if (!data || !data.productId) {
             
@@ -154,7 +158,7 @@ function VeilingScherm() {
             setAanvoerder("—");
 
             setCurrentProductId(null);
-            setKlokLocatie(klokLocatie);
+            //setKlokLocatie(klokLocatie);
 
             setMprijs(0);
             setMaxPrijs(0);
@@ -182,6 +186,7 @@ function VeilingScherm() {
 
                 //alert(info.aantal)
                 // zet state
+                //alert(info.klokLocatie);
                 setNaam(info.naam ?? "—");
                 setSoort(info.soortPlant ?? "—");
                 
@@ -291,11 +296,29 @@ function VeilingScherm() {
 
         const fetchPrice = async () => {
             try {
-                const res = await fetch("https://localhost:7225/api/prijs/price")
-                const data = await res.json();
+                let res;
+                
+                if (klokLocatie == "rijnsburg") {
+                    res = await fetch("https://localhost:7225/api/prijs/priceRijnsburg");
+                }
+                else if (klokLocatie == "naaldwijk") {
+                    res = await fetch("https://localhost:7225/api/prijs/priceNaaldwijk");
+                }
+                else if (klokLocatie == "eelde") {
+                    res = await fetch("https://localhost:7225/api/prijs/priceEelde");
+                }
+                else if (klokLocatie == "aalsmeer") {
+                    res = await fetch("https://localhost:7225/api/prijs/priceAalsmeer");
+                    
+                }
 
-                //prijs
-                setPrice(data);
+                if (res) {
+                    //alert(klokLocatie)
+                    const data = await res.json();
+                    setPrice(data);
+                }
+                //const data = await res.json();
+                //setPrice(data);
                 //alert("test")
 
             } catch (err) {
@@ -316,10 +339,11 @@ function VeilingScherm() {
     async function veranderLocatie(locatie: string) {
         
         setKlokLocatie(locatie)
-        setPrice(maxPrijs);
+        //setPrice(maxPrijs);
+        //alert(klokLocatie)
         //alert(Progresiebar)
-        setProgresiebar(100);
-        //await fetchData();
+        //setProgresiebar(100);
+        await fetchData();
     }
 
     async function handleBuy() {
