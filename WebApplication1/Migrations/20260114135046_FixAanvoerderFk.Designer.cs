@@ -11,8 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
+<<<<<<<< HEAD:WebApplication1/Migrations/20260114133544_AddAanvoerderNaam.Designer.cs
     [Migration("20260114133544_AddAanvoerderNaam")]
     partial class AddAanvoerderNaam
+========
+    [Migration("20260114135046_FixAanvoerderFk")]
+    partial class FixAanvoerderFk
+>>>>>>>> a16b0ec3be30b8bb2c88e476056ef61f5854a189:WebApplication1/Migrations/20260114135046_FixAanvoerderFk.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,9 +175,6 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("aanvoerderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("aanvoerderNaamIdId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isVerkocht")
@@ -240,7 +242,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("productId");
 
-                    b.HasIndex("aanvoerderNaamIdId");
+                    b.HasIndex("aanvoerderId");
 
                     b.ToTable("product");
                 });
@@ -416,11 +418,13 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.HasOne("User", "aanvoerderNaamId")
+                    b.HasOne("User", "Aanvoerder")
                         .WithMany()
-                        .HasForeignKey("aanvoerderNaamIdId");
+                        .HasForeignKey("aanvoerderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("aanvoerderNaamId");
+                    b.Navigation("Aanvoerder");
                 });
 
             modelBuilder.Entity("ProductVerkoopHistorie", b =>

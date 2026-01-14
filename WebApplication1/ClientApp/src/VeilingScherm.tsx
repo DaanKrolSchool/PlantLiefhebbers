@@ -450,7 +450,7 @@ function VeilingScherm() {
 
             <div className="KenmerkenL">
                 <h1> Kenmerken:</h1>
-                <p className="TitleL">Soort plant:</p>
+                <p className="TitleL">Soort:</p>
                 <p className="FeatureL">{soort}</p>
 
                 <p className="TitleL">Potmaat:</p>
@@ -460,11 +460,11 @@ function VeilingScherm() {
                 <p className="FeatureL">{seizoensplant}</p>
 
 
-                <p className="TitleL">Temperatuur:</p>
+                {/*<p className="TitleL">Temperatuur:</p>
                 <p className="FeatureL">{temperatuur}</p>
 
                 <p className="TitleL">Makkelijkheid (1/10):</p>
-                <p className="FeatureL">{makkelijkheid}</p>
+                <p className="FeatureL">{makkelijkheid}</p>*/}
             </div>
 
             {error && <div className="ErrorBox">{error}</div>}
@@ -477,10 +477,10 @@ function VeilingScherm() {
                 <p className="TitleR">Hoeveelheid:</p>
                 <p className="FeatureR">{hoeveelheid}</p>
 
-                <p className="TitleR">L water per week:</p>
-                <p className="FeatureR">{water}</p>
+                {/*<p className="TitleR">L water per week:</p>
+                <p className="FeatureR">{water}</p>*/}
 
-                <p className="TitleR">Leeftijd in maanden:</p>
+                <p className="TitleR">Leeftijd:</p>
                 <p className="FeatureR">{leeftijd}</p>
 
             </div>

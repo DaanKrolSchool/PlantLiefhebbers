@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApplication1.Migrations
 {
     /// <inheritdoc />
-    public partial class AddAanvoerderNaam : Migration
+    public partial class help : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -177,8 +177,7 @@ namespace WebApplication1.Migrations
                 {
                     productId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    aanvoerderId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    aanvoerderNaamIdId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    aanvoerderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     soortPlant = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     aantal = table.Column<int>(type: "int", nullable: false),
@@ -205,10 +204,11 @@ namespace WebApplication1.Migrations
                 {
                     table.PrimaryKey("PK_product", x => x.productId);
                     table.ForeignKey(
-                        name: "FK_product_AspNetUsers_aanvoerderNaamIdId",
-                        column: x => x.aanvoerderNaamIdId,
+                        name: "FK_product_AspNetUsers_aanvoerderId",
+                        column: x => x.aanvoerderId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,9 +278,9 @@ namespace WebApplication1.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_product_aanvoerderNaamIdId",
+                name: "IX_product_aanvoerderId",
                 table: "product",
-                column: "aanvoerderNaamIdId");
+                column: "aanvoerderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_productVerkoopHistorie_klantId",

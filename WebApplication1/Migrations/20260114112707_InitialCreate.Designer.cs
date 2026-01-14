@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-    partial class PlantLiefhebbersContextModelSnapshot : ModelSnapshot
+    [Migration("20260114112707_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,6 +170,9 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("aanvoerderId")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("aanvoerderNaamIdId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isVerkocht")
@@ -234,7 +240,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("productId");
 
-                    b.HasIndex("aanvoerderId");
+                    b.HasIndex("aanvoerderNaamIdId");
 
                     b.ToTable("product");
                 });
@@ -410,13 +416,11 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.HasOne("User", "Aanvoerder")
+                    b.HasOne("User", "aanvoerderNaamId")
                         .WithMany()
-                        .HasForeignKey("aanvoerderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("aanvoerderNaamIdId");
 
-                    b.Navigation("Aanvoerder");
+                    b.Navigation("aanvoerderNaamId");
                 });
 
             modelBuilder.Entity("ProductVerkoopHistorie", b =>
