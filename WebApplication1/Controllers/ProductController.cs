@@ -243,7 +243,7 @@ namespace WebApplication1.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             
             var products = _context.product
-                .Where(p => p.aanvoerderId == userId)
+                .Where(p => p.aanvoerderId == userId && !p.isVerkocht)
                 .OrderBy(p => p.veilDatum)
                 .Select(p => new ProductDto
                 {
@@ -276,6 +276,7 @@ namespace WebApplication1.Controllers
         public IActionResult GetAllProducts()
         {
             var products = _context.product
+                .Where(p => !p.isVerkocht)
                 .OrderBy(p => p.veilDatum == null || p.veilTijd == null)
                 .ThenBy(p => p.veilDatum)
                 .ThenBy(p => p.veilTijd)
@@ -510,7 +511,7 @@ namespace WebApplication1.Controllers
             else
             {
                 // Meer dan 1 → min 1
-                if (hoeveelheidKopen <= product.aantal) {
+                if (hoeveelheidKopen < product.aantal) {
                     product.aantal -= hoeveelheidKopen;
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
@@ -522,6 +523,7 @@ namespace WebApplication1.Controllers
                 else
                 {
                     product.aantal -= product.aantal;
+                    product.isVerkocht = true;
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
                         productId = product.productId,
@@ -607,6 +609,7 @@ namespace WebApplication1.Controllers
         public IActionResult GetAlleVerkochteProducten()
         {
             var verkocht = _context.productVerkoopHistorie
+                .Where(v => v.aantalVerkocht > 0)
                 .OrderByDescending(v => v.id)
                 .Select(v => new VerkochtProductDto
                 {

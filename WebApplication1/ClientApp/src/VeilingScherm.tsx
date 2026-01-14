@@ -148,7 +148,7 @@ function VeilingScherm() {
                 //setPrijsGeschiedenis(geschiedenis);
 
 
-                //alert(info.naam)
+                //alert(info.aantal)
                 // zet state
                 setNaam(info.naam ?? "—");
                 setSoort(info.soortPlant ?? "—");
@@ -199,16 +199,16 @@ function VeilingScherm() {
     }
 
     // KAN WEG??
-    // elke 2 secondden kijken of er een veiling gestart is 
-    //useEffect(() => {
+    // elke 1 secondden kijken of er een veiling gestart is 
+    useEffect(() => {
 
-    //    if (!klokLocatie) return;
+        if (!klokLocatie) return;
 
-    //    fetchData();
+        fetchData();
 
-    //    const interval = setInterval(fetchData, 2000);
-    //    return () => clearInterval(interval);
-    //}, [klokLocatie]);
+        const interval = setInterval(fetchData, 1000);
+        return () => clearInterval(interval);
+    }, [klokLocatie]);
 
     //laad data als je refreshed of pagina opend
     useEffect(() => {
@@ -301,11 +301,14 @@ function VeilingScherm() {
                     "Content-Type": "application/json"
                 }
             });
-
+            const info = await fetchVeilingInfo(currentProductId);
+            //alert(info.isVerkocht);
+            //setHoeveelheid(info.aantal)
+            //await fetchData();
             setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
             setTimeout(() => setNotf!(""), 2500)
 
-            await fetchData();
+            
 
             // Timer resetten
             if (hoeveelheid < 1) {
@@ -315,6 +318,9 @@ function VeilingScherm() {
 
         } catch (error) {
             console.error(error);
+            //await fetchData();
+            const info = await fetchVeilingInfo(currentProductId);
+            alert(info.isVerkocht);
             setError("Er is iets misgegaan bij het kopen van het plantje.")
             setTimeout(() => setError!(""), 2500)
         }

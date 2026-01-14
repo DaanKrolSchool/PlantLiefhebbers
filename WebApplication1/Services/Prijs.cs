@@ -6,6 +6,8 @@ public class Prijs : BackgroundService
     private decimal _price = 0;
     private decimal _pvMultiplier = 1;
     private Product _product;
+    private int newpid = -1;
+    private int currentpid = -1;
     private Product current_product;
     private decimal MaxPrijs;
     private decimal minimumPrijs;
@@ -14,6 +16,7 @@ public class Prijs : BackgroundService
     public void SetProduct(Product product)
     {
         _product = product;
+        newpid = product.productId;
         MaxPrijs = (decimal)product.maximumPrijs;
         minimumPrijs = (decimal)product.minimumPrijs;
         prijsVerandering = (decimal)product.prijsVerandering;
@@ -23,6 +26,11 @@ public class Prijs : BackgroundService
         Console.WriteLine("Prijs background service test test test");
         while (!stoppingToken.IsCancellationRequested)
         {
+            if (currentpid != newpid)
+            {
+                currentpid = newpid;
+                _price = MaxPrijs;
+            }
 
             if (_price <= minimumPrijs)
             {
