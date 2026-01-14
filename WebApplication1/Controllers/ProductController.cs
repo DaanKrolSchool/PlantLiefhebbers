@@ -380,7 +380,7 @@ namespace WebApplication1.Controllers
             // anders -> gewoon de eerstvolgende aankomende
             if (basisTijd != null)
             {
-                query = query.Where(p => p.veilDatum > basisTijd && p.klokLocatie == kloklocatie);
+                query = query.Where(p => p.veilDatum >= basisTijd && p.klokLocatie == kloklocatie);
             }
             else
             {
