@@ -8,7 +8,8 @@ export default defineConfig({
         proxy: {
             '/inlog': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
             '/klantregister': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
-            '/Product': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net'
+            '/Product': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
+            '/api': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net'
         }
     }
 })
