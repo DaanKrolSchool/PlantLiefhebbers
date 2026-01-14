@@ -41,7 +41,7 @@ function VerkoopOverzicht() {
                 return;
             }
 
-            const res = await fetch("https://localhost:7225/Product/verkocht", { headers: { "Authorization": `Bearer ${token}` } });
+            const res = await fetch("/Product/verkocht", { headers: { "Authorization": `Bearer ${token}` } });
 
 
             if (!res.ok) {

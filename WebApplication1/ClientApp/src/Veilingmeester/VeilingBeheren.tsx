@@ -21,7 +21,7 @@ function AangemeldeProducten() {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
 
-            const res = await fetch(`https://localhost:7225/Product/veilingmeester/all`, {
+            const res = await fetch(`/Product/veilingmeester/all`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -74,7 +74,7 @@ function AangemeldeProducten() {
 
         try {
             for (const [productId, positie] of Object.entries(locFormValues)) {
-                await fetch(`https://localhost:7225/Product/positie/${productId}`, {
+                await fetch(`/Product/positie/${productId}`, {
                     method: "PUT",
                     headers: {
                         "Authorization": `Bearer ${token}`,

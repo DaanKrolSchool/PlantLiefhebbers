@@ -17,7 +17,7 @@ function VerkoopOverzichtVeilingmeester() {
         async function fetchData() {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("https://localhost:7225/Product/alleverkocht", { headers: { "Authorization": `Bearer ${token}` } });
+            const res = await fetch("/Product/alleverkocht", { headers: { "Authorization": `Bearer ${token}` } });
 
             if (!res.ok) {
                 console.error("Error:", res.status);

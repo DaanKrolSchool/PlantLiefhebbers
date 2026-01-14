@@ -62,7 +62,7 @@ function AangemeldeProducten() {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
             //de locatie waar hij te vinden is binnen de controller
-            const res = await fetch(`https://localhost:7225/Product/veilingmeester/all`, {
+            const res = await fetch(`/Product/veilingmeester/all`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -86,7 +86,7 @@ function AangemeldeProducten() {
             return;
         }
         //dit is nodig zodat een veiling meester de prijs kan aanpassen, begin en max prijs
-        const res = await fetch(`https://localhost:7225/Product/veilingMeester/${productId}`, {
+        const res = await fetch(`/Product/veilingMeester/${productId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -103,7 +103,7 @@ function AangemeldeProducten() {
         //hier word er gekeken naar welke datum hoort bij welk product en zet hem in een volgorde
         if (res.ok) {
             setEditMode(null);
-            const res2 = await fetch("https://localhost:7225/Product/veilingmeester/all", {
+            const res2 = await fetch("/Product/veilingmeester/all", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -129,7 +129,7 @@ function AangemeldeProducten() {
         }
 
         //om een product te kunnen verwijderen, komt ook uit de product controller
-        const res = await fetch(`https://localhost:7225/Product/${productId}`, {
+        const res = await fetch(`/Product/${productId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`,

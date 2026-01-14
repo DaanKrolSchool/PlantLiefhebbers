@@ -6,7 +6,9 @@ export default defineConfig({
     plugins: [react()],
     server: {
         proxy: {
-            '/Inlog': 'https://localhost:7225'
+            '/inlog': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
+            '/klantregister': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net',
+            '/Product': 'https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net'
         }
     }
 })

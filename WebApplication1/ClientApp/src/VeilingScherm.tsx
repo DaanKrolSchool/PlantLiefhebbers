@@ -71,7 +71,7 @@ function VeilingScherm() {
 
 
     //  async function prijsGeschiedenisBerekenen(id: number) {
-    //      const response = await fetch(`https://localhost:7225/Product/id/${id}`);
+    //      const response = await fetch(`/Product/id/${id}`);
     //  //    alert(response.ok)
 
     //      const dto = await response.json();
@@ -87,7 +87,7 @@ function VeilingScherm() {
     async function fetchVeilingInfo(id: number) {
         const token = localStorage.getItem("token");
 
-        const res = await fetch(`https://localhost:7225/Product/veilinginfo/${id}`, {
+        const res = await fetch(`/Product/veilinginfo/${id}`, {
             headers: {
                 // token is optioneel omdat endpoint AllowAnonymous is
                 ...(token ? { "Authorization": `Bearer ${token}` } : {})
@@ -100,14 +100,14 @@ function VeilingScherm() {
     }
 
     async function fetchHistoriePerSoort(soortPlant: string) {
-        const res = await fetch(`https://localhost:7225/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
+        const res = await fetch(`/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
         if (!res.ok) return [];
         return await res.json();
     }
 
     async function fetchHistoriePopup(productId: number) {
         try {
-            const res = await fetch(`https://localhost:7225/Product/historie/product/${productId}`);
+            const res = await fetch(`/Product/historie/product/${productId}`);
             if (!res.ok) {
                 setHistorie(null);
                 return;
@@ -125,7 +125,7 @@ function VeilingScherm() {
 
         // de huidige veiling die start
         //alert("data.productId");
-        const res = await fetch(`https://localhost:7225/Product/klant/eerste/${klokLocatie}`, {
+        const res = await fetch(`/Product/klant/eerste/${klokLocatie}`, {
             headers: {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
@@ -212,7 +212,7 @@ function VeilingScherm() {
         }
 
         // 3 volgende producten
-        const resNext = await fetch(`https://localhost:7225/Product/klant/volgende/${klokLocatie}`, {
+        const resNext = await fetch(`/Product/klant/volgende/${klokLocatie}`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
@@ -299,16 +299,16 @@ function VeilingScherm() {
                 let res;
                 
                 if (klokLocatie == "rijnsburg") {
-                    res = await fetch("https://localhost:7225/api/prijs/priceRijnsburg");
+                    res = await fetch("/api/prijs/priceRijnsburg");
                 }
                 else if (klokLocatie == "naaldwijk") {
-                    res = await fetch("https://localhost:7225/api/prijs/priceNaaldwijk");
+                    res = await fetch("/api/prijs/priceNaaldwijk");
                 }
                 else if (klokLocatie == "eelde") {
-                    res = await fetch("https://localhost:7225/api/prijs/priceEelde");
+                    res = await fetch("/api/prijs/priceEelde");
                 }
                 else if (klokLocatie == "aalsmeer") {
-                    res = await fetch("https://localhost:7225/api/prijs/priceAalsmeer");
+                    res = await fetch("/api/prijs/priceAalsmeer");
                     
                 }
 
@@ -352,7 +352,7 @@ function VeilingScherm() {
         try {
             const token = localStorage.getItem("token");
             // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
-            await fetch(`https://localhost:7225/Product/${currentProductId}?hoeveelheidKopen=${hoeveelheidKopen}&price=${price}`, {
+            await fetch(`/Product/${currentProductId}?hoeveelheidKopen=${hoeveelheidKopen}&price=${price}`, {
                 method: "PATCH",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -387,7 +387,7 @@ function VeilingScherm() {
     //async function fetchVeilingInfo(id: number) {
     //    const token = localStorage.getItem("token");
 
-    //    const res = await fetch(`https://localhost:7225/Product/veilinginfo/${id}`, {
+    //    const res = await fetch(`/Product/veilinginfo/${id}`, {
     //        headers: {
     //            "Authorization": token ? `Bearer ${token}` : "",
     //            "Content-Type": "application/json"
@@ -443,7 +443,7 @@ function VeilingScherm() {
 
             
             {(currentProductId &&
-                <img className="MainImage" src={`https://localhost:7225/images/${currentProductId}.png`} alt={`Afbeelding van ${naam}`}></img>
+                <img className="MainImage" src={`/images/${currentProductId}.png`} alt={`Afbeelding van ${naam}`}></img>
             )}
 
             <button className="Back" type="button" onClick={() => { localStorage.removeItem("token"); navigate("/") }}>Uitloggen</button>

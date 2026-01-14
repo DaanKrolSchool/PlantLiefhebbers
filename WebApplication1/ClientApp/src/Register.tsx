@@ -33,7 +33,7 @@ function Register() {
 
         try {
             //post klant in db
-            const response = await fetch("https://localhost:7225/klantregister/register", {
+            const response = await fetch("/klantregister/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(klantData)

@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(PlantLiefhebbersContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20260114133544_AddAanvoerderNaam.Designer.cs
-    [Migration("20260114133544_AddAanvoerderNaam")]
-    partial class AddAanvoerderNaam
-========
-    [Migration("20260114135046_FixAanvoerderFk")]
+    [Migration("20260114164141_FixAanvoerderFk")]
     partial class FixAanvoerderFk
->>>>>>>> a16b0ec3be30b8bb2c88e476056ef61f5854a189:WebApplication1/Migrations/20260114135046_FixAanvoerderFk.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -29,7 +29,7 @@ function ProductAanmelden() {
         e.preventDefault(); // voorkom herladen van de pagina
         const token = localStorage.getItem("token");
         // post request naar de api 
-        const res = await fetch(`https://localhost:7225/Product`, {
+        const res = await fetch(`/Product`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -68,7 +68,7 @@ function ProductAanmelden() {
             formData.append("image", afbeelding);
             formData.append("productId", product.productId);
 
-            const imgRes = await fetch(`https://localhost:7225/Product/UploadImage`, {
+            const imgRes = await fetch(`/Product/UploadImage`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`

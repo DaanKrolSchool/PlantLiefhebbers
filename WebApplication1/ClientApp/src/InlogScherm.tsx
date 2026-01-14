@@ -11,7 +11,7 @@ function InlogScherm() {
     
     async function checkLogin(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        const res = await fetch("https://localhost:7225/inlog/login", {
+        const res = await fetch("/inlog/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: email, wachtwoord: wachtwoord })

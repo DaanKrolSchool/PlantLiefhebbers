@@ -76,7 +76,8 @@ namespace WebApplication1
             {
                 options.AddPolicy("AllowLocalDev", policy =>
                 {
-                    policy.WithOrigins("http://localhost:5173")   // frontend origin (exact!)
+                    policy.WithOrigins("http://localhost:5173",
+                                       "https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net/")
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
@@ -125,12 +126,13 @@ namespace WebApplication1
 
             var app = builder.Build();
 
-            // Dit is nodig zodat iedereen zijn eigen data bases heeft
-            using (var scope = app.Services.CreateScope())
+            if (app.Environment.IsDevelopment())
             {
+                using var scope = app.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<PlantLiefhebbersContext>();
                 db.Database.Migrate();
             }
+
 
             if (app.Environment.IsDevelopment())
             {

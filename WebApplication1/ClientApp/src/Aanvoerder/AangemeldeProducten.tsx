@@ -36,7 +36,7 @@ function AangemeldeProducten() {
     useEffect(() => {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
-            const res = await fetch(`https://localhost:7225/Product/aanvoerder/own`, {
+            const res = await fetch(`/Product/aanvoerder/own`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -62,7 +62,7 @@ function AangemeldeProducten() {
             return;
         }
         // put request om product te updaten
-        const res = await fetch(`https://localhost:7225/Product/aanvoerder/${productId}`, {
+        const res = await fetch(`/Product/aanvoerder/${productId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -80,7 +80,7 @@ function AangemeldeProducten() {
         if (res.ok) {
             setEditMode(null); // stop de edit mode
             // vernieuw de productenlijst
-            const res2 = await fetch("https://localhost:7225/Product/aanvoerder/own", {
+            const res2 = await fetch("/Product/aanvoerder/own", {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -105,7 +105,7 @@ function AangemeldeProducten() {
         }
 
         // delete request om product te verwijderen
-        const res = await fetch(`https://localhost:7225/Product/${productId}`, {
+        const res = await fetch(`/Product/${productId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`,
