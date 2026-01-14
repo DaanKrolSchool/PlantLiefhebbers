@@ -115,7 +115,7 @@ namespace WebApplication1.Controllers
             return Ok(lijst);
         }
 
-        [HttpGet("historie/soort/{soortPlant}")]
+        /*[HttpGet("historie/soort/{soortPlant}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PrijsPuntDto>>> GetHistoriePerSoort(string soortPlant)
         {
@@ -134,7 +134,7 @@ namespace WebApplication1.Controllers
                 .ToListAsync();
 
             return Ok(lijst);
-        }
+        }*/
 
 
 
@@ -709,7 +709,7 @@ namespace WebApplication1.Controllers
         SELECT AVG(CAST(h.prijsPerStuk AS float))
         FROM productVerkoopHistorie h
         JOIN product p ON p.productId = h.productId
-        WHERE h.aantalVerkocht > 
+        WHERE h.aantalVerkocht > 0
           AND p.soortPlant = @soortPlant
           AND p.aanvoerderId = @aanvoerderId
     ", connectt))
@@ -767,14 +767,6 @@ namespace WebApplication1.Controllers
             };
 
             return Ok(response);
-        }
-
-
-
-
-
-
-
-
+        }   
     }
 }
