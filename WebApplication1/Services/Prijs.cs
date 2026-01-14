@@ -42,7 +42,7 @@ public class Prijs : BackgroundService
                 _price = newPrice;
             }
 
-            Console.WriteLine(_price);
+            //Console.WriteLine(_price);
 
 
             await Task.Delay(1000, stoppingToken);

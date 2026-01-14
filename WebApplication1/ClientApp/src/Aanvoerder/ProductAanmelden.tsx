@@ -91,17 +91,18 @@ function ProductAanmelden() {
             <form className="aanvoerder" onSubmit={productAanmelden}>
                 <h2> Product informatie</h2>
                 { }
-                <label htmlFor="naam">Naam:</label>
+                <label> * Verplicht</label> <br/>
+                <label htmlFor="naam">Naam: *</label> 
                 <input type="text" id="naam" name="naam" value={naam} onChange={(e) => setNaam(e.target.value)} required/><br/>
-                <label htmlFor="soort">Soort:</label>
+                <label htmlFor="soort">Soort: *</label>
                 <input type="text" id="soort" name="soort" value={soortPlant} onChange={(e) => setSoortPlant(e.target.value)} required/><br/>
-                <label htmlFor="hoeveelheid">Hoeveelheid:</label>
-                <input type="number" id="hoeveelheid" min="1" name="hoeveelheid" value={aantal} onChange={(e) => setAantal(e.target.value)} required/><br/>
-                <label htmlFor="potmaat">Potmaat:</label>
+                <label htmlFor="hoeveelheid">Aantal: *</label>
+                <input type="number" id="hoeveelheid" min="1" step="1" name="hoeveelheid" value={aantal} onChange={(e) => setAantal(e.target.value)} required/><br/>
+                <label htmlFor="potmaat">Potmaat: (cm)</label>
                 <input type="number" id="potmaat" min="0" step="1" name="potmaat" value={potMaat} onChange={(e) => setPotMaat(e.target.value)}/><br/>
-                <label htmlFor="steellengte">Steellengte</label>
+                <label htmlFor="steellengte">Steellengte: (cm)</label>
                 <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)} /><br />
-                <label htmlFor="seizoen">Seizoen</label>
+                <label htmlFor="seizoen">Seizoen: *</label>
                 <select value={seizoensplant} onChange={(e) => setseizoensplant(e.target.value)} required>
                     <option value="" disabled></option>
                     <option value="niet van toepassing">Niet van toepassing</option>
@@ -110,17 +111,17 @@ function ProductAanmelden() {
                     <option value="zomer">Zomer</option>
                     <option value="herfst">Herfst</option>
                 </select><br />
-                <label htmlFor="temperatuur">Temperatuur</label>
-                <input type="number" value={temperatuur} onChange={(e) => settemperatuur(e.target.value)} />
-                <label htmlFor="water">Liter water per week</label>
-                <input type="number" value={water} onChange={(e) => setwater(e.target.value)} />
-                <label htmlFor="leeftijd">Leeftijd van de plant in maanden</label>
-                <input type="number" value={leeftijd} onChange={(e) => setleeftijd(e.target.value)} />
-                <label htmlFor="makkelijkheid">Makkelijkheid houdbaar houden van de plant (1/10)</label>
-                <input type="number" value={makkelijkheid} onChange={(e) => setmakkelijkheid(e.target.value)} />
-                <label htmlFor="mprijs">Minimumprijs:</label>
+                <label htmlFor="temperatuur">Temperatuur: (°C)</label>
+                <input type="number" value={temperatuur} onChange={(e) => settemperatuur(e.target.value)} /><br />
+                <label htmlFor="water">Water per week: (Liter)</label>
+                <input type="number" value={water} onChange={(e) => setwater(e.target.value)} /><br />
+                <label htmlFor="leeftijd">Leeftijd: (Maanden) *</label>
+                <input type="number" value={leeftijd} onChange={(e) => setleeftijd(e.target.value)} required/><br />
+                <label htmlFor="makkelijkheid">Makkelijkheid houdbaar houden van de plant: (1-10)</label>
+                <input type="number" min="1" step="1" max="10" value={makkelijkheid} onChange={(e) => setmakkelijkheid(e.target.value)} /><br />
+                <label htmlFor="mprijs">Minimumprijs per stuk: (€-.--) *</label>
                 <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs" value={minimumPrijs} onChange={(e) => setMinimumPrijs(e.target.value)} required/><br/>
-                <label htmlFor="locatie">Kloklocatie:</label>
+                <label htmlFor="locatie">Kloklocatie: *</label>
                 <select id="locatie" name="locatie" value={klokLocatie} onChange={(e) => setKlokLocatie(e.target.value)} required>
                     <option value="" disabled></option>
                     <option value="aalsmeer">Aalsmeer</option>
@@ -132,10 +133,10 @@ function ProductAanmelden() {
                 {error && <div className="ErrorBox">{error}</div>}
                 {notf && <div className="NotBox">{notf}</div>}
 
-                <label htmlFor="vdatum">Veildatum:</label>
+                <label htmlFor="vdatum">Veildatum: *</label>
                 <input type="date" id="vdatum" name="vdatum" value={veilDatum} onChange={(e) => setVeilDatum(e.target.value)} required/><br/>
-                <label htmlFor="afbeelding">Afbeelding:</label>
-                <input type="file" accept="image/png" id="afbeelding" name="afbeelding" onChange={(e) => setAfbeelding(e.target.files ? e.target.files[0] : null)}/><br/><br/>
+                <label htmlFor="afbeelding">Afbeelding: (png) *</label>
+                <input type="file" accept="image/png" id="afbeelding" name="afbeelding" onChange={(e) => setAfbeelding(e.target.files ? e.target.files[0] : null)} required/><br/><br/>
                 <input type="submit" value="Product aanmelden"/>
             </form>
         </div>

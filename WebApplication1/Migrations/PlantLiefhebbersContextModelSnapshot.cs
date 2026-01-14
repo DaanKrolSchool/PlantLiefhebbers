@@ -167,9 +167,6 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("aanvoerderId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("aanvoerderNaamIdId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("isVerkocht")
@@ -237,7 +234,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("productId");
 
-                    b.HasIndex("aanvoerderNaamIdId");
+                    b.HasIndex("aanvoerderId");
 
                     b.ToTable("product");
                 });
@@ -413,11 +410,13 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("Product", b =>
                 {
-                    b.HasOne("User", "aanvoerderNaamId")
+                    b.HasOne("User", "aanvoerderNaam")
                         .WithMany()
-                        .HasForeignKey("aanvoerderNaamIdId");
+                        .HasForeignKey("aanvoerderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("aanvoerderNaamId");
+                    b.Navigation("aanvoerderNaam");
                 });
 
             modelBuilder.Entity("ProductVerkoopHistorie", b =>

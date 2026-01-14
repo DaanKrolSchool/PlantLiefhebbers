@@ -21,23 +21,23 @@ namespace WebApplication1.Controllers
 
         }
 
-        //[HttpGet("id/{id}")]
-        //[Authorize]
-        //public async Task<ActionResult<PlantPrijsSamenvattingDto>> GetPrijsGeschiedenis(int id)
-        //{
+        /*[HttpGet("id/{id}")]
+        [Authorize]
+        public async Task<ActionResult<PlantPrijsSamenvattingDto>> GetPrijsGeschiedenis(int id)
+        {
 
 
-        //    var product = await _context.product.FindAsync(id);
+            var product = await _context.product.FindAsync(id);
 
 
-        //    var dto = new PlantPrijsSamenvattingDto
-        //    {
-        //        soortPlant = product.soortPlant,
-        //        aanvoerderNaam = product.aanvoerderNaam
-        //    };
+            var dto = new PlantPrijsSamenvattingDto
+            {
+                soortPlant = Product.soortPlant,
+                aanvoerderNaam = x.Product.Aanvoerder.UserName
+            };
 
-        //    return Ok(dto);
-        //}
+            return Ok(dto);
+        }*/
 
         [HttpGet("veilinginfo/{id}")]
         [AllowAnonymous] // of [Authorize] als je wil
@@ -70,7 +70,7 @@ namespace WebApplication1.Controllers
                     veilDatum = x.veilDatum,
                     veilTijd = x.veilTijd,
 
-                    aanvoerderNaam = "x.aanvoerderNaamId.UserName",
+                    aanvoerderNaam = x.Aanvoerder.UserName,
                     positie = x.positie
                 })
                 .FirstOrDefaultAsync();
@@ -115,25 +115,26 @@ namespace WebApplication1.Controllers
             return Ok(lijst);
         }
 
-        /*[HttpGet("historie/soort/{soortPlant}")]
+        [HttpGet("historie/soort/{soortPlant}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PrijsPuntDto>>> GetHistoriePerSoort(string soortPlant)
         {
             var lijst = await _context.productVerkoopHistorie
+                .Include(x => x.Product)
                 .AsNoTracking()
-                .Where(x => x.soortPlant == soortPlant)
+                .Where(x => x.Product.soortPlant == soortPlant)
                 .OrderByDescending(x => x.id)
                 .Take(20)
                 .Select(x => new PrijsPuntDto
                 {
-                    datum = x.datum,
+                    datum = x.Product.veilDatum.Value,
                     prijs = x.prijsPerStuk,
-                    aanvoerderNaam = x.aanvoerderNaam.UserName
+                    aanvoerderNaam = x.Product.Aanvoerder.UserName
                 })
                 .ToListAsync();
 
             return Ok(lijst);
-        }*/
+        }
 
 
 
@@ -185,8 +186,6 @@ namespace WebApplication1.Controllers
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
                 aanvoerderId = userId
-                
-
             };
 
             _context.product.Add(newProduct);
@@ -217,23 +216,24 @@ namespace WebApplication1.Controllers
         
         [HttpPost("UploadImage")]
         [Authorize(Roles = "Aanvoerder")]
-        public async Task<IActionResult> UploadImage([FromForm] IFormFile image, [FromForm] int productId)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImage([FromForm] UploadImageRequest request)
         {
-            if (image == null || image.Length == 0)
+            if (request.Image == null || request.Image.Length == 0)
                 return BadRequest("No file uploaded");
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
-            var filePath = Path.Combine(uploadsFolder, $"{productId}{Path.GetExtension(image.FileName)}");
+            var filePath = Path.Combine(uploadsFolder, $"{request.ProductId}{Path.GetExtension(request.Image.FileName)}");
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await image.CopyToAsync(stream);
+                await request.Image.CopyToAsync(stream);
             }
 
-            return Ok(new { message = "Image uploaded successfully", path = $"/images/{productId}{Path.GetExtension(image.FileName)}" });
+            return Ok(new { message = "Image uploaded successfully", path = $"/images/{request.ProductId}{Path.GetExtension(request.Image.FileName)}" });
         }
         
         [HttpGet("aanvoerder/own")]
@@ -301,6 +301,7 @@ namespace WebApplication1.Controllers
                     veilDatum = p.veilDatum,
                     veilTijd = p.veilTijd,
                     aanvoerderId = p.aanvoerderId,
+                    aanvoerderNaam = p.Aanvoerder.UserName,
                     positie = p.positie
                 })
                 .ToList();
@@ -315,7 +316,7 @@ namespace WebApplication1.Controllers
             var now = DateOnly.FromDateTime(DateTime.Now);
 
             var product = await _context.product
-                .Include(p => p.aanvoerderNaamId)
+                .Include(p => p.Aanvoerder)
                 .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
@@ -350,7 +351,7 @@ namespace WebApplication1.Controllers
                 veilDatum = product.veilDatum,
                 aanvoerderId = product.aanvoerderId,
                 positie = product.positie,
-                aanvoerderNaam = "product.aanvoerderNaamId?.UserName" // make this the name not id
+                aanvoerderNaam = product.Aanvoerder.UserName
             });
         }
 
@@ -594,6 +595,7 @@ namespace WebApplication1.Controllers
                 .Select(v => new VerkochtProductDto
                 {
                     productId = v.productId,
+                    soortPlant = v.Product.soortPlant,
                     klantNaam = v.Klant.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
@@ -614,7 +616,9 @@ namespace WebApplication1.Controllers
                 .Select(v => new VerkochtProductDto
                 {
                     productId = v.productId,
-                    aanvoerderNaam = "v.Product.aanvoerderNaamId.UserName",
+                    soortPlant = v.Product.soortPlant,
+                    aanvoerderNaam = v.Product.Aanvoerder.UserName,
+                    klantNaam = v.Klant.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
                     datum = v.Product.veilDatum.Value
