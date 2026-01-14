@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 type VerkoopRegel = {
     productId: number;
     soortPlant: string;
-    aanvoerderNaam: string;
+    klantNaam: string;
     aantalVerkocht: number;
     prijsPerStuk: number;
     datum: string;
@@ -81,7 +81,7 @@ function VerkoopOverzicht() {
                                 <h3>{p.soortPlant}</h3>
                                 <p>Aantal verkocht: {p.aantalVerkocht}</p>
                                 <p>Prijs per stuk: {p.prijsPerStuk.toFixed(2)}</p>
-                                <p style={{ opacity: 0.7 }}>Naam klant: {p.aanvoerderNaam}</p>
+                                <p style={{ opacity: 0.7 }}>Naam klant: {p.klantNaam}</p>
                             </div>
                         ))}
                     </div>

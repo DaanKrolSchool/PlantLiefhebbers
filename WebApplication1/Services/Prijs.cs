@@ -41,9 +41,9 @@ public class Prijs : BackgroundService
         {
             _productRijnsburg = product;
             newpidRijnsburg = product.productId;
-            MaxPrijsRijnsburg = (decimal)product.maximumPrijs;
+            MaxPrijsRijnsburg = (decimal)(product.maximumPrijs ?? product.minimumPrijs);
             minimumPrijsRijnsburg = (decimal)product.minimumPrijs;
-            prijsVeranderingRijnsburg = (decimal)product.prijsVerandering;
+            prijsVeranderingRijnsburg = (decimal)(product.prijsVerandering <= 0 ? 0.1f : product.prijsVerandering);
         }
 
 
@@ -51,27 +51,27 @@ public class Prijs : BackgroundService
         {
             _productNaaldwijk = product;
             newpidNaaldwijk = product.productId;
-            MaxPrijsNaaldwijk = (decimal)product.maximumPrijs;
+            MaxPrijsNaaldwijk = (decimal)(product.maximumPrijs ?? product.minimumPrijs);
             minimumPrijsNaaldwijk = (decimal)product.minimumPrijs;
-            prijsVeranderingNaaldwijk = (decimal)product.prijsVerandering;
+            prijsVeranderingNaaldwijk = (decimal)(product.prijsVerandering <= 0 ? 0.1f : product.prijsVerandering);
         }
 
         if (product.klokLocatie == "eelde")
         {
             _productEelde = product;
             newpidEelde = product.productId;
-            MaxPrijsEelde = (decimal)product.maximumPrijs;
+            MaxPrijsEelde = (decimal)(product.maximumPrijs ?? product.minimumPrijs);
             minimumPrijsEelde = (decimal)product.minimumPrijs;
-            prijsVeranderingEelde = (decimal)product.prijsVerandering;
+            prijsVeranderingEelde = (decimal)(product.prijsVerandering <= 0 ? 0.1f : product.prijsVerandering);
         }
 
         if (product.klokLocatie == "aalsmeer")
         {
             _productAalsmeer = product;
             newpidAalsmeer = product.productId;
-            MaxPrijsAalsmeer = (decimal)product.maximumPrijs;
+            MaxPrijsAalsmeer = (decimal)(product.maximumPrijs ?? product.minimumPrijs);
             minimumPrijsAalsmeer = (decimal)product.minimumPrijs;
-            prijsVeranderingAalsmeer = (decimal)product.prijsVerandering;
+            prijsVeranderingAalsmeer = (decimal)(product.prijsVerandering <= 0 ? 0.1f : product.prijsVerandering);
         }
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

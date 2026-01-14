@@ -317,7 +317,7 @@ namespace WebApplication1.Controllers
 
             var product = await _context.product
                 .Include(p => p.Aanvoerder)
-                .Where(p => p.veilDatum != null && p.veilDatum <= now && !p.isVerkocht && p.klokLocatie == kloklocatie)
+                .Where(p => p.veilDatum == now && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
                 .FirstOrDefaultAsync();
@@ -369,23 +369,12 @@ namespace WebApplication1.Controllers
                 .Where(p => p.veilDatum != null && !p.isVerkocht && p.klokLocatie == kloklocatie)
                 .OrderBy(p => p.veilDatum)
                 .ThenBy(p => p.productId)
-                .FirstOrDefaultAsync(p => p.veilDatum <= now);
+                .FirstOrDefaultAsync(p => p.veilDatum == now);
 
             DateOnly? basisTijd = eerste?.veilDatum;
 
             var query = _context.product
-                .Where(p => p.veilDatum != null && !p.isVerkocht && p.klokLocatie == kloklocatie);
-
-            // als er actieve is -> alles NA die
-            // anders -> gewoon de eerstvolgende aankomende
-            if (basisTijd != null)
-            {
-                query = query.Where(p => p.veilDatum >= basisTijd && p.klokLocatie == kloklocatie);
-            }
-            else
-            {
-                query = query.Where(p => p.veilDatum > now && p.klokLocatie == kloklocatie) ;
-            }
+                .Where(p => p.veilDatum == now && !p.isVerkocht && p.klokLocatie == kloklocatie);
 
             var volgende = await query
                 .OrderBy(p => p.veilDatum)
@@ -486,10 +475,10 @@ namespace WebApplication1.Controllers
 
 
         [HttpPatch("{id}")]
-        
-        [Authorize]
-        public async Task<IActionResult> BuyProduct(int id, [FromQuery] int hoeveelheidKopen, [FromQuery] int price)
+        [Authorize(Roles = "Klant")]
+        public async Task<IActionResult> BuyProduct(int id, [FromQuery] int hoeveelheidKopen, [FromQuery] float price)
         {
+            var klantId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var product = await _context.product.FindAsync(id);
             if (product == null) return NotFound();
 
@@ -506,6 +495,7 @@ namespace WebApplication1.Controllers
                 product.isVerkocht = true;
                 _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                 {
+                    klantId = klantId,
                     productId = product.productId,
                     aantalVerkocht = hoeveelheidKopen,
                     prijsPerStuk = price
@@ -518,6 +508,7 @@ namespace WebApplication1.Controllers
                     product.aantal -= hoeveelheidKopen;
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
+                        klantId = klantId,
                         productId = product.productId,
                         aantalVerkocht = hoeveelheidKopen,
                         prijsPerStuk = price
@@ -529,6 +520,7 @@ namespace WebApplication1.Controllers
                     product.isVerkocht = true;
                     _context.productVerkoopHistorie.Add(new ProductVerkoopHistorie
                     {
+                        klantId = klantId,
                         productId = product.productId,
                         aantalVerkocht = product.aantal,
                         prijsPerStuk = price
