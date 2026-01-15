@@ -143,7 +143,7 @@ public class Prijs : BackgroundService
                 _priceAalsmeer -= prijsVeranderingAalsmeer;
             }
 
-            Console.WriteLine(_priceRijnsburg);
+            //Console.WriteLine(_priceRijnsburg);
 
 
             await Task.Delay(1000, stoppingToken);

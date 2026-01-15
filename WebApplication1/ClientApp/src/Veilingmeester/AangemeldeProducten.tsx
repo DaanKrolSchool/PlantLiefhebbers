@@ -182,6 +182,8 @@ function AangemeldeProducten() {
                                             <label>Prijs Daling:</label>
                                             <input
                                                 type="number"
+                                                min="0.01"
+                                                step="0.01"
                                                 value={editValues.prijsVerandering}
                                                 onChange={e => setEditValues({ ...editValues, prijsVerandering: Number(e.target.value) })}
                                             />
@@ -191,11 +193,13 @@ function AangemeldeProducten() {
                                             <label>Max. Prijs:</label>
                                             <input
                                                 type="number"
+                                                min="0.01"
+                                                step="0.01"
                                                 value={editValues.maximumPrijs}
                                                 onChange={e => setEditValues({ ...editValues, maximumPrijs: Number(e.target.value) })}
                                             />
                                         </div>
-                                        <div className="edit-row">
+                                        {/*<div className="edit-row">
                                             <label>Prijs Daling:</label>
                                             <input
                                                 type="time"
@@ -204,12 +208,11 @@ function AangemeldeProducten() {
                                                     setEditValues({ ...editValues, veilTijd: e.target.value || null })
                                                 }
                                             />
-                                        </div>
+                                        </div>*/}
 
 
                                         <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
-                                        <p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>
-
+                                        {/*<p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>*/}
                                         <p>Locatie: {p.klokLocatie}</p>
 
                                         <div className="edit-buttons">
@@ -236,7 +239,7 @@ function AangemeldeProducten() {
                                             </p>
 
                                             <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
-                                            <p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>
+                                            {/*<p>Starttijd: {formatVeilTijd(p.veilTijd)}</p>*/}
                                         <p>Locatie: {p.klokLocatie}</p>
                                         <div className="edit-buttons">
                                             <button

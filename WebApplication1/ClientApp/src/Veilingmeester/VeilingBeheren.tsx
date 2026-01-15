@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 type Product = {
     productId: number;
     naam: string;
+    aantal: number;
     minimumPrijs: number;
     prijsVerandering: number | null;
     maximumPrijs: number | null;
@@ -13,6 +14,7 @@ type Product = {
 
 function AangemeldeProducten() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [veilTijdByGroup, setVeilTijdByGroup] = useState<Record<string, string>>({});
     const [formValuesByLocatie, setFormValuesByLocatie] = useState<Record<string, Record<number, number>>>({});
 
     const today = new Date().toISOString().split('T')[0];
@@ -21,7 +23,7 @@ function AangemeldeProducten() {
         async function fetchProducts() {
             const token = localStorage.getItem("token");
 
-            const res = await fetch(`/Product/veilingmeester/all`, {
+            const res = await fetch(`/Product/veilingmeester/most`, {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                     "Content-Type": "application/json"
@@ -43,9 +45,7 @@ function AangemeldeProducten() {
         fetchProducts();
     }, []);
 
-    const upcomingProducts = products.filter(product => product.veilDatum >= today);
-
-    const sorted = [...upcomingProducts].sort((a, b) => {
+    const sorted = [...products].sort((a, b) => {
         const da = new Date(a.veilDatum);
         const db = new Date(b.veilDatum);
         if (da.getTime() !== db.getTime()) return da.getTime() - db.getTime();
@@ -68,33 +68,53 @@ function AangemeldeProducten() {
         return acc;
     }, {});
 
-    const handleSaveLocatie = async (locatie: string) => {
+    const handleSaveLocatie = async (locatie: string, items: Product[], date: string) => {
         const token = localStorage.getItem("token");
-        const locFormValues = formValuesByLocatie[locatie];
+
+        const selectedVeilTijd = veilTijdByGroup[`${date}_${locatie}`];
+
+        const [hours, minutes] = selectedVeilTijd.split(":").map(Number);
+        const timeSpan = new Date(0, 0, 0, hours, minutes).toISOString().substr(11, 8);
 
         try {
-            for (const [productId, positie] of Object.entries(locFormValues)) {
-                await fetch(`/Product/positie/${productId}`, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ productId: Number(productId), positie })
-                });
-            }
-
-            setProducts(prev =>
-                prev.map(p =>
-                    locFormValues[p.productId] != null
-                        ? { ...p, positie: locFormValues[p.productId] }
-                        : p
+            await Promise.all(
+                items.map(p =>
+                    fetch(`/Product/positie/${p.productId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ productId: p.productId, positie: p.positie, veilTijd: timeSpan })
+                    })
                 )
             );
 
+            /*await Promise.all(
+                items.map(p =>
+                    fetch(`https://localhost:7225/Product/veilingMeester/${p.productId}`, {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            productId: p.productId,
+                            veilTijd: timeSpan
+                        })
+                    })
+                )
+            );*/
+            const res = await fetch("/Product/veilingmeester/most", {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            const data: Product[] = await res.json();
+            setProducts(data);
         } catch (error) {
             console.error(error);
-            alert("Kon posities niet bijwerken");
         }
     };
 
@@ -104,60 +124,75 @@ function AangemeldeProducten() {
                 <div key={date} className="datum-sectie">
                     <h2>{date}</h2>
 
-                    {Object.entries(locaties).map(([locatie, items]: any) => (
-                        <div key={locatie} className="locatie-sectie">
-                            <h3>
-                                {locatie}
-                                <button
-                                    className="beheer-knop"
-                                    style={{ marginLeft: '10px' }}
-                                    onClick={() => handleSaveLocatie(locatie)}
-                                >
-                                    Opslaan
-                                </button>
-                            </h3>
+                    {Object.entries(locaties).map(([locatie, items]: any) => {
+                        const firstProduct = items[0];
+                        const defaultVeilTijd = firstProduct.veilTijd ? firstProduct.veilTijd : "";
 
-                            <div className="producten-rij">
-                                {items.map((p: Product) => (
-                                    <div key={p.productId} className="product-kaart">
-                                        <h3>{p.naam}</h3>
+                        return (
+                            <div key={locatie} className="locatie-sectie">
+                                <h3>
+                                    {locatie}
+                                    <input
+                                        type="time"
+                                        value={veilTijdByGroup[`${date}_${locatie}`] || defaultVeilTijd}                                        onChange={e =>
+                                            setVeilTijdByGroup(prev => ({
+                                                ...prev,
+                                                [`${date}_${locatie}`]: e.target.value
+                                            }))
+                                        }
+                                        style={{ marginLeft: '10px' }}
+                                    />
+                                    <button
+                                        className="beheer-knop"
+                                        style={{ marginLeft: '10px' }}
+                                        onClick={() => handleSaveLocatie(locatie, items, date)}
+                                    >
+                                        Opslaan
+                                    </button>
+                                </h3>
 
-                                        <p>Veildatum: {new Date(p.veilDatum).toLocaleDateString("nl-NL")}</p>
+                                <div className="producten-rij">
+                                    {items.map((p: Product) => (
+                                        <div key={p.productId} className="product-kaart">
+                                            <h3>{p.naam}</h3>
 
-                                        <p>Minimum Prijs: €{p.minimumPrijs.toFixed(2)}</p>
+                                            <p>Aantal: {p.aantal}</p>
 
-                                        <p>
-                                            Prijs Daling: €
-                                            {p.prijsVerandering != null ? p.prijsVerandering.toFixed(2) : "—"}
-                                        </p>
+                                            <p>Minimum Prijs: €{p.minimumPrijs.toFixed(2)}</p>
 
-                                        <p>
-                                            Maximum Prijs: €
-                                            {p.maximumPrijs != null ? p.maximumPrijs.toFixed(2) : "—"}
-                                        </p>
+                                            <p>
+                                                Prijs Daling: €
+                                                {p.prijsVerandering != null ? p.prijsVerandering.toFixed(2) : "—"}
+                                            </p>
 
-                                        <p>
-                                            Positie:
-                                            <input
-                                                type="number"
-                                                value={formValuesByLocatie[locatie]?.[p.productId] ?? p.positie}
-                                                onChange={e =>
-                                                    setFormValuesByLocatie(prev => ({
-                                                        ...prev,
-                                                        [locatie]: {
-                                                            ...prev[locatie],
-                                                            [p.productId]: Number(e.target.value)
-                                                        }
-                                                    }))
-                                                }
-                                                style={{ width: '50px', marginLeft: '5px' }}
-                                            />
-                                        </p>
-                                    </div>
-                                ))}
+                                            <p>
+                                                Maximum Prijs: €
+                                                {p.maximumPrijs != null ? p.maximumPrijs.toFixed(2) : "—"}
+                                            </p>
+
+                                            <p>
+                                                Positie:
+                                                <input
+                                                    type="number"
+                                                    value={formValuesByLocatie[locatie]?.[p.productId] ?? p.positie}
+                                                    onChange={e =>
+                                                        setFormValuesByLocatie(prev => ({
+                                                            ...prev,
+                                                            [locatie]: {
+                                                                ...prev[locatie],
+                                                                [p.productId]: Number(e.target.value)
+                                                            }
+                                                        }))
+                                                    }
+                                                    style={{ width: '50px', marginLeft: '5px' }}
+                                                />
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             ))}
         </div>

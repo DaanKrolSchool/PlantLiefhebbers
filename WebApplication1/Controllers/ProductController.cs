@@ -61,11 +61,11 @@ namespace WebApplication1.Controllers
                     seizoensplant = x.seizoensplant,
                     temperatuur = x.temperatuur ?? 0,
                     water = x.water ?? 0,
-                    leeftijd = x.leeftijd ?? 0,
+                    leeftijd = x.leeftijd,
 
                     minimumPrijs = x.minimumPrijs,
                     maximumPrijs = x.maximumPrijs ?? 0,
-                    prijsVerandering = x.prijsVerandering,
+                    prijsVerandering = x.prijsVerandering ?? 0,
 
                     veilDatum = x.veilDatum,
                     veilTijd = x.veilTijd,
@@ -107,7 +107,7 @@ namespace WebApplication1.Controllers
                     prijs = current
                 });
 
-                current -= step;
+                current -= step ?? 0;
                 if (current < min) break;
             }
 
@@ -165,9 +165,16 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Aanvoerder")]
-        public IActionResult AddProduct([FromBody] ProductCreateDto newProductDto)
+        public async Task<IActionResult> AddProduct([FromBody] ProductCreateDto newProductDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var nextPositie = await _context.product
+                .Where(p =>
+                    p.veilDatum == newProductDto.veilDatum &&
+                    p.klokLocatie == newProductDto.klokLocatie)
+                .Select(p => (int?)p.positie)
+                .MaxAsync() ?? 0;
 
             var newProduct = new Product
             {
@@ -185,11 +192,12 @@ namespace WebApplication1.Controllers
                 maximumPrijs = newProductDto.maximumPrijs,
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
-                aanvoerderId = userId
+                aanvoerderId = userId,
+                positie = nextPositie + 1
             };
 
             _context.product.Add(newProduct);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var productDto = new ProductDto
             {
@@ -208,7 +216,8 @@ namespace WebApplication1.Controllers
                 maximumPrijs = newProduct.maximumPrijs,
                 klokLocatie = newProduct.klokLocatie,
                 veilDatum = newProduct.veilDatum,
-                aanvoerderId = newProduct.aanvoerderId
+                aanvoerderId = newProduct.aanvoerderId,
+                positie = newProduct.positie
             };
 
             return Ok(productDto);
@@ -277,6 +286,44 @@ namespace WebApplication1.Controllers
         {
             var products = _context.product
                 .Where(p => !p.isVerkocht)
+                .OrderBy(p => p.veilDatum == null || p.veilTijd == null)
+                .ThenBy(p => p.veilDatum)
+                .ThenBy(p => p.veilTijd)
+                .ThenBy(p => p.productId)
+                .Select(p => new ProductDto
+                {
+                    productId = p.productId,
+                    naam = p.naam,
+                    soortPlant = p.soortPlant,
+                    aantal = p.aantal,
+                    potMaat = p.potMaat,
+                    steelLengte = p.steelLengte,
+                    makkelijkheid = p.makkelijkheid,
+                    temperatuur = p.temperatuur,
+                    water = p.water,
+                    leeftijd = p.leeftijd,
+                    seizoensplant = p.seizoensplant,
+                    minimumPrijs = p.minimumPrijs,
+                    prijsVerandering = p.prijsVerandering,
+                    maximumPrijs = p.maximumPrijs,
+                    klokLocatie = p.klokLocatie,
+                    veilDatum = p.veilDatum,
+                    veilTijd = p.veilTijd,
+                    aanvoerderId = p.aanvoerderId,
+                    aanvoerderNaam = p.Aanvoerder.UserName,
+                    positie = p.positie
+                })
+                .ToList();
+
+            return Ok(products);
+        }
+        
+        [HttpGet("veilingmeester/most")]
+        [Authorize(Roles = "Veilingmeester")]
+        public IActionResult GetMostProducts()
+        {
+            var products = _context.product
+                .Where(p => !p.isVerkocht && p.prijsVerandering != 0 && p.maximumPrijs != null)
                 .OrderBy(p => p.veilDatum == null || p.veilTijd == null)
                 .ThenBy(p => p.veilDatum)
                 .ThenBy(p => p.veilTijd)
@@ -593,7 +640,7 @@ namespace WebApplication1.Controllers
                     klantNaam = v.Klant.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
-                    datum = v.Product.veilDatum.Value
+                    datum = v.Product.veilDatum
                 })
                 .ToList();
 
@@ -615,7 +662,7 @@ namespace WebApplication1.Controllers
                     klantNaam = v.Klant.UserName,
                     aantalVerkocht = v.aantalVerkocht,
                     prijsPerStuk = v.prijsPerStuk,
-                    datum = v.Product.veilDatum.Value
+                    datum = v.Product.veilDatum
                 })
                 .ToList();
 
