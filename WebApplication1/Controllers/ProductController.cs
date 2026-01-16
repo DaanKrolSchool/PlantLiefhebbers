@@ -193,7 +193,8 @@ namespace WebApplication1.Controllers
                 klokLocatie = newProductDto.klokLocatie,
                 veilDatum = newProductDto.veilDatum,
                 aanvoerderId = userId,
-                positie = nextPositie + 1
+                positie = nextPositie + 1,
+                prijsVerandering = 0.5f
             };
 
             _context.product.Add(newProduct);
