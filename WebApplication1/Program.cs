@@ -77,7 +77,7 @@ namespace WebApplication1
                 options.AddPolicy("AllowLocalDev", policy =>
                 {
                     policy.WithOrigins("http://localhost:5173",
-                                       "https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net/")
+                                       "https://plantliefhebbers-c6esfzdnfaf2cdat.swedencentral-01.azurewebsites.net")
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod();
