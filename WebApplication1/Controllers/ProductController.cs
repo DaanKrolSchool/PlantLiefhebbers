@@ -21,24 +21,8 @@ namespace WebApplication1.Controllers
 
         }
 
-        /*[HttpGet("id/{id}")]
-        [Authorize]
-        public async Task<ActionResult<PlantPrijsSamenvattingDto>> GetPrijsGeschiedenis(int id)
-        {
 
-
-            var product = await _context.product.FindAsync(id);
-
-
-            var dto = new PlantPrijsSamenvattingDto
-            {
-                soortPlant = Product.soortPlant,
-                aanvoerderNaam = x.Product.Aanvoerder.UserName
-            };
-
-            return Ok(dto);
-        }*/
-
+        // Get veiling info voor een product
         [HttpGet("veilinginfo/{id}")]
         [AllowAnonymous] // of [Authorize] als je wil
         public async Task<ActionResult<ProductVeilingInfoDto>> GetVeilingInfo(int id)
@@ -79,6 +63,7 @@ namespace WebApplication1.Controllers
             return Ok(dto);
         }
 
+        // Get prijsgeschiedenis voor een product
         [HttpGet("prijsgeschiedenis/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PrijsPuntDto>>> GetPrijsGeschiedenis(int id)
@@ -115,29 +100,7 @@ namespace WebApplication1.Controllers
             return Ok(lijst);
         }
 
-        /*[HttpGet("historie/soort/{soortPlant}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<PrijsPuntDto>>> GetHistoriePerSoort(string soortPlant)
-        {
-            var lijst = await _context.productVerkoopHistorie
-                .Include(x => x.Product)
-                .AsNoTracking()
-                .Where(x => x.Product.soortPlant == soortPlant)
-                .OrderByDescending(x => x.id)
-                .Take(20)
-                .Select(x => new PrijsPuntDto
-                {
-                    datum = x.Product.veilDatum.Value,
-                    prijs = x.prijsPerStuk,
-                    aanvoerderNaam = x.Product.Aanvoerder.UserName
-                })
-                .ToListAsync();
-
-            return Ok(lijst);
-        }*/
-
-
-
+        // Zet veiling tijd voor een product
         [HttpPut("tijd/{id}")]
         [Authorize(Roles = "Veilingmeester")]
         public async Task<IActionResult> ZetVeilTijd(int id, [FromBody] ProductTijdDto dto)
@@ -163,6 +126,7 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
+        // Voeg nieuw product toe als aanvoerder
         [HttpPost]
         [Authorize(Roles = "Aanvoerder")]
         public async Task<IActionResult> AddProduct([FromBody] ProductCreateDto newProductDto)
@@ -223,7 +187,8 @@ namespace WebApplication1.Controllers
 
             return Ok(productDto);
         }
-        
+
+        // Upload image voor een product
         [HttpPost("UploadImage")]
         [Authorize(Roles = "Aanvoerder")]
         [Consumes("multipart/form-data")]
@@ -245,7 +210,8 @@ namespace WebApplication1.Controllers
 
             return Ok(new { message = "Image uploaded successfully", path = $"/images/{request.ProductId}{Path.GetExtension(request.Image.FileName)}" });
         }
-        
+
+        // Get eigen producten als aanvoerder
         [HttpGet("aanvoerder/own")]
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult GetOwnProducts()
@@ -280,7 +246,8 @@ namespace WebApplication1.Controllers
 
             return Ok(products);
         }
-        
+
+        // Get alle producten als veilingmeester
         [HttpGet("veilingmeester/all")]
         [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetAllProducts()
@@ -318,7 +285,8 @@ namespace WebApplication1.Controllers
 
             return Ok(products);
         }
-        
+
+        // Get alle producten als veilingmeester die nog niet verkocht zijn
         [HttpGet("veilingmeester/most")]
         [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetMostProducts()
@@ -357,6 +325,7 @@ namespace WebApplication1.Controllers
             return Ok(products);
         }
 
+        // Get eerste product voor klant
         [HttpGet("klant/eerste/{kloklocatie}")]
         [AllowAnonymous]
         public async Task<ActionResult<ProductDto>> GetEersteProduct(string kloklocatie)
@@ -406,6 +375,7 @@ namespace WebApplication1.Controllers
         }
 
 
+        // Get volgende namen voor klant
         [HttpGet("klant/volgende/{kloklocatie}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<string>>> GetVolgendeNamen(string kloklocatie)
@@ -437,7 +407,7 @@ namespace WebApplication1.Controllers
             return Ok(volgende);
         }
 
-
+        // Update aanvoerder velden van een product
         [HttpPut("aanvoerder/{id}")]
         [Authorize(Roles = "Aanvoerder")]
         public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateDto productUpdateDto)
@@ -466,7 +436,8 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
-        
+
+        // Update veilingmeester velden van een product
         [HttpPut("veilingMeester/{id}")]
         [Authorize(Roles = "Veilingmeester")]
         public async Task<IActionResult> PutProduct(int id, [FromBody] ProductUpdateVMDto productUpdateVMDto)
@@ -493,7 +464,8 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
-        
+
+        // Update positie van een product
         [HttpPut("positie/{id}")]
         [Authorize(Roles = "Veilingmeester")]
         public async Task<IActionResult> PutProduct(int id, [FromBody] ProductPositieDto productPositieDto)
@@ -524,9 +496,10 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
-        
 
 
+
+        // Koop een product
         [HttpPatch("{id}")]
         [Authorize(Roles = "Klant")]
         public async Task<IActionResult> BuyProduct(int id, [FromQuery] int hoeveelheidKopen, [FromQuery] float price)
@@ -586,49 +559,27 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
-        [HttpPut("verkoop/{id}")]
-        [Authorize(Roles = "Klant")]
-        public async Task<IActionResult> VerkoopProduct(int id)
-        {
-            var product = await _context.product.FindAsync(id);
-            if (product == null) return NotFound();
-
-            if (product.isVerkocht)
-                return BadRequest("Dit product is al verkocht.");
-
-            product.isVerkocht = true;
-            product.verkoopPrijs = product.maximumPrijs ?? product.minimumPrijs;
-            product.verkoopDatum = DateTime.Now;
-
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        //[HttpPut("productIsVerkocht")]
+        // Verkoop een product direct word niet gebruikt
+        //[HttpPut("verkoop/{id}")]
         //[Authorize(Roles = "Klant")]
-        //public async Task <IActionResult> ProductIsVerkocht()
+        //public async Task<IActionResult> VerkoopProduct(int id)
         //{
-        //    var product = _context.product;
-        //    if (product == null) return NotFound(int id);
+        //    var product = await _context.product.FindAsync(id);
+        //    if (product == null) return NotFound();
 
         //    if (product.isVerkocht)
         //        return BadRequest("Dit product is al verkocht.");
+
         //    product.isVerkocht = true;
+        //    product.verkoopPrijs = product.maximumPrijs ?? product.minimumPrijs;
+        //    product.verkoopDatum = DateTime.Now;
 
-        //    return Ok(new ProductGeschiedenisDto
-        //    {
-        //        productId = product.productId,
-        //        naam = product.naam,
-        //        soortPlant = product.soortPlant,
-        //        aantal = product.aantal,
-        //        veilDatum = product.veilDatum,
-        //        isVerkocht = product.isVerkocht,
-        //        verkoopPrijs = product.verkoopPrijs
-        //    });
-
+        //    await _context.SaveChangesAsync();
+        //    return NoContent();
         //}
 
 
+        // Get verkochte producten voor aanvoerder
         [HttpGet("verkocht")]
         [Authorize(Roles = "Aanvoerder")]
         public IActionResult GetEigenVerkochteProducten()
@@ -652,7 +603,7 @@ namespace WebApplication1.Controllers
 
             return Ok(verkocht);
         }
-
+        // Get alle verkochte producten voor veilingmeester
         [HttpGet("alleverkocht")]
         [Authorize(Roles = "Veilingmeester")]
         public IActionResult GetAlleVerkochteProducten()
@@ -675,6 +626,7 @@ namespace WebApplication1.Controllers
             return Ok(verkocht);
         }
 
+        // Get prijs historie voor een product (popup) met sql
         [HttpGet("historie/product/{productId}")]
         [AllowAnonymous]
         public async Task<ActionResult<PrijsHistorieResponseDto>> GetPrijsHistorieVoorPopup(int productId)
