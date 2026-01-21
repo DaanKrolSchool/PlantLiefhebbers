@@ -10,6 +10,7 @@ type Product = {
     klokLocatie: string;
     veilDatum: string;
     positie: number;
+    veilTijd: string | null;
 };
 
 function AangemeldeProducten() {
@@ -73,21 +74,32 @@ function AangemeldeProducten() {
 
         const selectedVeilTijd = veilTijdByGroup[`${date}_${locatie}`];
 
-        const [hours, minutes] = selectedVeilTijd.split(":").map(Number);
-        const timeSpan = new Date(0, 0, 0, hours, minutes).toISOString().substr(11, 8);
+        let timeSpan: string | null = null;
+
+        if (selectedVeilTijd && /^\d{2}:\d{2}$/.test(selectedVeilTijd)) {
+            const [hours, minutes] = selectedVeilTijd.split(":").map(Number);
+            timeSpan = `${hours.toString().padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:00`;
+        } else {
+            timeSpan = null;
+        }
 
         try {
             await Promise.all(
-                items.map(p =>
-                    fetch(`/Product/positie/${p.productId}`, {
+                items.map(p => {
+                    const newPositie =
+                        formValuesByLocatie[locatie]?.[p.productId] ?? p.positie;
+
+                    return fetch(`/Product/positie/${p.productId}`, {
                         method: "PUT",
                         headers: {
                             "Authorization": `Bearer ${token}`,
                             "Content-Type": "application/json"
                         },
-                        body: JSON.stringify({ productId: p.productId, positie: p.positie, veilTijd: timeSpan })
-                    })
-                )
+                        body: JSON.stringify({ productId: p.productId, positie: newPositie, veilTijd: timeSpan })
+                    });
+                })
             );
 
             /*await Promise.all(
@@ -126,7 +138,8 @@ function AangemeldeProducten() {
 
                     {Object.entries(locaties).map(([locatie, items]: any) => {
                         const firstProduct = items[0];
-                        const defaultVeilTijd = firstProduct.veilTijd ? firstProduct.veilTijd : "";
+                        const defaultVeilTijd =
+                            firstProduct.veilTijd ? firstProduct.veilTijd.substring(0, 5) : "";
 
                         return (
                             <div key={locatie} className="locatie-sectie">

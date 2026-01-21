@@ -505,6 +505,11 @@ namespace WebApplication1.Controllers
 
             product.positie = productPositieDto.positie;
 
+            if (productPositieDto.veilTijd.HasValue)
+            {
+                product.veilTijd = productPositieDto.veilTijd.Value;
+            }
+
             _context.Entry(product).State = EntityState.Modified;
 
             try
