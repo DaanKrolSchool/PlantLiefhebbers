@@ -103,7 +103,7 @@ function ProductAanmelden() {
                 <label htmlFor="steellengte">Steellengte: (cm)</label>
                 <input type="number" id="steellengte" min="0" step="1" name="steellengte" value={steelLengte} onChange={(e) => setSteelLengte(e.target.value)} /><br />
                 <label htmlFor="seizoen">Seizoen: *</label>
-                <select id="seizoen" value={seizoensplant} onChange={(e) => setseizoensplant(e.target.value)} required>
+                <select value={seizoensplant} onChange={(e) => setseizoensplant(e.target.value)} required>
                     <option value="" disabled></option>
                     <option value="niet van toepassing">Niet van toepassing</option>
                     <option value="winter">Winter</option>
@@ -112,13 +112,13 @@ function ProductAanmelden() {
                     <option value="herfst">Herfst</option>
                 </select><br />
                 <label htmlFor="temperatuur">Temperatuur: (°C)</label>
-                <input type="number" id="temperatuur" value={temperatuur} onChange={(e) => settemperatuur(e.target.value)} /><br />
+                <input type="number" value={temperatuur} onChange={(e) => settemperatuur(e.target.value)} /><br />
                 <label htmlFor="water">Water per week: (Liter)</label>
-                <input type="number" id="water" value={water} onChange={(e) => setwater(e.target.value)} /><br />
+                <input type="number" value={water} onChange={(e) => setwater(e.target.value)} /><br />
                 <label htmlFor="leeftijd">Leeftijd: (Maanden) *</label>
-                <input type="number" id="leeftijd" value={leeftijd} onChange={(e) => setleeftijd(e.target.value)} required/><br />
+                <input type="number" value={leeftijd} onChange={(e) => setleeftijd(e.target.value)} required/><br />
                 <label htmlFor="makkelijkheid">Makkelijkheid houdbaar houden van de plant: (1-10)</label>
-                <input type="number" id="makkelijkheid" min="1" step="1" max="10" value={makkelijkheid} onChange={(e) => setmakkelijkheid(e.target.value)} /><br />
+                <input type="number" min="1" step="1" max="10" value={makkelijkheid} onChange={(e) => setmakkelijkheid(e.target.value)} /><br />
                 <label htmlFor="mprijs">Minimumprijs per stuk: (€-.--) *</label>
                 <input type="number" id="mprijs" min="0.01" step="0.01" name="mprijs" value={minimumPrijs} onChange={(e) => setMinimumPrijs(e.target.value)} required/><br/>
                 <label htmlFor="locatie">Kloklocatie: *</label>

@@ -20,28 +20,27 @@ type EditValues = {
     veilTijd: string | null;
 };
 
-// nog verwijderen omdat het niet gebruikt wordt
-//function formatVeilTijd(veilTijd: string | null | undefined): string {
-//    if (!veilTijd) return "—";
+function formatVeilTijd(veilTijd: string | null | undefined): string {
+    if (!veilTijd) return "—";
 
-//    // "HH:mm:ss" of "HH:mm"
-//    const hhmm = veilTijd.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
-//    if (hhmm) {
-//        const h = hhmm[1].padStart(2, "0");
-//        const m = hhmm[2];
-//        return `${h}:${m}`;
-//    }
+    // "HH:mm:ss" of "HH:mm"
+    const hhmm = veilTijd.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+    if (hhmm) {
+        const h = hhmm[1].padStart(2, "0");
+        const m = hhmm[2];
+        return `${h}:${m}`;
+    }
 
-//    // "PT13H45M" (ISO duration)
-//    const iso = veilTijd.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
-//    if (iso) {
-//        const h = (iso[1] ?? "0").padStart(2, "0");
-//        const m = (iso[2] ?? "0").padStart(2, "0");
-//        return `${h}:${m}`;
-//    }
+    // "PT13H45M" (ISO duration)
+    const iso = veilTijd.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
+    if (iso) {
+        const h = (iso[1] ?? "0").padStart(2, "0");
+        const m = (iso[2] ?? "0").padStart(2, "0");
+        return `${h}:${m}`;
+    }
 
-//    return veilTijd;
-//}
+    return veilTijd;
+}
 
 
 function AangemeldeProducten() {

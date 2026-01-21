@@ -99,14 +99,12 @@ function VeilingScherm() {
         return await res.json();
     }
 
-    // dit kan weg toch??
-    //async function fetchHistoriePerSoort(soortPlant: string) {
-    //    const res = await fetch(`/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
-    //    if (!res.ok) return [];
-    //    return await res.json();
-    //}
+    async function fetchHistoriePerSoort(soortPlant: string) {
+        const res = await fetch(`/Product/historie/soort/${encodeURIComponent(soortPlant)}`);
+        if (!res.ok) return [];
+        return await res.json();
+    }
 
-    // haal historie voor popup
     async function fetchHistoriePopup(productId: number) {
         try {
             const res = await fetch(`/Product/historie/product/${productId}`);
@@ -122,7 +120,6 @@ function VeilingScherm() {
         }
     }
 
-    // haal de huidige veiling op
     async function fetchData() {
         const token = localStorage.getItem("token");
 
@@ -168,8 +165,6 @@ function VeilingScherm() {
             setPrijsVerandering(0);
             setPrice(0);
         } else {
-            // er is een actieve veiling
-            // haal product id
             const id = data.productId as number;
            
             setCurrentProductId(id);
@@ -181,11 +176,17 @@ function VeilingScherm() {
                 // haal info
                 const info = await fetchVeilingInfo(id);
                 if (!info) return;
-
-                // haal aanvoerder naam
+               
                 setAanvoerder(info.aanvoerderNaam ?? info.aanvoerder ?? info.firmaNaam ?? "—");
 
-                // zet alle info
+                // haal prijs geschiedenis
+                //const geschiedenis = await fetchHistoriePerSoort(info.soortPlant);
+                //setPrijsGeschiedenis(geschiedenis);
+
+
+                //alert(info.aantal)
+                // zet state
+                //alert(info.klokLocatie);
                 setNaam(info.naam ?? "—");
                 setSoort(info.soortPlant ?? "—");
                 
@@ -202,8 +203,10 @@ function VeilingScherm() {
                 setMprijs(info.minimumPrijs ?? 0);
                 setMaxPrijs(info.maximumPrijs ?? 0);
                 setPrijsVerandering(info.prijsVerandering ?? 0);
+                //setKlokLocatie(info.klokLocation ?? "-");
 
-                // haal historie voor popup
+                //setPrice(info.maximumPrijs ?? 0);
+
                 await fetchHistoriePopup(id);
             }
         }
@@ -220,7 +223,6 @@ function VeilingScherm() {
             return;
         }
 
-        // haal data
         const nextText = await resNext.text();
         const nextDataRaw = nextText ? JSON.parse(nextText) : [];
 
@@ -235,7 +237,7 @@ function VeilingScherm() {
 
     }
 
-
+    // KAN WEG??
     // elke 1 secondden kijken of er een veiling gestart is 
     useEffect(() => {
 
@@ -252,7 +254,43 @@ function VeilingScherm() {
         fetchData();
     }, []);
 
-    // prijs updaten elke seconde
+    // Timer: loopt alleen als er een actief product is
+    //useEffect(() => {
+    //    if (!currentProductId) return;
+    //    if (maxPrijs <= 0) return;
+
+    //    if (prijsVerandering <= 0) return;
+
+    //    setPrice(maxPrijs);
+
+    //    const timer = setInterval(() => {
+    //        setPrice(prev => {
+
+    //            const newPrice = prev - (prijsVerandering * pvMultiplier);
+
+    //            if (newPrice <= mprijs) {
+    //                setPrice(maxPrijs)
+    //                if (pvMultiplier < (maxPrijs / 10)) {
+    //                    pvMultiplier = (pvMultiplier * 1.15)
+    //                } else {
+    //                    pvMultiplier = (maxPrijs / 10)
+    //                }
+    //                //const newPrijsVerandering = prijsVerandering * 1.5
+    //                //setPrijsVerandering(newPrijsVerandering)
+    //                //clearInterval(timer);
+
+    //                setError("Prijs word gereset");
+    //                setTimeout(() => setError(""), 3000);
+    //                //return mprijs;
+    //            }
+
+    //            return newPrice;
+    //        });
+    //    }, 1000);
+
+    //    return () => clearInterval(timer);
+    //}, [currentProductId, maxPrijs, prijsVerandering, mprijs]);
+
     useEffect(() => {
         if (!currentProductId) return;
 
@@ -275,10 +313,13 @@ function VeilingScherm() {
                 }
 
                 if (res) {
+                    //alert(klokLocatie)
                     const data = await res.json();
                     setPrice(data);
                 }
-
+                //const data = await res.json();
+                //setPrice(data);
+                //alert("test")
 
             } catch (err) {
                 console.error("Failed to fetch price", err);
@@ -294,22 +335,23 @@ function VeilingScherm() {
         return () => clearInterval(interval);
     }, [currentProductId]);
 
-    // locatie veranderen
-    async function veranderLocatie(locatie: string) {
 
+    async function veranderLocatie(locatie: string) {
+        
         setKlokLocatie(locatie)
+        //setPrice(maxPrijs);
+        //alert(klokLocatie)
+        //alert(Progresiebar)
+        //setProgresiebar(100);
         await fetchData();
     }
 
-    // koop knop
     async function handleBuy() {
         if (!currentProductId) return;
 
         try {
-            // koop het product
             const token = localStorage.getItem("token");
             // TIJDELIJK VERWIJDERD DIT HET PRODUCT IPV DAT DIE AAN USER GEKOPPELD WORDT EN DAARNA GESKIPT WORDT
-            // 
             await fetch(`/Product/${currentProductId}?hoeveelheidKopen=${hoeveelheidKopen}&price=${price}`, {
                 method: "PATCH",
                 headers: {
@@ -324,12 +366,13 @@ function VeilingScherm() {
             setNotf("GEFELICITEERD!!! Je hebt het plantje gekocht")
             setTimeout(() => setNotf!(""), 2500)
 
+            
 
-            // dit doet niks meer
-            //if (hoeveelheid < 1) {
-            //    setPrice(maxPrijs);
-            //    setProgresiebar(100);
-            //}
+            // Timer resetten
+            if (hoeveelheid < 1) {
+                setPrice(maxPrijs);
+                setProgresiebar(100);
+            }
 
         } catch (error) {
             console.error(error);
@@ -341,7 +384,58 @@ function VeilingScherm() {
         }
     }
 
+    //async function fetchVeilingInfo(id: number) {
+    //    const token = localStorage.getItem("token");
 
+    //    const res = await fetch(`/Product/veilinginfo/${id}`, {
+    //        headers: {
+    //            "Authorization": token ? `Bearer ${token}` : "",
+    //            "Content-Type": "application/json"
+    //        }
+    //    });
+
+    //    if (!res.ok) return;
+
+    //    const info = await res.json();
+
+    //    setNaam(info.naam ?? "—");
+    //    setSoort(info.soortPlant ?? "—");
+    //    setHoeveelheid(info.aantal ?? 0);
+    //    setPotmaat(info.potMaat ?? 0);
+    //    setSteellengte(info.steelLengte ?? 0);
+
+    //    setmakkelijkheid(info.makkelijkheid ?? 0);
+    //    settemperatuur(info.temperatuur ?? 0);
+    //    setwater(info.water ?? 0);
+    //    setleeftijd(info.leeftijd ?? 0);
+    //    setseizoensplant(info.seizoensplant ?? "—");
+
+    //    setMprijs(info.minimumPrijs ?? 0);
+    //    setMaxPrijs(info.maximumPrijs ?? 0);
+    //    setPrijsVerandering(info.prijsVerandering ?? 0);
+
+    //    setPrice(info.maximumPrijs ?? 0);
+    //}
+
+
+
+    // ===== Historie lijsten (zelfde soort / zelfde aanvoerder) =====
+    //const historieSoort = prijsGeschiedenis
+    //    .slice()
+    //    .sort((a, b) => new Date(b.datum).getTime() - new Date(a.datum).getTime()); // nieuwste eerst
+
+    //const last10Soort = historieSoort.slice(0, 10);
+
+    //const historieAanvoerder = historieSoort.filter(p => p.aanvoerderNaam === aanvoerder);
+    //const last10Aanvoerder = historieAanvoerder.slice(0, 10);
+
+    //function avg(list: { prijs: number }[]) {
+    //    if (!list.length) return 0;
+    //    return list.reduce((s, x) => s + Number(x.prijs), 0) / list.length;
+    //}
+
+    //const avgSoort = avg(historieSoort);
+    //const avgAanvoerder = avg(historieAanvoerder);
 
     return (
         <div>
